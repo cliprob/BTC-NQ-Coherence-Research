@@ -1,0 +1,24 @@
+schema_version: 1
+outcome_version: 0.1.0
+status: development_only
+
+timing:
+  feature_timestamp: bar_open
+  feature_available: bar_close
+  entry_price: next_bar_open
+  exit_price: horizon_open
+  return_type: log
+  cross_session_labels: false
+
+state:
+  eligibility: current_direction_agreement
+  next_bar_target: next_bar_direction_agreement
+  duration: consecutive_future_agreement_bars
+  session_end_policy: right_censored
+
+economic:
+  primary_horizon_minutes: 5
+  secondary_horizons_minutes: [15, 30, 60]
+  one_minute_timing_path_minutes: [1, 2, 3, 4, 5]
+  direction: current_common_direction
+

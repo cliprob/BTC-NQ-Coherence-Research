@@ -1,0 +1,70 @@
+{
+  "definitions": {
+    "entry": "next_bar_open",
+    "exit": "horizon_open",
+    "one_minute_timing_path_minutes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "primary_horizon_minutes": 5,
+    "secondary_horizons_minutes": [
+      15,
+      30,
+      60
+    ],
+    "session_end": "right_censor_state_and_invalidate_cross_session_return"
+  },
+  "five_minute_primary": {
+    "committed": false,
+    "current_agreement_rows": 23529,
+    "file_name": "outcomes_primary_5m.csv",
+    "next_bar_labels": 23261,
+    "right_censored_persistence_rows": 751,
+    "rows": 35508,
+    "sha256": "0411fb5b41adaf1ed92ddb1b56c23973659ad412822fcff6d45d338f50f685e2",
+    "uncensored_persistence_rows": 22778,
+    "valid_return_rows": {
+      "15m": 33676,
+      "30m": 32302,
+      "5m": 34592,
+      "60m": 29554
+    }
+  },
+  "generated_at": "2026-09-17T14:59:41.588462+00:00",
+  "inputs": {
+    "feature_manifest_sha256": "a37b3f69eaa02634b8006941f47753b216ed690d596b68c7f789cc97edb9cd4a",
+    "outcome_config_sha256": "e2629ea381ccd545aa7cecc570d04406d6e2bed7a79274c006730d85d62044af",
+    "outcome_implementation_sha256": "6102ea2f84933b107678c61ab2525f36209c8e7c3fd15a7c4f014c2eb09721b2"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "one_minute_robustness": {
+    "committed": false,
+    "current_agreement_rows": 114695,
+    "file_name": "outcomes_primary_1m.csv",
+    "next_bar_labels": 114434,
+    "right_censored_persistence_rows": 675,
+    "rows": 177540,
+    "sha256": "e39c4a36aa2d8b3e13582171013b72386b4ffbf12a79faa75432e890e939aabe",
+    "uncensored_persistence_rows": 114020,
+    "valid_return_rows": {
+      "15m": 170212,
+      "1m": 176624,
+      "2m": 176166,
+      "30m": 163342,
+      "3m": 175708,
+      "4m": 175250,
+      "5m": 174792,
+      "60m": 149602
+    }
+  },
+  "outcome_version": "0.1.0",
+  "schema_version": 1,
+  "status": "development_only"
+}

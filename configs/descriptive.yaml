@@ -1,0 +1,27 @@
+schema_version: 1
+descriptive_version: 0.1.0
+status: development_only
+
+population:
+  feature_ready: true
+  current_direction_agreement: 1
+
+response_surface:
+  resolution_minutes: 5
+  feature_bins: 5
+  bin_method: feature_only_empirical_quantiles
+  dimensions: [joint_intensity, magnitude_balance]
+  primary_outcome: signed_nq_return_bps_5m
+  low_count_threshold: 30
+  low_count_policy: flag_not_filter
+
+horizon_response:
+  five_minute_minutes: [5, 15, 30, 60]
+  one_minute_minutes: [1, 2, 3, 4, 5, 15, 30, 60]
+
+uncertainty:
+  method: analysis_session_block_bootstrap
+  confidence_level: 0.95
+  replications: 2000
+  seed: 20260917
+

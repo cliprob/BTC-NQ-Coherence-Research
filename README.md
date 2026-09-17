@@ -2,7 +2,7 @@
 
 An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
-> **Research status: Phase 0 — protocol draft.** No model, backtest, result, or alpha claim exists yet. The protocol must be reviewed and frozen before confirmatory analysis begins.
+> **Research status: Phase 1 — development-only descriptive study.** The causal feature and outcome engines are implemented. The primary five-minute response is approximately zero and inconclusive; no model, strategy, or alpha claim exists.
 
 ## Research question
 
@@ -84,15 +84,18 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [ ] Review and freeze the research protocol.
 - [x] Build deterministic canonicalization and session-eligibility pipelines for the registered data.
 - [x] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance at 1m and 5m.
-- [ ] Produce descriptive event studies and response curves without strategy optimization.
-- [ ] Run the mandatory 1-minute robustness specification regardless of the primary result.
+- [x] Produce descriptive event studies and response curves without strategy optimization.
+- [x] Run the mandatory 1-minute response-path specification regardless of the primary result.
 - [ ] Run the mandatory overnight negative control without changing primary parameters.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
 - [ ] Lock the complete specification and open the final holdout once.
 - [ ] Publish an academic-style report, including negative or inconclusive results.
 
-See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification and [Decision Log](docs/DECISIONS.md) for unresolved choices.
+See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification,
+[Causal Outcomes and Descriptive Results](docs/OUTCOMES_AND_DESCRIPTIVE.md) for the
+implemented timing and first results, and [Decision Log](docs/DECISIONS.md) for unresolved
+choices.
 
 ## What this project will demonstrate
 

@@ -69,6 +69,42 @@ python -m btc_nq_coherence.features `
 
 The one- and five-minute output files are local, ignored artifacts. The committed manifest is sufficient to verify their identities and the exact causal definitions used to create them.
 
+## Build causal outcomes
+
+```powershell
+python -m btc_nq_coherence.outcomes `
+  --one-minute-features data/interim/features_primary_1m.csv `
+  --five-minute-features data/interim/features_primary_5m.csv `
+  --feature-manifest data/registry/feature_manifest.json `
+  --config configs/outcomes.yaml `
+  --one-minute-output data/interim/outcomes_primary_1m.csv `
+  --five-minute-output data/interim/outcomes_primary_5m.csv `
+  --manifest data/registry/outcome_manifest.json
+```
+
+Outcome rows remain local and ignored. Open-to-open returns start at the first tradable
+open after feature availability and never cross an analysis-session boundary. Missing
+bars and session ends right-censor state duration rather than being labeled as decay.
+
+## Build descriptive response surfaces
+
+```powershell
+python -m btc_nq_coherence.descriptive `
+  --one-minute-outcomes data/interim/outcomes_primary_1m.csv `
+  --five-minute-outcomes data/interim/outcomes_primary_5m.csv `
+  --outcome-manifest data/registry/outcome_manifest.json `
+  --config configs/descriptive.yaml `
+  --surface-output reports/development/response_surface_5m.csv `
+  --horizon-output reports/development/horizon_response.csv `
+  --weekday-output reports/development/weekday_diagnostics.csv `
+  --summary-output reports/development/descriptive_summary.json `
+  --manifest data/registry/descriptive_manifest.json
+```
+
+Only compact aggregate tables are committed. Feature bins are fitted without outcomes,
+and uncertainty resamples complete analysis sessions. These development artifacts cannot
+be used as confirmatory evidence or as a source of optimized trading thresholds.
+
 ## Planned local layout
 
 ```text

@@ -1,0 +1,48 @@
+{
+  "caveats": [
+    "All observations come from development data with no pristine holdout.",
+    "Events and forward horizons overlap; session-block intervals preserve clustering.",
+    "Feature quantiles describe this development sample and cannot define thresholds.",
+    "Persistence means exclude right-censored runs and are descriptive only.",
+    "No costs, trade policy, or claim of economic alpha is included."
+  ],
+  "feature_bin_edges": {
+    "joint_intensity": [
+      0.0040356455346342,
+      0.34301039227061253,
+      0.5931997366974965,
+      0.9043035641674416,
+      1.4341747438768917,
+      23.923420476289103
+    ],
+    "magnitude_balance": [
+      -0.9986947030463218,
+      -0.4858195815623473,
+      -0.2012666784913481,
+      0.07978541555485558,
+      0.4209278126241183,
+      0.9907045262561514
+    ]
+  },
+  "interpretation": "descriptive_association_not_alpha_or_confirmatory_evidence",
+  "one_minute_resolution_five_minute_endpoint": {
+    "block_bootstrap_95_ci_bps": [
+      -0.10327091722727845,
+      0.034295017765698696
+    ],
+    "event_count": 98405,
+    "mean_signed_nq_return_bps": -0.03367050578322884,
+    "session_count": 395
+  },
+  "population": "feature-ready current body-direction agreement events",
+  "primary_five_minute": {
+    "block_bootstrap_95_ci_bps": [
+      -0.14960288751829776,
+      0.18073262614656363
+    ],
+    "event_count": 19955,
+    "mean_signed_nq_return_bps": 0.011553761810383147,
+    "session_count": 395
+  },
+  "status": "development_only"
+}
