@@ -1,0 +1,19 @@
+{
+  "builder_sha256": "e195fefd158111f4e3902ed55c7de32773a84b6a4a9789eee756b9fe7f204a41",
+  "figure_manifest_sha256": "2ce3431d5c70ae8ad454611b43ce59fcc2cb146ecfbf2c07dd8f9b2aeed8563c",
+  "figures": {
+    "primary_results.png": "ad73310ee0616a1e0b0304c79c9732ebd0448d8e2df92796fbb2eb2041ac6edb",
+    "response_curve.png": "532064385d477253fe101f18cc82edcb34e5a5a1e45718ea2d670e084a1fb8f6",
+    "state_calibration.png": "bbc35b43dc708b197e393438e75d6264e02cfd0e2cfd5e2b12105a242c2f71a2"
+  },
+  "page_count": 7,
+  "pdf": {
+    "file_name": "btc_nq_coherence_research.pdf",
+    "sha256": "4fd65ee57622252567638a3cd01b452a3a504785e43973a4e117308b3e4feda3"
+  },
+  "protocol_sha256": "dddb2b201c152b04665edc1dc82caf3d893795dac85ad464fef6fd86888adc64",
+  "report_version": "1.0.0",
+  "schema_version": 1,
+  "source_policy": "committed_frozen_aggregates_only",
+  "status": "completed_development_report"
+}

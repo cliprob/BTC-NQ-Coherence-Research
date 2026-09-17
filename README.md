@@ -9,21 +9,31 @@ An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasd
 > five-minute NQ return forecast over an NQ-only baseline. No strategy or alpha claim
 > exists.
 
-## Current result
+## Verdict
 
-Across 13,724 five-minute out-of-fold events, adding joint intensity and magnitude balance
-to the direction/coherence baseline reduces Brier loss by `0.000699` (session-block 95%
-CI `[-0.001120, -0.000297]`). The result repeats at one-minute resolution, but it predicts
-next-bar BTC–NQ directional agreement—not NQ returns or trading profitability.
+**Cross-market magnitude contains a small amount of information about persistence of the
+BTC–NQ same-direction state, but it does not add five-minute NQ return value over an
+NQ-only baseline.** The state result repeats overnight, so it is not specific to US cash
+hours. This is a model-validation result, not a strategy or alpha claim.
 
-In the separate return test, the cross-market Ridge model increases primary MSE by
-`0.1924 bps²` versus NQ-only (95% CI `[0.0728, 0.3222]`). Neither model beats the fold
-training-mean benchmark. In the mandatory overnight control, the state improvement
-repeats (`M1 − M0` Brier `-0.000259`, 95% CI `[-0.000440, -0.000081]`), while the
-five-minute return comparison remains unsupported. See
-[State-Model Validation](docs/STATE_MODEL_VALIDATION.md),
-[Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md), and
-[Overnight Negative Control](docs/OVERNIGHT_NEGATIVE_CONTROL.md).
+![Primary state and return comparisons](report/figures/primary_results.png)
+
+*Primary five-minute paired loss differences. Points are out-of-fold means and bars are
+complete-session bootstrap 95% intervals. Lower values favor the expanded cross-market
+model.*
+
+### Results snapshot
+
+| Registered comparison | OOF events | Difference | 95% session-block interval | Conclusion |
+|---|---:|---:|---:|---|
+| Cash state Brier, `M1 − M0` | 13,724 | `-0.000699` | `[-0.001120, -0.000297]` | Small state improvement |
+| Cash return MSE, cross-market − NQ-only | 11,364 | `+0.1924 bps²` | `[+0.0728, +0.3222]` | No incremental return value |
+| Overnight state Brier, `M1 − M0` | 36,230 | `-0.000259` | `[-0.000440, -0.000081]` | State effect is not cash-specific |
+| Overnight return MSE, cross-market − NQ-only | 35,804 | `+0.0106 bps²` | `[-0.0283, +0.0502]` | Inconclusive; MAE worsens |
+
+Read the [seven-page academic report](output/pdf/btc_nq_coherence_research.pdf), the
+[state validation](docs/STATE_MODEL_VALIDATION.md), [return validation](docs/RETURN_MODEL_VALIDATION.md),
+and [overnight negative control](docs/OVERNIGHT_NEGATIVE_CONTROL.md).
 
 ## Research question
 
@@ -33,11 +43,12 @@ The project separates three questions that are often mixed together:
 2. **State dynamics:** do joint move intensity and magnitude balance contain information about coherence duration and returns realized during the active regime?
 3. **Tradability:** if predictive information exists, does it survive causal execution and MNQ trading costs?
 
-The primary hypotheses under consideration are:
+The completed development study considered:
 
 - **H1 — regime persistence:** synchronized BTC–NQ states exhibit measurable duration beyond the detection bar.
 - **H2 — magnitude-conditioned persistence:** joint move intensity and cross-market magnitude balance are associated with coherence duration and with returns realized while the regime remains active.
-- **H3 — coherence decay:** after entry, a causal decline in coherence identifies when the expected continuation value has disappeared.
+- **H3 — coherence decay:** reserved for a strategy stage that was not opened after the
+  registered return comparison failed to show incremental value.
 
 The hypotheses do not assume that BTC leads NQ or that the weaker market must catch up. Catch-up, continuation, reversal, or no magnitude-balance effect are competing exploratory outcomes.
 
@@ -71,9 +82,23 @@ The primary economic outcome is always the **subsequent five-minute NQ return**,
 
 The cumulative 1-minute response path at +1 through +5 minutes is reported only as a timing diagnostic. Open-to-open responses at 15, 30, and 60 minutes form a prespecified secondary response curve; none may replace the 5-minute primary after results are observed. This economic endpoint is separate from the next-bar state-persistence label, whose duration necessarily follows the chosen bar resolution.
 
+## Parameter provenance
+
+| Parameter | Locked value | Research role and status |
+|---|---:|---|
+| Primary bar representation | 5 minutes | Computationally tractable primary view; not asserted to be optimal |
+| Robustness representation | 1 minute | Mandatory timing check with the same five-minute economic endpoint |
+| Coherence clocks | 15/30/60 minutes | Prespecified multiscale representation; no best-window selection by outcome |
+| Historical body scale | 63 prior sessions | Causal same-slot MAD; the current session is excluded |
+| Primary economic horizon | 5 minutes | Next-open to horizon-open; fixed across both bar resolutions |
+| Purge | 1 complete session | Deliberately exceeds the target horizon and separates adjacent folds |
+
+These are frozen development-study choices, not estimates of economically optimal
+parameters. Any future sensitivity analysis or strategy design requires a new protocol.
+
 ## Session scope
 
-Primary signals, targets, and simulated positions are restricted to the US cash-equity session, `09:30–16:00 America/New_York`, shortened by official early closes. Signals are formed only after an eligible bar closes, and targets or positions may not cross the official session close. Causal coherence lookbacks may use valid pre-09:30 bars so that the cash open remains observable.
+Primary events and targets are restricted to the US cash-equity session, `09:30–16:00 America/New_York`, shortened by official early closes. Events are formed only after an eligible bar closes, and targets may not cross the official session close. Causal coherence lookbacks may use valid pre-09:30 bars so that the cash open remains observable.
 
 The NQ overnight session from `18:00` on the prior evening to `09:30 America/New_York` is a mandatory, separately reported negative control. It uses the same feature definitions but cannot select or replace the primary specification. Weekends, the CME maintenance break, holidays, and invalid bars are excluded.
 
@@ -112,7 +137,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [x] Stop before entry/exit optimization because the registered return comparison did not support incremental value.
 - [x] Record that no pristine final holdout was available or opened; require a new protocol for future confirmation.
-- [ ] Publish an academic-style report, including negative or inconclusive results.
+- [x] Publish a reproducible academic-style report, including negative and inconclusive results.
 
 See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the closed specification,
 [Protocol Closure Record](docs/PROTOCOL_CLOSURE.md) for the meaning and limits of the
@@ -144,15 +169,16 @@ the final disposition of every research choice.
 
 ## Data policy
 
-Raw market data is not committed. The repository will contain schemas, checksums, download instructions for redistributable sources, and synthetic fixtures. Proprietary NQ data must remain local. See [data/README.md](data/README.md).
+Raw market data is not committed. The repository contains schemas, checksums, download instructions for redistributable sources, and synthetic fixtures. Proprietary NQ data must remain local. See [data/README.md](data/README.md).
 
-## Development setup
+## Quickstart
 
 ```bash
 python -m venv .venv
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,report]"
 python -m btc_nq_coherence.protocol configs/research_protocol.yaml
 pytest
+python report/build_report.py --check
 ```
 
 ## Repository structure
@@ -161,6 +187,8 @@ pytest
 configs/                  machine-readable research specifications
 data/                     schemas and local-data instructions, not raw data
 docs/                     protocol, provenance, and decision log
+report/                   deterministic figure and PDF builders plus manifests
+output/pdf/               final seven-page academic report
 src/btc_nq_coherence/     validated research code
 tests/                    unit and integration tests
 ```

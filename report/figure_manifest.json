@@ -1,0 +1,18 @@
+{
+  "figures": {
+    "primary_results.png": "ad73310ee0616a1e0b0304c79c9732ebd0448d8e2df92796fbb2eb2041ac6edb",
+    "response_curve.png": "532064385d477253fe101f18cc82edcb34e5a5a1e45718ea2d670e084a1fb8f6",
+    "state_calibration.png": "bbc35b43dc708b197e393438e75d6264e02cfd0e2cfd5e2b12105a242c2f71a2"
+  },
+  "inputs": {
+    "horizon_response.csv": "c70b42af9d04936468c80eea8ef6e25ea80882ede50a37678ae569c29297f709",
+    "overnight_control_summary.json": "0af5079274c9798f311e541d8c095ea4d684bd912242ad883895b381e9ce8337",
+    "overnight_horizon_response.csv": "43a9fa8dc62c551f331867b4eefc42137f7672daab1fbcfd98716822af387959",
+    "overnight_state_calibration.csv": "4035e024fd3778176cf2782a76c21773b9756c45f5e2aec1aa6f36bae75c13a2",
+    "return_model_summary.json": "52f8a42d33aec13f4b5319e5fd1b978734786e77bc4c2eee5f39a1f9dd3b8319",
+    "state_model_calibration.csv": "66be15f27b431fe9fefc289e1e3e8a8831613fa177ba175ac46d3a0936e5b4c0",
+    "state_model_summary.json": "d8f4a60606700b82023197fced2f660b4b6f45bf878cdc70402165d959e77f71"
+  },
+  "schema_version": 1,
+  "source_policy": "committed_frozen_aggregates_only"
+}
