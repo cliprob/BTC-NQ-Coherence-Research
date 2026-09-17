@@ -1,6 +1,6 @@
 # BTC–NQ Coherence Research
 
-An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and whether relative move magnitude contains incremental information about subsequent NQ returns.
+An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
 > **Research status: Phase 0 — protocol draft.** No model, backtest, result, or alpha claim exists yet. The protocol must be reviewed and frozen before confirmatory analysis begins.
 
@@ -9,14 +9,16 @@ An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasd
 The project separates three questions that are often mixed together:
 
 1. **Co-movement:** when do BTC and NQ produce directionally similar, unusually large candles?
-2. **Predictability:** does a detected coherence state, or an imbalance in volatility-adjusted move magnitude, contain information about future NQ returns?
+2. **State dynamics:** do joint move intensity and magnitude balance contain information about coherence duration and returns realized during the active regime?
 3. **Tradability:** if predictive information exists, does it survive causal execution and MNQ trading costs?
 
 The primary hypotheses under consideration are:
 
-- **H1 — regime persistence:** after a strong synchronized BTC–NQ move, directional coherence persists long enough to affect future NQ returns.
-- **H2 — magnitude catch-up:** conditional on common direction and high joint intensity, an unusually stronger BTC move predicts a partial subsequent response in NQ.
+- **H1 — regime persistence:** synchronized BTC–NQ states exhibit measurable duration beyond the detection bar.
+- **H2 — magnitude-conditioned persistence:** joint move intensity and cross-market magnitude balance are associated with coherence duration and with returns realized while the regime remains active.
 - **H3 — coherence decay:** after entry, a causal decline in coherence identifies when the expected continuation value has disappeared.
+
+The hypotheses do not assume that BTC leads NQ or that the weaker market must catch up. Catch-up, continuation, reversal, or no magnitude-balance effect are competing exploratory outcomes.
 
 ETF adoption motivates a possible change in market integration, but this project will not infer ETF causality from a simple before/after price comparison.
 
@@ -37,14 +39,14 @@ information available through bar t close
  earliest simulated fill: bar t+1 open
 ```
 
-Contemporaneous correlation is not itself a trading signal. A tradable result requires out-of-sample evidence that the detected state persists or predicts a subsequent response.
+Contemporaneous correlation is not itself a trading signal. A tradable result requires out-of-sample evidence that the jointly detected state persists and leaves a return available after causal execution. This timing requirement does not imply that one market leads the other.
 
 ## Planned research sequence
 
 - [x] Create a clean repository and a machine-readable draft protocol.
 - [ ] Review and freeze the research protocol.
 - [ ] Build a reproducible data registry and validation layer.
-- [ ] Implement normalized candle, joint-intensity, magnitude-imbalance, and coherence measures.
+- [ ] Implement separately measured normalized-candle coherence, joint intensity, and magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.

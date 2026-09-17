@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.1.0
+**Protocol version:** 0.2.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -10,20 +10,21 @@
 
 BTC and Nasdaq futures sometimes exhibit candles with the same direction and similar shape, while the volatility-adjusted magnitudes differ. The economic motivation is that greater institutional access to crypto may have increased integration with the US risk-asset complex. This motivation does not, by itself, establish a causal ETF effect.
 
-The study asks whether these episodes form persistent conditional co-movement regimes and whether relative move magnitude contains information about subsequent NQ returns.
+The study asks whether these episodes form persistent conditional co-movement regimes and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while a regime remains active. It does not initially assume that BTC leads NQ, that NQ leads BTC, or that the weaker market catches up.
 
 ## 2. Research questions
 
 ### Primary
 
-Does adding causal BTC coherence and magnitude features improve out-of-sample forecasts of future NQ returns relative to an otherwise identical NQ-only model?
+Do synchronized, volatility-adjusted BTC and NQ moves form persistent coherence regimes, and how do joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active?
 
 ### Secondary
 
-1. Do unusually strong, same-direction BTC–NQ moves exhibit short-horizon persistence?
-2. Conditional on common direction and joint intensity, does a larger standardized BTC move predict a subsequent NQ response?
-3. Does a causal decline in coherence identify the end of any continuation effect?
-4. Did the frequency, duration, or strength of coherence regimes change after US spot BTC ETP trading began? This is a structural-association question, not initially a causal claim.
+1. Do directionally and structurally coherent BTC–NQ states persist beyond the bar on which they are detected?
+2. How are regime duration and within-regime returns related to the strength of the joint move?
+3. Does cross-market magnitude balance add information beyond joint intensity, without imposing a catch-up or lead–lag direction?
+4. Does a causal decline in coherence identify the end of any continuation effect?
+5. Did the frequency, duration, or strength of coherence regimes change after US spot BTC ETP trading began? This is a structural-association question, not initially a causal claim.
 
 ## 3. Units and candidate estimands
 
@@ -37,14 +38,30 @@ z^i_t = \frac{r^i_t}{\widehat{\sigma}^i_t},
 
 where \(\widehat{\sigma}^i_t\) is estimated only from observations available by bar \(t\).
 
-Candidate state variables are:
+Candidate state variables are deliberately separated:
 
 - **directional agreement** \(A_t\): whether BTC and NQ returns share a sign;
+- **coherence** \(C_t\): a causal continuous measure of recent directional and normalized candle-shape agreement that excludes move magnitude;
 - **joint intensity** \(J_t\): a symmetric function such as \(\sqrt{|z^{BTC}_t z^{NQ}_t|}\);
-- **magnitude imbalance** \(D_t\): the signed or absolute difference between standardized moves;
-- **coherence** \(C_t\): a causal continuous measure of recent directional and shape agreement.
+- **magnitude balance** \(B_t\): a signed difference or log-ratio between the absolute standardized moves.
 
-The main predictive estimand is the incremental out-of-sample value of BTC information:
+Magnitude must not be embedded in \(C_t\) and then reused to explain persistence of \(C_t\). Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
+
+Let \(T_t\) denote the remaining duration of a coherence episode detected at \(t\). A primary state-dynamics estimand is a survival probability such as:
+
+\[
+P(T_t > k \mid C_t, J_t, B_t).
+\]
+
+For economic interpretation, let \(S_t\) denote the common detected direction. A candidate signed NQ outcome is:
+
+\[
+Y_{t,h} = S_t \sum_{u=t+1}^{t+h} r^{NQ}_u.
+\]
+
+A positive value denotes continuation in the jointly detected direction and a negative value denotes reversal. Future observations appear here as outcomes needed to evaluate persistence and tradability; their use does not assert a BTC-to-NQ lead–lag mechanism.
+
+At the later predictive-model stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
 
 \[
 \Delta L_h = L(\widehat r^{NQ\text{-only}}_{t,t+h})
@@ -55,13 +72,13 @@ evaluated at preregistered horizons \(h\). A positive \(\Delta L_h\) means the e
 
 ## 4. Hypotheses
 
-### H1 — regime persistence
+### H1 — coherence-regime persistence
 
-Future NQ returns conditional on high joint intensity and directional agreement differ from the NQ-only conditional expectation in the direction of the detected move.
+Directionally and structurally coherent BTC–NQ states exhibit measurable duration beyond the detection bar. The primary outcome is state survival or remaining duration; signed NQ continuation is a related economic outcome.
 
-### H2 — magnitude catch-up
+### H2 — magnitude-conditioned persistence
 
-Conditional on directional agreement and joint intensity, relative BTC strength contains incremental information about subsequent NQ return magnitude or direction.
+Conditional on coherence, joint move intensity and cross-market magnitude balance are associated with the duration of the regime and the distribution of returns realized while it remains active. No sign is prespecified for the magnitude-balance relationship, and causal language is not used.
 
 ### H3 — coherence decay
 
@@ -71,6 +88,10 @@ Conditional expected continuation value declines when a causally measured cohere
 
 The distribution, duration, or predictive content of coherence episodes differs between appropriately defined pre- and post-ETP samples. Without a defensible identification design, conclusions will use association language only.
 
+### Exploratory outcome — catch-up, continuation, or reversal
+
+Only after estimating the complete magnitude-balance response surface will the study describe whether the data are more consistent with weaker-market catch-up, joint continuation, reversal, or no economically relevant balance effect. This outcome is not a directional confirmatory hypothesis and may not be promoted based on final-period performance.
+
 ## 5. Analysis order
 
 The order is binding once the protocol is frozen:
@@ -78,7 +99,7 @@ The order is binding once the protocol is frozen:
 1. data-quality and synchronization audit;
 2. descriptive contemporaneous co-movement;
 3. event-time response curves across the complete horizon set;
-4. magnitude-response surfaces and uncertainty estimates;
+4. joint-intensity and magnitude-balance surfaces for regime survival and within-regime returns;
 5. nested out-of-sample forecast comparison;
 6. strategy construction only if predictive evidence warrants it;
 7. one final holdout evaluation.

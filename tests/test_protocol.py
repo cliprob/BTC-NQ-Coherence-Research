@@ -13,6 +13,10 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["status"] == "draft"
     assert protocol["governance"]["protocol_frozen"] is False
     assert protocol["design"]["strategy_stage_locked"] is True
+    assert protocol["design"]["coherence_excludes_magnitude"] is True
+    assert protocol["research"]["hypotheses"][1]["name"] == (
+        "magnitude_conditioned_persistence"
+    )
 
 
 def test_frozen_protocol_rejects_unresolved_holdout() -> None:
@@ -31,4 +35,12 @@ def test_duplicate_hypothesis_ids_are_rejected() -> None:
     )
 
     with pytest.raises(ProtocolError, match="must be unique"):
+        validate_protocol(protocol)
+
+
+def test_coherence_cannot_include_magnitude() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["coherence_excludes_magnitude"] = False
+
+    with pytest.raises(ProtocolError, match="Coherence must exclude"):
         validate_protocol(protocol)

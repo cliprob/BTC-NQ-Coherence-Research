@@ -54,6 +54,11 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     if horizons != sorted(set(horizons)):
         raise ProtocolError("Candidate horizons must be sorted and unique.")
 
+    if protocol["design"].get("coherence_excludes_magnitude") is not True:
+        raise ProtocolError(
+            "Coherence must exclude joint intensity and magnitude balance."
+        )
+
     frozen = bool(protocol["governance"].get("protocol_frozen"))
     if status == "frozen" and not frozen:
         raise ProtocolError("A frozen protocol must set governance.protocol_frozen=true.")
