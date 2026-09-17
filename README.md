@@ -82,8 +82,8 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Define a development-only fallback that excludes incomplete and contract-transition sessions without forward-filling.
 - [x] Record complete contract-level history, a pre-ETP sample, and a pristine holdout as unavailable in the current iteration.
 - [ ] Review and freeze the research protocol.
-- [ ] Build reproducible source acquisition, canonicalization, and session-eligibility pipelines.
-- [ ] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance.
+- [x] Build deterministic canonicalization and session-eligibility pipelines for the registered data.
+- [x] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance at 1m and 5m.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Run the mandatory 1-minute robustness specification regardless of the primary result.
 - [ ] Run the mandatory overnight negative control without changing primary parameters.

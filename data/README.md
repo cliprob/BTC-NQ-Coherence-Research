@@ -55,6 +55,20 @@ python -m btc_nq_coherence.canonicalize `
 
 The generated local CSV retains synchronized common minutes and adds explicit eligibility flags. It never fills a missing market price. The committed manifest contains every excluded session and the exact output hash without publishing proprietary rows.
 
+## Build causal feature artifacts
+
+```powershell
+python -m btc_nq_coherence.features `
+  --canonical data/interim/synchronized_development_1m.csv `
+  --eligibility-manifest data/registry/available_data_eligibility.json `
+  --config configs/features.yaml `
+  --one-minute-output data/interim/features_primary_1m.csv `
+  --five-minute-output data/interim/features_primary_5m.csv `
+  --manifest data/registry/feature_manifest.json
+```
+
+The one- and five-minute output files are local, ignored artifacts. The committed manifest is sufficient to verify their identities and the exact causal definitions used to create them.
+
 ## Planned local layout
 
 ```text

@@ -1,0 +1,45 @@
+schema_version: 1
+feature_version: 0.1.0
+analysis_role: primary
+
+source:
+  eligibility_manifest: data/registry/available_data_eligibility.json
+  canonical_file_name: synchronized_development_1m.csv
+
+session_context:
+  calendar: NYSE
+  pre_open_lookback_minutes: 60
+  signal_bars_only_in_output: true
+  cross_session_windows: false
+
+resolutions:
+  primary_minutes: 5
+  robustness_minutes: 1
+  five_minute_alignment: UTC
+  incomplete_five_minute_bin_policy: ineligible
+
+candle_body:
+  definition: log_close_over_open
+  exact_doji_direction: 0
+  wicks_or_range_used: false
+
+coherence:
+  per_bar: signed_body_direction_product
+  aggregation: unweighted_arithmetic_mean
+  scales_minutes: [15, 30, 60]
+  missing_window_policy: ineligible
+
+historical_scale:
+  estimator: same_session_slot_mad
+  lookback_eligible_sessions: 63
+  consistency_constant: 1.4826
+  current_session_included: false
+  current_body_centering: none
+  zero_or_nonfinite_policy: ineligible
+
+magnitude:
+  normalized_body: absolute_standardized_body
+  joint_intensity: geometric_mean
+  balance: normalized_difference
+  zero_denominator_policy: ineligible
+

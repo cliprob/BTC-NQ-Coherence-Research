@@ -1,0 +1,54 @@
+{
+  "definitions": {
+    "bar_timestamp_semantics": "bar_open",
+    "coherence_scales_minutes": [
+      15,
+      30,
+      60
+    ],
+    "feature_available_timestamp_semantics": "bar_close",
+    "mad_consistency_constant": 1.4826,
+    "primary_bar_minutes": 5,
+    "robustness_bar_minutes": 1,
+    "same_slot_mad_lookback_sessions": 63
+  },
+  "feature_version": "0.1.0",
+  "five_minute_primary": {
+    "committed": false,
+    "feature_ready_rows": 30594,
+    "file_name": "features_primary_5m.csv",
+    "first_feature_ready_timestamp_utc": "2024-07-01T13:30:00+00:00",
+    "first_timestamp_utc": "2024-03-08T14:30:00+00:00",
+    "last_timestamp_utc": "2026-05-11T19:55:00+00:00",
+    "rows": 35508,
+    "sha256": "e57d1050401fadee6f5509380aa11187d815883b8464644d1daf770159c0a65c",
+    "source_valid_rows": 35508,
+    "state_model_eligible_rows": 20449
+  },
+  "generated_at": "2026-09-17T14:49:24.625126+00:00",
+  "inputs": {
+    "canonical_sha256": "ec37b3d35a9e8d8b9931e1d29172997c741c4b3d6ffaf7c22f1e6c50d9991cca",
+    "eligibility_manifest_sha256": "fc9bbd97dbaa207c125d89d7ac725d6616d7872e0bc06a3d467d2e1e6b661600",
+    "feature_config_sha256": "1be1febf98e1a0f49f667e26dc642476005906ca827bd657eb0c94be75532253",
+    "feature_implementation_sha256": "b830b39939e5e7f55d1cb1f4cd96cedf4d27404772b9da025b6ebbb44075a6cf"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "one_minute_robustness": {
+    "committed": false,
+    "feature_ready_rows": 152964,
+    "file_name": "features_primary_1m.csv",
+    "first_feature_ready_timestamp_utc": "2024-07-01T13:30:00+00:00",
+    "first_timestamp_utc": "2024-03-08T14:30:00+00:00",
+    "last_timestamp_utc": "2026-05-11T19:59:00+00:00",
+    "rows": 177540,
+    "sha256": "f63d122b4a5e5d3b4d61dda144924a2af8723daca51634e3d183047af5894623",
+    "source_valid_rows": 177540,
+    "state_model_eligible_rows": 99846
+  },
+  "schema_version": 1,
+  "status": "development_only"
+}
