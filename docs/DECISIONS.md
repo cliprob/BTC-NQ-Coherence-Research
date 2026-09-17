@@ -117,3 +117,14 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Only 31 Thursdays survive in the primary sample, versus 98–113 sessions for each other weekday. Weekday-specific reporting is mandatory.
 - The current range cannot estimate the pre/post-ETP hypothesis and cannot supply a pristine final holdout.
 - Walk-forward results may refine or reject the hypothesis but may not support confirmed-alpha or deployment-readiness language.
+
+### 2026-09-17 — state-model walk-forward specification
+
+- The state-model primary metric is event-level Brier score; log loss is secondary and calibration is diagnostic.
+- The first 130 feature-ready sessions initialize training; 12 subsequent 22-session blocks are scored out of fold.
+- One complete analysis session is purged before every outer and inner validation block.
+- Logistic models use fold-local standardization and L2 regularization selected independently for `M0` and `M1` from `C = 0.01/0.1/1/10`.
+- Each outer fold uses three trailing, expanding inner validation blocks of 22 sessions; selection minimizes event-weighted inner OOF Brier score.
+- Paired `M1 − M0` loss uncertainty uses 5,000 complete-session bootstrap resamples.
+- Incremental evidence requires a negative upper 95% Brier-difference bound, directionally consistent log loss, and ECE deterioration no greater than 0.01.
+- The primary result meets this development-only rule, but the effect is small and cannot be described as confirmed or tradable without unseen data.

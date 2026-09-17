@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
   "pandas-market-calendars>=5.4,<6",
   "PyYAML>=6.0.2,<7",
+  "scikit-learn>=1.6,<2",
   "tzdata>=2025.2,<2027",
 ]
 

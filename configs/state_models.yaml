@@ -1,0 +1,61 @@
+schema_version: 1
+model_version: 0.1.0
+status: development_only
+
+population:
+  feature_ready: true
+  current_direction_agreement: 1
+  target: next_bar_agreement_label
+
+models:
+  benchmark:
+    estimator: training_fold_event_rate
+  m0:
+    estimator: logistic_regression
+    predictors: [coherence_15m, coherence_30m, coherence_60m, common_direction]
+  m1:
+    estimator: logistic_regression
+    predictors:
+      - coherence_15m
+      - coherence_30m
+      - coherence_60m
+      - common_direction
+      - joint_intensity
+      - magnitude_balance
+      - absolute_magnitude_balance
+  preprocessing: standard_scaler_fit_on_training_fold_only
+  penalty: l2
+  solver: lbfgs
+  max_iterations: 2000
+  regularization_c_grid: [0.01, 0.1, 1.0, 10.0]
+
+walk_forward:
+  session_order: chronological
+  initial_training_sessions: 130
+  validation_sessions: 22
+  step_sessions: 22
+  purge_sessions: 1
+  inner_validation_folds: 3
+  inner_validation_sessions: 22
+  inner_purge_sessions: 1
+  inner_selection_aggregation: event_weighted_oof_brier
+  partial_final_fold: reject
+
+evaluation:
+  primary_metric: brier_score
+  secondary_metric: log_loss
+  calibration_bins: 10
+  calibration_bin_method: fixed_probability_width
+  maximum_ece_deterioration: 0.01
+  resolutions_minutes: [5, 1]
+  incremental_loss_order: m1_minus_m0
+  evidence_rule: >-
+    incremental evidence requires the session-block 95% confidence interval
+    for M1-minus-M0 Brier loss to lie below zero, directionally consistent
+    log-loss change, and no material calibration deterioration
+
+uncertainty:
+  method: paired_analysis_session_block_bootstrap
+  confidence_level: 0.95
+  replications: 5000
+  seed: 20260917

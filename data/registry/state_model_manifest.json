@@ -1,0 +1,55 @@
+{
+  "committed_artifacts": {
+    "state_model_calibration.csv": {
+      "committed": true,
+      "sha256": "66be15f27b431fe9fefc289e1e3e8a8831613fa177ba175ac46d3a0936e5b4c0"
+    },
+    "state_model_coefficients.csv": {
+      "committed": true,
+      "sha256": "40a9033f678eb0b4334085511bfff50109ad05aa59b6e59948eee99cfb87147f"
+    },
+    "state_model_fold_metrics.csv": {
+      "committed": true,
+      "sha256": "579060e3b14a1ded0c28f2e56eb6623a768c5fe22423c30dd6f7aaa8e4ceb5f4"
+    },
+    "state_model_summary.json": {
+      "committed": true,
+      "sha256": "d8f4a60606700b82023197fced2f660b4b6f45bf878cdc70402165d959e77f71"
+    },
+    "state_model_trial_ledger.csv": {
+      "committed": true,
+      "sha256": "37f374e24c352cff30183e16a8c4827538e5eb0524707e82f5877062f177a39f"
+    },
+    "state_model_weekday_metrics.csv": {
+      "committed": true,
+      "sha256": "b56b6b021fdff1e039f958c03cfdc97fa60708dec8b4b7fa0b35d8f655c6d49d"
+    }
+  },
+  "generated_at": "2026-09-17T15:18:07.378099+00:00",
+  "inputs": {
+    "config_sha256": "cb2b16abc21308cb160d51d377a9e3a8a24db35c71acc2bd5d76357825178302",
+    "five_minute_outcomes_sha256": "0411fb5b41adaf1ed92ddb1b56c23973659ad412822fcff6d45d338f50f685e2",
+    "implementation_sha256": "f5cab1084aa8478fe28bc21b03a5018d1bfc4cd57cd963a94427f078a458f0bb",
+    "one_minute_outcomes_sha256": "e39c4a36aa2d8b3e13582171013b72386b4ffbf12a79faa75432e890e939aabe",
+    "outcome_manifest_sha256": "eabccd0e16c7bd43bb07276313dc4727f634e85a2ab0904ca3cd7f618ce2af23"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "local_oof_artifacts": {
+    "state_model_oof_1m.csv": {
+      "committed": false,
+      "sha256": "2147586d31710352a334aab11f67b0edf391afc9fa36706106008c51af4e41d8"
+    },
+    "state_model_oof_5m.csv": {
+      "committed": false,
+      "sha256": "ed9c678ba57fe1eb23cde334c6f9721a221a685c1afa65cca23f5fd55f9574bc"
+    }
+  },
+  "model_version": "0.1.0",
+  "run_id": "fd436f33a3bfef1e",
+  "schema_version": 1,
+  "status": "development_only"
+}

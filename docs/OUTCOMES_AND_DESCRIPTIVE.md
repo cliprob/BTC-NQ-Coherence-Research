@@ -103,12 +103,13 @@ Thursdays—and the Thursday/Friday contrast shows why calendar controls are nee
 ## What can and cannot be concluded
 
 The current data do not support a claim that same-direction BTC–NQ bodies are followed by
-economically meaningful five-minute NQ continuation on average. They do support moving to
-the prespecified conditional-model stage: test whether intensity and balance improve
-calibrated persistence or return forecasts over NQ-only information.
+economically meaningful five-minute NQ continuation on average. The next prespecified
+stage has now been completed: intensity and balance provide a small out-of-fold improvement
+in calibrated state-persistence forecasts. That result is documented in
+[`STATE_MODEL_VALIDATION.md`](STATE_MODEL_VALIDATION.md) and does not establish return
+predictability.
 
 No pristine holdout, pre-ETP comparison, execution costs, or trade policy exists in this
 iteration. The surface is an exploratory map of development data. Any threshold suggested
 by it must be treated as a candidate to be evaluated with purged walk-forward validation
 and, ultimately, genuinely new data.
-

@@ -105,6 +105,30 @@ Only compact aggregate tables are committed. Feature bins are fitted without out
 and uncertainty resamples complete analysis sessions. These development artifacts cannot
 be used as confirmatory evidence or as a source of optimized trading thresholds.
 
+## Run the purged state-model comparison
+
+```powershell
+python -m btc_nq_coherence.state_models `
+  --one-minute-outcomes data/interim/outcomes_primary_1m.csv `
+  --five-minute-outcomes data/interim/outcomes_primary_5m.csv `
+  --outcome-manifest data/registry/outcome_manifest.json `
+  --config configs/state_models.yaml `
+  --one-minute-oof-output data/interim/state_model_oof_1m.csv `
+  --five-minute-oof-output data/interim/state_model_oof_5m.csv `
+  --summary-output reports/development/state_model_summary.json `
+  --fold-metrics-output reports/development/state_model_fold_metrics.csv `
+  --calibration-output reports/development/state_model_calibration.csv `
+  --coefficients-output reports/development/state_model_coefficients.csv `
+  --weekday-output reports/development/state_model_weekday_metrics.csv `
+  --trial-ledger-output reports/development/state_model_trial_ledger.csv `
+  --manifest data/registry/state_model_manifest.json
+```
+
+OOF row-level probabilities stay local and ignored. Fold metrics, reliability bins,
+standardized coefficients, weekday diagnostics, and the append-preserving trial ledger are
+committed as compact aggregates. Scalers and regularization selection are fitted within
+past data only; a complete analysis session is purged before each validation block.
+
 ## Planned local layout
 
 ```text

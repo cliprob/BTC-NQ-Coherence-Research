@@ -1,0 +1,92 @@
+{
+  "estimand": "next_bar_agreement_probability_given_current_agreement",
+  "five_minute_primary": {
+    "event_count": 13724,
+    "incremental_magnitude_evidence": true,
+    "m1_minus_m0": {
+      "brier_score_difference": -0.0006987626898221191,
+      "brier_session_block_95_ci": [
+        -0.0011204586537331188,
+        -0.0002969557258382639
+      ],
+      "expected_calibration_error_difference": -0.0015362186254080819,
+      "log_loss_difference": -0.001668223718364198,
+      "log_loss_session_block_95_ci": [
+        -0.0026676552882201636,
+        -0.0007026316056088349
+      ]
+    },
+    "metrics": {
+      "benchmark": {
+        "brier_score": 0.21725042155886204,
+        "expected_calibration_error": 0.009849408098462242,
+        "log_loss": 0.6262293177869708
+      },
+      "m0": {
+        "brier_score": 0.21673555419200016,
+        "expected_calibration_error": 0.01075455330319788,
+        "log_loss": 0.6250378237795864
+      },
+      "m1": {
+        "brier_score": 0.21603679150217805,
+        "expected_calibration_error": 0.009218334677789798,
+        "log_loss": 0.6233696000612222
+      }
+    },
+    "observed_agreement_rate": 0.6825269600699505,
+    "session_count": 264,
+    "session_end": "2026-05-11",
+    "session_start": "2025-02-24"
+  },
+  "interpretation_rule": "incremental evidence requires the session-block 95% confidence interval for M1-minus-M0 Brier loss to lie below zero, directionally consistent log-loss change, and no material calibration deterioration",
+  "limitations": [
+    "Development data have no pristine final holdout and were previously inspected.",
+    "The model predicts state persistence, not returns or trading profitability.",
+    "All preprocessing and regularization selection are nested inside past folds.",
+    "A full analysis session is purged before every validation block.",
+    "The one-minute result is robustness evidence and cannot replace the primary."
+  ],
+  "model_version": "0.1.0",
+  "one_minute_robustness": {
+    "event_count": 67483,
+    "incremental_magnitude_evidence": true,
+    "m1_minus_m0": {
+      "brier_score_difference": -0.0002968806531095323,
+      "brier_session_block_95_ci": [
+        -0.00041841088436577937,
+        -0.00017318291120656178
+      ],
+      "expected_calibration_error_difference": 0.00035344516117541067,
+      "log_loss_difference": -0.000673516757411412,
+      "log_loss_session_block_95_ci": [
+        -0.0009410969197878282,
+        -0.0004078389703269609
+      ]
+    },
+    "metrics": {
+      "benchmark": {
+        "brier_score": 0.2226830548303692,
+        "expected_calibration_error": 0.011560391961982441,
+        "log_loss": 0.6375338994608574
+      },
+      "m0": {
+        "brier_score": 0.2211259068257279,
+        "expected_calibration_error": 0.00831392664485812,
+        "log_loss": 0.6340309945384374
+      },
+      "m1": {
+        "brier_score": 0.22082902617261835,
+        "expected_calibration_error": 0.00866737180603353,
+        "log_loss": 0.6333574777810259
+      }
+    },
+    "observed_agreement_rate": 0.6667308803698709,
+    "session_count": 264,
+    "session_end": "2026-05-11",
+    "session_start": "2025-02-24"
+  },
+  "primary_comparison": "m1_minus_m0_brier_score",
+  "run_id": "fd436f33a3bfef1e",
+  "schema_version": 1,
+  "status": "development_only"
+}

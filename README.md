@@ -2,7 +2,15 @@
 
 An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
-> **Research status: Phase 1 — development-only descriptive study.** The causal feature and outcome engines are implemented. The primary five-minute response is approximately zero and inconclusive; no model, strategy, or alpha claim exists.
+> **Research status: Phase 2 — development-only predictive validation.** The primary five-minute return response is approximately zero, while a purged walk-forward state model finds a small incremental persistence contribution from body magnitude. No strategy or alpha claim exists.
+
+## Current result
+
+Across 13,724 five-minute out-of-fold events, adding joint intensity and magnitude balance
+to the direction/coherence baseline reduces Brier loss by `0.000699` (session-block 95%
+CI `[-0.001120, -0.000297]`). The result repeats at one-minute resolution, but it predicts
+next-bar BTC–NQ directional agreement—not NQ returns or trading profitability. See
+[State-Model Validation](docs/STATE_MODEL_VALIDATION.md).
 
 ## Research question
 
@@ -86,6 +94,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance at 1m and 5m.
 - [x] Produce descriptive event studies and response curves without strategy optimization.
 - [x] Run the mandatory 1-minute response-path specification regardless of the primary result.
+- [x] Compare direction/coherence-only and magnitude-conditioned state models with nested purged walk-forward validation.
 - [ ] Run the mandatory overnight negative control without changing primary parameters.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
@@ -94,7 +103,8 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 
 See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification,
 [Causal Outcomes and Descriptive Results](docs/OUTCOMES_AND_DESCRIPTIVE.md) for the
-implemented timing and first results, and [Decision Log](docs/DECISIONS.md) for unresolved
+implemented timing and first results, [State-Model Validation](docs/STATE_MODEL_VALIDATION.md)
+for the nested predictive comparison, and [Decision Log](docs/DECISIONS.md) for unresolved
 choices.
 
 ## What this project will demonstrate
