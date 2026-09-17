@@ -1,0 +1,48 @@
+schema_version: 1
+protocol_version: 0.1.0
+status: draft
+created_at: 2026-09-17
+
+research:
+  primary_question: >-
+    Does adding causal BTC coherence and magnitude features improve
+    out-of-sample forecasts of future NQ returns relative to an otherwise
+    identical NQ-only model?
+  hypotheses:
+    - id: H1
+      name: regime_persistence
+      role: primary_candidate
+    - id: H2
+      name: magnitude_catch_up
+      role: primary_candidate
+    - id: H3
+      name: coherence_decay
+      role: secondary
+    - id: H4
+      name: post_etp_regime_change
+      role: secondary_associational
+
+design:
+  price_domain: returns_not_levels
+  proposed_primary_bar_minutes: 5
+  primary_horizon_minutes: null
+  candidate_horizons_minutes: [1, 5, 10, 15, 30, 60]
+  primary_session: proposed_us_cash_hours
+  earliest_execution: next_bar_open
+  prediction_comparison: nq_only_vs_nq_plus_btc
+  strategy_stage_locked: true
+
+data:
+  development_data_previously_inspected: true
+  exploratory_data_end: 2026-05-12
+  desired_pre_etp_start: 2022-01-01
+  final_holdout_start: null
+  final_holdout_end: null
+  raw_data_committed: false
+
+governance:
+  protocol_frozen: false
+  final_holdout_opened: false
+  append_only_trial_ledger_required: true
+  raw_input_hashes_required: true
+  deviation_log_required_after_freeze: true
