@@ -14,6 +14,10 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["governance"]["protocol_frozen"] is False
     assert protocol["design"]["strategy_stage_locked"] is True
     assert protocol["design"]["coherence_excludes_magnitude"] is True
+    assert protocol["design"]["primary_candle_component"] == (
+        "log_close_over_open_body"
+    )
+    assert protocol["design"]["primary_uses_wicks_or_range"] is False
     assert protocol["research"]["hypotheses"][1]["name"] == (
         "magnitude_conditioned_persistence"
     )
@@ -43,4 +47,12 @@ def test_coherence_cannot_include_magnitude() -> None:
     protocol["design"]["coherence_excludes_magnitude"] = False
 
     with pytest.raises(ProtocolError, match="Coherence must exclude"):
+        validate_protocol(protocol)
+
+
+def test_primary_design_cannot_silently_add_wicks() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["primary_uses_wicks_or_range"] = True
+
+    with pytest.raises(ProtocolError, match="Wicks and high-low range"):
         validate_protocol(protocol)

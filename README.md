@@ -8,7 +8,7 @@ An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasd
 
 The project separates three questions that are often mixed together:
 
-1. **Co-movement:** when do BTC and NQ produce directionally similar, unusually large candles?
+1. **Co-movement:** when do BTC and NQ produce same-direction candle bodies, and how large are those bodies relative to each market's own recent volatility?
 2. **State dynamics:** do joint move intensity and magnitude balance contain information about coherence duration and returns realized during the active regime?
 3. **Tradability:** if predictive information exists, does it survive causal execution and MNQ trading costs?
 
@@ -46,7 +46,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Create a clean repository and a machine-readable draft protocol.
 - [ ] Review and freeze the research protocol.
 - [ ] Build a reproducible data registry and validation layer.
-- [ ] Implement separately measured normalized-candle coherence, joint intensity, and magnitude balance.
+- [ ] Implement separately measured body-direction coherence, body-based joint intensity, and body-magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
@@ -59,7 +59,7 @@ See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification
 
 - causal feature construction and next-bar execution;
 - market-calendar, time-zone, session, and futures-roll handling;
-- volatility-normalized cross-market candle comparison;
+- volatility-normalized cross-market candle-body comparison;
 - event studies, conditional response surfaces, and uncertainty estimates;
 - incremental forecast evaluation: NQ-only versus NQ+BTC;
 - walk-forward validation, multiple-testing control, and honest holdout use;

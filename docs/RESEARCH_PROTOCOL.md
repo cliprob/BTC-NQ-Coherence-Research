@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.2.0
+**Protocol version:** 0.3.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -8,7 +8,7 @@
 
 ## 1. Motivation
 
-BTC and Nasdaq futures sometimes exhibit candles with the same direction and similar shape, while the volatility-adjusted magnitudes differ. The economic motivation is that greater institutional access to crypto may have increased integration with the US risk-asset complex. This motivation does not, by itself, establish a causal ETF effect.
+BTC and Nasdaq futures sometimes exhibit candle bodies with the same direction while their volatility-adjusted body magnitudes differ. In this protocol, "candle similarity" refers to the direction of the open-to-close body, not to wick geometry or the full high-low range. The economic motivation is that greater institutional access to crypto may have increased integration with the US risk-asset complex. This motivation does not, by itself, establish a causal ETF effect.
 
 The study asks whether these episodes form persistent conditional co-movement regimes and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while a regime remains active. It does not initially assume that BTC leads NQ, that NQ leads BTC, or that the weaker market catches up.
 
@@ -28,22 +28,28 @@ Do synchronized, volatility-adjusted BTC and NQ moves form persistent coherence 
 
 ## 3. Units and candidate estimands
 
-All price comparisons use returns or normalized candle components, never price levels.
-
-For asset \(i\), a causal standardized return is provisionally defined as:
+The primary candle primitive is the signed open-to-close body return, never the raw price difference:
 
 \[
-z^i_t = \frac{r^i_t}{\widehat{\sigma}^i_t},
+b^i_t = \log\left(\frac{P^{i,close}_t}{P^{i,open}_t}\right).
 \]
 
-where \(\widehat{\sigma}^i_t\) is estimated only from observations available by bar \(t\).
+Wicks and the high-low range are excluded from the primary specification. They may be considered only in a separately labeled robustness analysis after the primary body-based definitions are frozen.
+
+For asset \(i\), a causal standardized body is provisionally defined as:
+
+\[
+z^i_t = \frac{b^i_t}{\widehat{\sigma}^{i,body}_{t-1}},
+\]
+
+where \(\widehat{\sigma}^{i,body}_{t-1}\) is estimated only from completed bodies preceding bar \(t\). This makes BTC and NQ body magnitudes comparable without using the current body to set its own scale.
 
 Candidate state variables are deliberately separated:
 
-- **directional agreement** \(A_t\): whether BTC and NQ returns share a sign;
-- **coherence** \(C_t\): a causal continuous measure of recent directional and normalized candle-shape agreement that excludes move magnitude;
+- **directional agreement** \(A_t\): whether the BTC and NQ bodies share a sign;
+- **coherence** \(C_t\): a causal continuous measure of agreement between recent sequences of body directions that excludes body magnitude;
 - **joint intensity** \(J_t\): a symmetric function such as \(\sqrt{|z^{BTC}_t z^{NQ}_t|}\);
-- **magnitude balance** \(B_t\): a signed difference or log-ratio between the absolute standardized moves.
+- **magnitude balance** \(B_t\): a signed difference or log-ratio between the absolute standardized body magnitudes.
 
 Magnitude must not be embedded in \(C_t\) and then reused to explain persistence of \(C_t\). Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
 
@@ -74,7 +80,7 @@ evaluated at preregistered horizons \(h\). A positive \(\Delta L_h\) means the e
 
 ### H1 — coherence-regime persistence
 
-Directionally and structurally coherent BTC–NQ states exhibit measurable duration beyond the detection bar. The primary outcome is state survival or remaining duration; signed NQ continuation is a related economic outcome.
+BTC–NQ states defined by agreement between recent candle-body directions exhibit measurable duration beyond the detection bar. The primary outcome is state survival or remaining duration; signed NQ continuation is a related economic outcome.
 
 ### H2 — magnitude-conditioned persistence
 

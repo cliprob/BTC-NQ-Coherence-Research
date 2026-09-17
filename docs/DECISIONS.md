@@ -6,7 +6,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 |---|---|---|---|
 | D-001 | Primary bar interval | Proposed: 5 minutes | Synchronization and microstructure audit; 1-minute retained as robustness |
 | D-002 | Primary forecast horizon | TBD | Economic mechanism and development-only response study; must be chosen without final P&L |
-| D-003 | Coherence definition | Metric TBD; restricted to direction and normalized shape | Compare a small declared family on stability and interpretability; magnitude is excluded |
+| D-003 | Coherence definition | Body-direction sequence; estimator and lookback TBD | Compare a small declared family on stability and interpretability; body magnitude is excluded |
 | D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
 | D-005 | Primary traded instrument | Proposed: MNQ | Confirm availability of execution-quality data and cost assumptions |
 | D-006 | Development sample | Existing data through 2026-05-12 may be exploratory | Register exact file hashes and prior exposure |
@@ -33,3 +33,12 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Magnitude balance measures relative BTC–NQ move strength without assuming which market leads.
 - Catch-up, continuation, reversal, and no balance effect are competing exploratory outcomes.
 - Future observations are outcomes for persistence and tradability tests, not evidence that BTC is assumed to lead NQ.
+
+### 2026-09-17 — candle body is the primary primitive
+
+- "Candle similarity" means agreement of open-to-close body direction, not wick or full-range similarity.
+- The signed body is defined as the log open-to-close return.
+- Coherence uses sequences of body directions; its exact estimator and lookback remain unresolved.
+- Joint intensity uses absolute, causally volatility-normalized body magnitudes.
+- Magnitude balance compares the normalized body magnitudes of BTC and NQ.
+- Wicks and high-low ranges are excluded from the primary specification and may appear only as labeled robustness features.

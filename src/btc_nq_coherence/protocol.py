@@ -58,6 +58,14 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
         raise ProtocolError(
             "Coherence must exclude joint intensity and magnitude balance."
         )
+    if protocol["design"].get("primary_candle_component") != (
+        "log_close_over_open_body"
+    ):
+        raise ProtocolError("The primary candle component must be the signed body return.")
+    if protocol["design"].get("primary_uses_wicks_or_range") is not False:
+        raise ProtocolError(
+            "Wicks and high-low range must be excluded from the primary design."
+        )
 
     frozen = bool(protocol["governance"].get("protocol_frozen"))
     if status == "frozen" and not frozen:

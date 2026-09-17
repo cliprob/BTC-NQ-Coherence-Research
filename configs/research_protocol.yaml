@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: 0.2.0
+protocol_version: 0.3.0
 status: draft
 created_at: 2026-09-17
 
@@ -38,10 +38,12 @@ design:
   prediction_comparison: nq_only_vs_nq_plus_btc
   strategy_stage_locked: true
   coherence_excludes_magnitude: true
+  primary_candle_component: log_close_over_open_body
+  primary_uses_wicks_or_range: false
   feature_roles:
-    coherence: direction_and_normalized_candle_shape
-    joint_intensity: common_move_strength
-    magnitude_balance: cross_market_relative_strength
+    coherence: recent_candle_body_direction_agreement
+    joint_intensity: common_normalized_body_strength
+    magnitude_balance: cross_market_relative_body_strength
     catch_up: exploratory_not_assumed
 
 data:
