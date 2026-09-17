@@ -1,0 +1,86 @@
+schema_version: 1
+model_version: 0.1.0
+status: development_only
+
+population:
+  feature_ready: true
+  current_direction_agreement: 1
+  primary_session_only: true
+  required_within_session_history_minutes: 60
+  target: signed_nq_return_bps_5m
+  target_winsorization: none
+
+derived_features:
+  momentum_definition: log_close_to_close_aligned_with_current_nq_direction
+  momentum_horizons_minutes: [5, 15, 30, 60]
+  session_clock: fourier_two_harmonics_of_minutes_since_0930_over_390
+  weekday_controls: [Tuesday, Wednesday, Thursday, Friday]
+  cross_session_history: false
+
+models:
+  benchmark:
+    estimator: training_fold_target_mean
+  nq_only:
+    estimator: ridge_regression
+    predictors:
+      - nq_direction
+      - nq_magnitude
+      - nq_aligned_momentum_5m
+      - nq_aligned_momentum_15m
+      - nq_aligned_momentum_30m
+      - nq_aligned_momentum_60m
+      - session_sin_1
+      - session_cos_1
+      - session_sin_2
+      - session_cos_2
+      - weekday_tuesday
+      - weekday_wednesday
+      - weekday_thursday
+      - weekday_friday
+  cross_market:
+    estimator: ridge_regression
+    additional_predictors:
+      - btc_magnitude
+      - btc_aligned_momentum_5m
+      - btc_aligned_momentum_15m
+      - btc_aligned_momentum_30m
+      - btc_aligned_momentum_60m
+      - coherence_15m
+      - coherence_30m
+      - coherence_60m
+      - joint_intensity
+      - magnitude_balance
+      - absolute_magnitude_balance
+  preprocessing: standard_scaler_fit_on_training_fold_only
+  fit_intercept: true
+  alpha_grid: [0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+
+walk_forward:
+  session_order: chronological
+  initial_training_sessions: 130
+  validation_sessions: 22
+  step_sessions: 22
+  purge_sessions: 1
+  inner_validation_folds: 3
+  inner_validation_sessions: 22
+  inner_purge_sessions: 1
+  inner_selection_aggregation: event_weighted_oof_mean_squared_error
+  partial_final_fold: reject
+
+evaluation:
+  primary_metric: mean_squared_error
+  secondary_metric: mean_absolute_error
+  report_metric: out_of_sample_r_squared_vs_fold_training_mean
+  resolutions_minutes: [5, 1]
+  incremental_loss_order: cross_market_minus_nq_only
+  evidence_rule: >-
+    incremental return-forecast evidence requires the session-block 95%
+    confidence interval for cross-market-minus-NQ-only squared-error loss
+    to lie below zero and the mean absolute-error difference to be negative
+
+uncertainty:
+  method: paired_analysis_session_block_bootstrap
+  confidence_level: 0.95
+  replications: 5000
+  seed: 20260917
+

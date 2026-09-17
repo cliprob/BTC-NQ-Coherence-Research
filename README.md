@@ -2,15 +2,19 @@
 
 An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
-> **Research status: Phase 2 — development-only predictive validation.** The primary five-minute return response is approximately zero, while a purged walk-forward state model finds a small incremental persistence contribution from body magnitude. No strategy or alpha claim exists.
+> **Research status: Phase 3 — development-only economic validation.** Magnitude slightly improves prediction of state persistence, but cross-market information does not improve five-minute NQ return forecasts over an NQ-only baseline. No strategy or alpha claim exists.
 
 ## Current result
 
 Across 13,724 five-minute out-of-fold events, adding joint intensity and magnitude balance
 to the direction/coherence baseline reduces Brier loss by `0.000699` (session-block 95%
 CI `[-0.001120, -0.000297]`). The result repeats at one-minute resolution, but it predicts
-next-bar BTC–NQ directional agreement—not NQ returns or trading profitability. See
-[State-Model Validation](docs/STATE_MODEL_VALIDATION.md).
+next-bar BTC–NQ directional agreement—not NQ returns or trading profitability.
+
+In the separate return test, the cross-market Ridge model increases primary MSE by
+`0.1924 bps²` versus NQ-only (95% CI `[0.0728, 0.3222]`). Neither model beats the fold
+training-mean benchmark. See [State-Model Validation](docs/STATE_MODEL_VALIDATION.md) and
+[Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md).
 
 ## Research question
 
@@ -96,7 +100,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Run the mandatory 1-minute response-path specification regardless of the primary result.
 - [x] Compare direction/coherence-only and magnitude-conditioned state models with nested purged walk-forward validation.
 - [ ] Run the mandatory overnight negative control without changing primary parameters.
-- [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
+- [x] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
 - [ ] Lock the complete specification and open the final holdout once.
 - [ ] Publish an academic-style report, including negative or inconclusive results.
@@ -104,8 +108,8 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification,
 [Causal Outcomes and Descriptive Results](docs/OUTCOMES_AND_DESCRIPTIVE.md) for the
 implemented timing and first results, [State-Model Validation](docs/STATE_MODEL_VALIDATION.md)
-for the nested predictive comparison, and [Decision Log](docs/DECISIONS.md) for unresolved
-choices.
+for persistence prediction, [Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md) for
+the economic forecast test, and [Decision Log](docs/DECISIONS.md) for unresolved choices.
 
 ## What this project will demonstrate
 

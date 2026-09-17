@@ -1,0 +1,98 @@
+{
+  "estimand": "signed_next_five_minute_nq_return_bps_given_current_agreement",
+  "five_minute_primary": {
+    "cross_market_minus_nq_only": {
+      "absolute_error_session_block_95_ci_bps": [
+        0.0009986606646438213,
+        0.013505240558234518
+      ],
+      "mean_absolute_error_difference_bps": 0.007304534948086818,
+      "mean_squared_error_difference": 0.19237882493575084,
+      "squared_error_session_block_95_ci": [
+        0.07284421499950597,
+        0.32223456283515944
+      ]
+    },
+    "event_count": 11364,
+    "incremental_cross_market_return_evidence": false,
+    "metrics": {
+      "benchmark": {
+        "mean_absolute_error_bps": 7.079579529411699,
+        "mean_squared_error": 134.83112435525885,
+        "out_of_sample_r_squared_vs_benchmark": 0.0,
+        "root_mean_squared_error_bps": 11.61168051382998
+      },
+      "cross_market": {
+        "mean_absolute_error_bps": 7.09948290324213,
+        "mean_squared_error": 135.29373406013727,
+        "out_of_sample_r_squared_vs_benchmark": -0.003431030536091173,
+        "root_mean_squared_error_bps": 11.63158347174353
+      },
+      "nq_only": {
+        "mean_absolute_error_bps": 7.092178368294045,
+        "mean_squared_error": 135.1013552352015,
+        "out_of_sample_r_squared_vs_benchmark": -0.0020042173588246115,
+        "root_mean_squared_error_bps": 11.623310855139405
+      }
+    },
+    "session_count": 264,
+    "session_end": "2026-05-11",
+    "session_start": "2025-02-24",
+    "target_mean_bps": 0.15813602796797702,
+    "target_standard_deviation_bps": 11.605448252011643
+  },
+  "interpretation_rule": "incremental return-forecast evidence requires the session-block 95% confidence interval for cross-market-minus-NQ-only squared-error loss to lie below zero and the mean absolute-error difference to be negative",
+  "limitations": [
+    "Development data have no pristine final holdout and were previously inspected.",
+    "The target is gross signed NQ response; no trade rule or cost model is applied.",
+    "The first 60 cash-session minutes are feature warm-up and are not scored.",
+    "Targets are not clipped or winsorized; MSE remains sensitive to tail returns.",
+    "All preprocessing and alpha selection are nested inside past folds."
+  ],
+  "model_version": "0.1.0",
+  "one_minute_robustness": {
+    "cross_market_minus_nq_only": {
+      "absolute_error_session_block_95_ci_bps": [
+        -0.00037521756445286613,
+        0.0058773314654317664
+      ],
+      "mean_absolute_error_difference_bps": 0.0027045118481653294,
+      "mean_squared_error_difference": 0.0031357154028924202,
+      "squared_error_session_block_95_ci": [
+        -0.10652789187181548,
+        0.09623389535453929
+      ]
+    },
+    "event_count": 55905,
+    "incremental_cross_market_return_evidence": false,
+    "metrics": {
+      "benchmark": {
+        "mean_absolute_error_bps": 7.141283720825522,
+        "mean_squared_error": 141.00201957935292,
+        "out_of_sample_r_squared_vs_benchmark": 0.0,
+        "root_mean_squared_error_bps": 11.874427126365
+      },
+      "cross_market": {
+        "mean_absolute_error_bps": 7.160127396305415,
+        "mean_squared_error": 141.03322680582696,
+        "out_of_sample_r_squared_vs_benchmark": -0.00022132467724311766,
+        "root_mean_squared_error_bps": 11.875741105540612
+      },
+      "nq_only": {
+        "mean_absolute_error_bps": 7.157422884457249,
+        "mean_squared_error": 141.03009109042407,
+        "out_of_sample_r_squared_vs_benchmark": -0.00019908587944250655,
+        "root_mean_squared_error_bps": 11.875609082923877
+      }
+    },
+    "session_count": 264,
+    "session_end": "2026-05-11",
+    "session_start": "2025-02-24",
+    "target_mean_bps": -0.025386341765996634,
+    "target_standard_deviation_bps": 11.874459416746506
+  },
+  "primary_comparison": "cross_market_minus_nq_only_mean_squared_error",
+  "run_id": "a33442697ca39f89",
+  "schema_version": 1,
+  "status": "development_only"
+}

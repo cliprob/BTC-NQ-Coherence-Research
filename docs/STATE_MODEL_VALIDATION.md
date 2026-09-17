@@ -125,6 +125,10 @@ captures session clustering but not uncertainty from retraining the complete res
 process on a different historical sample. A future unseen period is required before
 claiming external validity.
 
+The prespecified economic follow-up is now complete. Despite the persistence improvement,
+cross-market features do not improve five-minute NQ return forecasts over a fair NQ-only
+Ridge baseline. See [`RETURN_MODEL_VALIDATION.md`](RETURN_MODEL_VALIDATION.md).
+
 ## Audit artifacts
 
 - [`state_model_summary.json`](../reports/development/state_model_summary.json) — primary
@@ -141,4 +145,3 @@ claiming external validity.
   all 192 nested regularization attempts;
 - [`state_model_manifest.json`](../data/registry/state_model_manifest.json) — input,
   implementation, configuration, local OOF, and committed-artifact hashes.
-

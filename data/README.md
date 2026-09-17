@@ -129,6 +129,30 @@ standardized coefficients, weekday diagnostics, and the append-preserving trial 
 committed as compact aggregates. Scalers and regularization selection are fitted within
 past data only; a complete analysis session is purged before each validation block.
 
+## Run the purged return-model comparison
+
+```powershell
+python -m btc_nq_coherence.return_models `
+  --one-minute-outcomes data/interim/outcomes_primary_1m.csv `
+  --five-minute-outcomes data/interim/outcomes_primary_5m.csv `
+  --outcome-manifest data/registry/outcome_manifest.json `
+  --config configs/return_models.yaml `
+  --one-minute-oof-output data/interim/return_model_oof_1m.csv `
+  --five-minute-oof-output data/interim/return_model_oof_5m.csv `
+  --summary-output reports/development/return_model_summary.json `
+  --fold-metrics-output reports/development/return_model_fold_metrics.csv `
+  --coefficients-output reports/development/return_model_coefficients.csv `
+  --weekday-output reports/development/return_model_weekday_metrics.csv `
+  --trial-ledger-output reports/development/return_model_trial_ledger.csv `
+  --manifest data/registry/return_model_manifest.json
+```
+
+The target is the gross signed NQ return over the same executable five-minute horizon at
+both resolutions. The first 60 cash-session minutes are used only to create within-session
+momentum history. NQ-only and cross-market Ridge models receive identical observations,
+folds, preprocessing, and nested alpha selection. No return target is clipped or
+winsorized.
+
 ## Planned local layout
 
 ```text

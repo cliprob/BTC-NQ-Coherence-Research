@@ -106,8 +106,9 @@ The current data do not support a claim that same-direction BTC–NQ bodies are 
 economically meaningful five-minute NQ continuation on average. The next prespecified
 stage has now been completed: intensity and balance provide a small out-of-fold improvement
 in calibrated state-persistence forecasts. That result is documented in
-[`STATE_MODEL_VALIDATION.md`](STATE_MODEL_VALIDATION.md) and does not establish return
-predictability.
+[`STATE_MODEL_VALIDATION.md`](STATE_MODEL_VALIDATION.md). The subsequent economic test in
+[`RETURN_MODEL_VALIDATION.md`](RETURN_MODEL_VALIDATION.md) finds no incremental five-minute
+NQ return value over the NQ-only baseline.
 
 No pristine holdout, pre-ETP comparison, execution costs, or trade policy exists in this
 iteration. The surface is an exploratory map of development data. Any threshold suggested

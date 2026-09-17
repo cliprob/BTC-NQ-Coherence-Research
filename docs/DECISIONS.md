@@ -128,3 +128,15 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Paired `M1 − M0` loss uncertainty uses 5,000 complete-session bootstrap resamples.
 - Incremental evidence requires a negative upper 95% Brier-difference bound, directionally consistent log loss, and ECE deterioration no greater than 0.01.
 - The primary result meets this development-only rule, but the effect is small and cannot be described as confirmed or tradable without unseen data.
+
+### 2026-09-17 — return-model incremental-value specification
+
+- The return target is the executable next-five-minute NQ log return in basis points, signed by current NQ direction on current BTC–NQ agreement events.
+- The first 60 minutes of every cash session are excluded from scoring so all NQ and BTC momentum predictors use complete within-session 5/15/30/60-minute histories.
+- NQ-only Ridge uses current NQ direction/magnitude, aligned NQ momentum, two intraday Fourier harmonics, and weekday controls.
+- The cross-market Ridge adds aligned BTC momentum, BTC magnitude, coherence, joint intensity, signed magnitude balance, and absolute balance.
+- Targets are not globally normalized, clipped, or winsorized.
+- Ridge alpha is selected separately inside each outer fold from `0.01/0.1/1/10/100/1000` using three inner purged folds and event-weighted MSE.
+- The state-model outer session boundaries and full-session purge are reused exactly.
+- Incremental evidence requires a negative upper 95% session-block bound for cross-market-minus-NQ-only squared-error loss and directionally consistent MAE.
+- The primary result rejects incremental return-forecast value for the registered cross-market linear model; post-hoc changes require a separately logged trial and cannot replace this result.
