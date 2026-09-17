@@ -2,7 +2,7 @@
 
 An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
-> **Research status: Phase 3 — development-only economic validation.** Magnitude slightly improves prediction of state persistence, but cross-market information does not improve five-minute NQ return forecasts over an NQ-only baseline. No strategy or alpha claim exists.
+> **Research status: Phase 4 — overnight negative control complete.** Magnitude slightly improves prediction of state persistence in both cash and overnight sessions, so the effect is not cash-session-specific. Cross-market information does not improve the primary five-minute NQ return forecast over an NQ-only baseline. No strategy or alpha claim exists.
 
 ## Current result
 
@@ -13,8 +13,12 @@ next-bar BTC–NQ directional agreement—not NQ returns or trading profitabilit
 
 In the separate return test, the cross-market Ridge model increases primary MSE by
 `0.1924 bps²` versus NQ-only (95% CI `[0.0728, 0.3222]`). Neither model beats the fold
-training-mean benchmark. See [State-Model Validation](docs/STATE_MODEL_VALIDATION.md) and
-[Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md).
+training-mean benchmark. In the mandatory overnight control, the state improvement
+repeats (`M1 − M0` Brier `-0.000259`, 95% CI `[-0.000440, -0.000081]`), while the
+five-minute return comparison remains unsupported. See
+[State-Model Validation](docs/STATE_MODEL_VALIDATION.md),
+[Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md), and
+[Overnight Negative Control](docs/OVERNIGHT_NEGATIVE_CONTROL.md).
 
 ## Research question
 
@@ -99,7 +103,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Produce descriptive event studies and response curves without strategy optimization.
 - [x] Run the mandatory 1-minute response-path specification regardless of the primary result.
 - [x] Compare direction/coherence-only and magnitude-conditioned state models with nested purged walk-forward validation.
-- [ ] Run the mandatory overnight negative control without changing primary parameters.
+- [x] Run the mandatory overnight negative control without changing primary parameters.
 - [x] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
 - [ ] Lock the complete specification and open the final holdout once.
@@ -109,7 +113,9 @@ See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification
 [Causal Outcomes and Descriptive Results](docs/OUTCOMES_AND_DESCRIPTIVE.md) for the
 implemented timing and first results, [State-Model Validation](docs/STATE_MODEL_VALIDATION.md)
 for persistence prediction, [Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md) for
-the economic forecast test, and [Decision Log](docs/DECISIONS.md) for unresolved choices.
+the economic forecast test, [Overnight Negative Control](docs/OVERNIGHT_NEGATIVE_CONTROL.md)
+for the cash-session-specificity falsification, and [Decision Log](docs/DECISIONS.md) for
+unresolved choices.
 
 ## What this project will demonstrate
 

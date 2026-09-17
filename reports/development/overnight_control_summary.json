@@ -1,0 +1,208 @@
+{
+  "control_version": "0.1.0",
+  "descriptive_response": {
+    "five_minute_primary": {
+      "event_count": 49197,
+      "mean_signed_nq_return_bps": 0.04253482060336105,
+      "session_block_95_ci_bps": [
+        -0.004823514476254227,
+        0.08960031347545429
+      ],
+      "session_count": 488
+    },
+    "one_minute_resolution_five_minute_endpoint": {
+      "event_count": 234598,
+      "mean_signed_nq_return_bps": 0.013879197811164205,
+      "session_block_95_ci_bps": [
+        -0.006777089465533198,
+        0.03469382377951085
+      ],
+      "session_count": 488
+    }
+  },
+  "limitations": [
+    "This is a required negative control and cannot select or replace primary results.",
+    "Overnight and cash analyses use different eligible-session samples.",
+    "The data are development-only and do not provide a pristine holdout.",
+    "The stitched NQ source retains partial provenance limitations."
+  ],
+  "return_model": {
+    "five_minute_primary": {
+      "cross_market_minus_nq_only": {
+        "absolute_error_session_block_95_ci_bps": [
+          0.0009189255692999596,
+          0.005059667471321069
+        ],
+        "mean_absolute_error_difference_bps": 0.002984380876125041,
+        "mean_squared_error_difference": 0.010565908514786964,
+        "squared_error_session_block_95_ci": [
+          -0.02830491105256107,
+          0.05015808395712646
+        ]
+      },
+      "event_count": 35804,
+      "incremental_cross_market_return_evidence": false,
+      "metrics": {
+        "benchmark": {
+          "mean_absolute_error_bps": 3.526626786544026,
+          "mean_squared_error": 38.14476798539156,
+          "out_of_sample_r_squared_vs_benchmark": 0.0,
+          "root_mean_squared_error_bps": 6.176145074833618
+        },
+        "cross_market": {
+          "mean_absolute_error_bps": 3.5325904484330835,
+          "mean_squared_error": 38.21965669304973,
+          "out_of_sample_r_squared_vs_benchmark": -0.0019632760038506003,
+          "root_mean_squared_error_bps": 6.1822048407546095
+        },
+        "nq_only": {
+          "mean_absolute_error_bps": 3.529606067556958,
+          "mean_squared_error": 38.20909078453494,
+          "out_of_sample_r_squared_vs_benchmark": -0.0016862810429993935,
+          "root_mean_squared_error_bps": 6.181350239594497
+        }
+      },
+      "session_count": 352,
+      "session_end": "2026-05-12",
+      "session_start": "2024-12-18",
+      "target_mean_bps": 0.06186236970053695,
+      "target_standard_deviation_bps": 6.17599808700619
+    },
+    "one_minute_robustness": {
+      "cross_market_minus_nq_only": {
+        "absolute_error_session_block_95_ci_bps": [
+          0.000250632795883499,
+          0.002320820098839276
+        ],
+        "mean_absolute_error_difference_bps": 0.00127932018286295,
+        "mean_squared_error_difference": -0.02386370503746858,
+        "squared_error_session_block_95_ci": [
+          -0.0523584456781172,
+          -0.0005921433421165231
+        ]
+      },
+      "event_count": 171612,
+      "incremental_cross_market_return_evidence": false,
+      "metrics": {
+        "benchmark": {
+          "mean_absolute_error_bps": 3.5648002188262953,
+          "mean_squared_error": 37.113281081187964,
+          "out_of_sample_r_squared_vs_benchmark": 0.0,
+          "root_mean_squared_error_bps": 6.092067061448681
+        },
+        "cross_market": {
+          "mean_absolute_error_bps": 3.567077046726493,
+          "mean_squared_error": 37.1190073504632,
+          "out_of_sample_r_squared_vs_benchmark": -0.00015429164731384226,
+          "root_mean_squared_error_bps": 6.092537020852905
+        },
+        "nq_only": {
+          "mean_absolute_error_bps": 3.5657977265436305,
+          "mean_squared_error": 37.14287105550068,
+          "out_of_sample_r_squared_vs_benchmark": -0.0007972880179463182,
+          "root_mean_squared_error_bps": 6.094495143611215
+        }
+      },
+      "session_count": 352,
+      "session_end": "2026-05-12",
+      "session_start": "2024-12-18",
+      "target_mean_bps": 0.0168392373175194,
+      "target_standard_deviation_bps": 6.09201547742104
+    }
+  },
+  "role": "overnight_negative_control",
+  "schema_version": 1,
+  "session": {
+    "calendar": "CME_Equity",
+    "end": "09:30",
+    "expected_minutes": 930,
+    "may_replace_primary": false,
+    "start_previous_evening": "18:00",
+    "timezone": "America/New_York"
+  },
+  "specificity_assessment": {
+    "cash_session_return_specificity_supported": false,
+    "cash_session_state_specificity_supported": false,
+    "return_rule": "cash-session return specificity requires primary return evidence and no overnight return evidence under the registered rules",
+    "state_rule": "cash-session specificity requires primary state evidence and no overnight state evidence under the registered rules"
+  },
+  "state_model": {
+    "five_minute_primary": {
+      "event_count": 36230,
+      "incremental_magnitude_evidence": true,
+      "m1_minus_m0": {
+        "brier_score_difference": -0.0002593864835061021,
+        "brier_session_block_95_ci": [
+          -0.00044015444330699994,
+          -8.144211604059693e-05
+        ],
+        "expected_calibration_error_difference": -0.00022521710123219602,
+        "log_loss_difference": -0.0005095937721057177,
+        "log_loss_session_block_95_ci": [
+          -0.0009011350466137068,
+          -0.00011787984488975683
+        ]
+      },
+      "metrics": {
+        "benchmark": {
+          "brier_score": 0.24079749685933136,
+          "expected_calibration_error": 0.021774566023739617,
+          "log_loss": 0.6746406088917072
+        },
+        "m0": {
+          "brier_score": 0.24072700826029103,
+          "expected_calibration_error": 0.02145454793675805,
+          "log_loss": 0.6744934816743965
+        },
+        "m1": {
+          "brier_score": 0.2404676217767849,
+          "expected_calibration_error": 0.021229330835525854,
+          "log_loss": 0.6739838879022907
+        }
+      },
+      "observed_agreement_rate": 0.5982887110129727,
+      "session_count": 352,
+      "session_end": "2026-05-12",
+      "session_start": "2024-12-18"
+    },
+    "one_minute_robustness": {
+      "event_count": 172786,
+      "incremental_magnitude_evidence": true,
+      "m1_minus_m0": {
+        "brier_score_difference": -0.00019105338683839403,
+        "brier_session_block_95_ci": [
+          -0.0002886150822907469,
+          -0.00010625277967200248
+        ],
+        "expected_calibration_error_difference": 0.00039407912295222683,
+        "log_loss_difference": -0.00039064195423166775,
+        "log_loss_session_block_95_ci": [
+          -0.000586005852345658,
+          -0.0002090919545954027
+        ]
+      },
+      "metrics": {
+        "benchmark": {
+          "brier_score": 0.24524725701488193,
+          "expected_calibration_error": 0.022236616778995688,
+          "log_loss": 0.6836160000488675
+        },
+        "m0": {
+          "brier_score": 0.24454491213826493,
+          "expected_calibration_error": 0.016076559371862843,
+          "log_loss": 0.6821830345466491
+        },
+        "m1": {
+          "brier_score": 0.24435385875142654,
+          "expected_calibration_error": 0.01647063849481507,
+          "log_loss": 0.6817923925924173
+        }
+      },
+      "observed_agreement_rate": 0.571603023393099,
+      "session_count": 352,
+      "session_end": "2026-05-12",
+      "session_start": "2024-12-18"
+    }
+  },
+  "status": "development_only_negative_control"
+}

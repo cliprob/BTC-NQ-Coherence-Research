@@ -129,6 +129,14 @@ The prespecified economic follow-up is now complete. Despite the persistence imp
 cross-market features do not improve five-minute NQ return forecasts over a fair NQ-only
 Ridge baseline. See [`RETURN_MODEL_VALIDATION.md`](RETURN_MODEL_VALIDATION.md).
 
+The mandatory overnight negative control is also complete. Its five-minute `M1 − M0`
+Brier difference is `-0.000259`, with a 95% interval of
+`[-0.000440, -0.000081]`, and the registered evidence rule is met. The state association
+therefore is **not specific to cash hours**. This narrows the interpretation from a
+cash-session integration effect to a small, broader cross-session persistence relation;
+it does not convert state prediction into return prediction. See
+[`OVERNIGHT_NEGATIVE_CONTROL.md`](OVERNIGHT_NEGATIVE_CONTROL.md).
+
 ## Audit artifacts
 
 - [`state_model_summary.json`](../reports/development/state_model_summary.json) — primary

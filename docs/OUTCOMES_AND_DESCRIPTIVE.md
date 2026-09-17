@@ -110,6 +110,12 @@ in calibrated state-persistence forecasts. That result is documented in
 [`RETURN_MODEL_VALIDATION.md`](RETURN_MODEL_VALIDATION.md) finds no incremental five-minute
 NQ return value over the NQ-only baseline.
 
+The overnight negative control has also been completed. Its unconditional primary
+five-minute signed NQ response is `+0.043 bps`, with a session-block 95% interval of
+`[-0.005, +0.090] bps`; the comparable one-minute construction is likewise
+inconclusive. Full control results are documented in
+[`OVERNIGHT_NEGATIVE_CONTROL.md`](OVERNIGHT_NEGATIVE_CONTROL.md).
+
 No pristine holdout, pre-ETP comparison, execution costs, or trade policy exists in this
 iteration. The surface is an exploratory map of development data. Any threshold suggested
 by it must be treated as a candidate to be evaluated with purged walk-forward validation

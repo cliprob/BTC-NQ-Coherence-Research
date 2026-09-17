@@ -278,6 +278,7 @@ def build_outcome_artifacts(
         "schema_version": 1,
         "outcome_version": config["outcome_version"],
         "status": "development_only",
+        "role": feature_manifest.get("role", "primary"),
         "generated_at": datetime.now(UTC).isoformat(),
         "inputs": {
             "feature_manifest_sha256": _hash_file(feature_manifest_path),

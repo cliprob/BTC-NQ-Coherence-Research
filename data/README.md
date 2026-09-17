@@ -153,6 +153,66 @@ momentum history. NQ-only and cross-market Ridge models receive identical observ
 folds, preprocessing, and nested alpha selection. No return target is clipped or
 winsorized.
 
+## Run the overnight negative control
+
+Build overnight features from the same canonical one-minute file, then apply the same
+causal outcome definitions:
+
+```powershell
+python -m btc_nq_coherence.overnight_features `
+  --canonical data/interim/synchronized_development_1m.csv `
+  --eligibility-manifest data/registry/available_data_eligibility.json `
+  --config configs/overnight_features.yaml `
+  --one-minute-output data/interim/features_overnight_1m.csv `
+  --five-minute-output data/interim/features_overnight_5m.csv `
+  --manifest data/registry/overnight_feature_manifest.json
+
+python -m btc_nq_coherence.outcomes `
+  --one-minute-features data/interim/features_overnight_1m.csv `
+  --five-minute-features data/interim/features_overnight_5m.csv `
+  --feature-manifest data/registry/overnight_feature_manifest.json `
+  --config configs/outcomes.yaml `
+  --one-minute-output data/interim/outcomes_overnight_1m.csv `
+  --five-minute-output data/interim/outcomes_overnight_5m.csv `
+  --manifest data/registry/overnight_outcome_manifest.json
+```
+
+Run the descriptive, state, and return comparisons together. The command reuses the
+frozen primary model configurations but applies the mechanically registered overnight
+walk-forward boundaries:
+
+```powershell
+python -m btc_nq_coherence.overnight_control `
+  --one-minute-outcomes data/interim/outcomes_overnight_1m.csv `
+  --five-minute-outcomes data/interim/outcomes_overnight_5m.csv `
+  --outcome-manifest data/registry/overnight_outcome_manifest.json `
+  --control-config configs/overnight_control.yaml `
+  --state-config configs/state_models.yaml `
+  --return-config configs/return_models.yaml `
+  --primary-state-summary reports/development/state_model_summary.json `
+  --primary-return-summary reports/development/return_model_summary.json `
+  --state-one-minute-oof-output data/interim/overnight_state_oof_1m.csv `
+  --state-five-minute-oof-output data/interim/overnight_state_oof_5m.csv `
+  --return-one-minute-oof-output data/interim/overnight_return_oof_1m.csv `
+  --return-five-minute-oof-output data/interim/overnight_return_oof_5m.csv `
+  --summary-output reports/development/overnight_control_summary.json `
+  --horizon-output reports/development/overnight_horizon_response.csv `
+  --state-fold-output reports/development/overnight_state_fold_metrics.csv `
+  --state-calibration-output reports/development/overnight_state_calibration.csv `
+  --state-coefficients-output reports/development/overnight_state_coefficients.csv `
+  --state-weekday-output reports/development/overnight_state_weekday_metrics.csv `
+  --state-trials-output reports/development/overnight_state_trial_ledger.csv `
+  --return-fold-output reports/development/overnight_return_fold_metrics.csv `
+  --return-coefficients-output reports/development/overnight_return_coefficients.csv `
+  --return-weekday-output reports/development/overnight_return_weekday_metrics.csv `
+  --return-trials-output reports/development/overnight_return_trial_ledger.csv `
+  --manifest data/registry/overnight_control_manifest.json
+```
+
+The row-level feature, outcome, and OOF files remain ignored. Compact aggregates and
+hash manifests are committed so the reported result can be audited without redistributing
+the proprietary NQ source.
+
 ## Planned local layout
 
 ```text

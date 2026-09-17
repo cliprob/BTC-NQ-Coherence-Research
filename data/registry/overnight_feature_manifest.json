@@ -1,0 +1,60 @@
+{
+  "definitions": {
+    "coherence_scales_minutes": [
+      15,
+      30,
+      60
+    ],
+    "expected_minutes_per_session": 930,
+    "mad_consistency_constant": 1.4826,
+    "primary_bar_minutes": 5,
+    "robustness_bar_minutes": 1,
+    "same_slot_mad_lookback_sessions": 63,
+    "session": "18:00_previous_evening_to_09:30_America/New_York"
+  },
+  "feature_version": "0.1.0",
+  "five_minute_primary": {
+    "committed": false,
+    "feature_ready_rows": 85400,
+    "feature_ready_sessions": 488,
+    "file_name": "features_overnight_5m.csv",
+    "first_feature_ready_timestamp_utc": "2024-06-05T22:55:00+00:00",
+    "first_timestamp_utc": "2024-03-07T23:00:00+00:00",
+    "last_timestamp_utc": "2026-05-12T13:25:00+00:00",
+    "rows": 102486,
+    "sessions": 551,
+    "sha256": "86524957fd0a2acb10038d5ef9e3518b01b9d084466f593fbf28537eb54df442",
+    "source_valid_rows": 102486,
+    "state_model_eligible_rows": 49775
+  },
+  "generated_at": "2026-09-17T15:37:26.771665+00:00",
+  "inputs": {
+    "canonical_sha256": "ec37b3d35a9e8d8b9931e1d29172997c741c4b3d6ffaf7c22f1e6c50d9991cca",
+    "eligibility_manifest_sha256": "fc9bbd97dbaa207c125d89d7ac725d6616d7872e0bc06a3d467d2e1e6b661600",
+    "feature_config_sha256": "a003475a62e91833e15e9ff29544bea6eed341a4080a363348070d7769c6377e",
+    "overnight_implementation_sha256": "f1e766a9c7349d89be40201f315e4130c2a45440800f039a96f1ddd9084fd0d9",
+    "shared_feature_implementation_sha256": "b830b39939e5e7f55d1cb1f4cd96cedf4d27404772b9da025b6ebbb44075a6cf"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "one_minute_robustness": {
+    "committed": false,
+    "feature_ready_rows": 424875,
+    "feature_ready_sessions": 488,
+    "file_name": "features_overnight_1m.csv",
+    "first_feature_ready_timestamp_utc": "2024-06-05T22:59:00+00:00",
+    "first_timestamp_utc": "2024-03-07T23:00:00+00:00",
+    "last_timestamp_utc": "2026-05-12T13:29:00+00:00",
+    "rows": 512430,
+    "sessions": 551,
+    "sha256": "19ff049c5a86b8f16d4b099e271f38c4da569d4094d7ef4378eb4bd3041b687b",
+    "source_valid_rows": 512430,
+    "state_model_eligible_rows": 236250
+  },
+  "role": "overnight_negative_control",
+  "schema_version": 1,
+  "status": "development_only"
+}

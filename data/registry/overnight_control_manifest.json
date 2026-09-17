@@ -1,0 +1,84 @@
+{
+  "committed_artifacts": {
+    "overnight_control_summary.json": {
+      "committed": true,
+      "sha256": "0af5079274c9798f311e541d8c095ea4d684bd912242ad883895b381e9ce8337"
+    },
+    "overnight_horizon_response.csv": {
+      "committed": true,
+      "sha256": "43a9fa8dc62c551f331867b4eefc42137f7672daab1fbcfd98716822af387959"
+    },
+    "overnight_return_coefficients.csv": {
+      "committed": true,
+      "sha256": "34e4de62b683844319689fc85a98086f155cdc679042faa6fdb764f5332d3c64"
+    },
+    "overnight_return_fold_metrics.csv": {
+      "committed": true,
+      "sha256": "12457b439daa8a48d7aeacbde926f06cfb50623b9f0185cbe034715dd1f9a559"
+    },
+    "overnight_return_trial_ledger.csv": {
+      "committed": true,
+      "sha256": "9d00a84a0b94ebea82bb92b4052fed483572f70876e12e2afdb4c78e94a4f426"
+    },
+    "overnight_return_weekday_metrics.csv": {
+      "committed": true,
+      "sha256": "a81a7907336527e13c780ba7b443e04a426d03838e6097133bc12a16e82bf82c"
+    },
+    "overnight_state_calibration.csv": {
+      "committed": true,
+      "sha256": "4035e024fd3778176cf2782a76c21773b9756c45f5e2aec1aa6f36bae75c13a2"
+    },
+    "overnight_state_coefficients.csv": {
+      "committed": true,
+      "sha256": "e0a5b99cc5cd2af1e0ef463bc2dfe4f2c2465d923760d111ab5561541580012d"
+    },
+    "overnight_state_fold_metrics.csv": {
+      "committed": true,
+      "sha256": "5a987798326929ddebe5f3440db5afec397aa51febc4f159604db13592723bab"
+    },
+    "overnight_state_trial_ledger.csv": {
+      "committed": true,
+      "sha256": "165c76b69fef025984487b65de907910fba25e08b2a88b0f9034fe8bae534263"
+    },
+    "overnight_state_weekday_metrics.csv": {
+      "committed": true,
+      "sha256": "f0fad4b979335d0802ac14fdf853f087967826852bc37bf5c562e4f3c5270c17"
+    }
+  },
+  "control_version": "0.1.0",
+  "generated_at": "2026-09-17T19:40:43.528793+00:00",
+  "inputs": {
+    "control_config_sha256": "bd4ffc8e5e705a2d5fd80ce64561e6c3824d14c8815b15ada76ce37087521c65",
+    "implementation_sha256": "56391658b5c06ae270053d84a103a506b0197587d73864f8e9c7753fedbd372f",
+    "outcome_manifest_sha256": "037dd237801e1ac5c02b1d668086a734cf660cd2230414f10c3d3298ebfaf28e",
+    "primary_return_summary_sha256": "52f8a42d33aec13f4b5319e5fd1b978734786e77bc4c2eee5f39a1f9dd3b8319",
+    "primary_state_summary_sha256": "d8f4a60606700b82023197fced2f660b4b6f45bf878cdc70402165d959e77f71",
+    "return_config_sha256": "ba1a1ec18bd7cc74a89f86e54052ee29b3978efbee61b2c3b867a77fe50fa143",
+    "state_config_sha256": "cb2b16abc21308cb160d51d377a9e3a8a24db35c71acc2bd5d76357825178302"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "local_oof_artifacts": {
+    "overnight_return_oof_1m.csv": {
+      "committed": false,
+      "sha256": "b78c335ba4484a7c069327b6c5d9cf2a6dd07348f9662502a0c4fcbd181c4a5e"
+    },
+    "overnight_return_oof_5m.csv": {
+      "committed": false,
+      "sha256": "f4e73519dad15a8a10aaa76e11be14e6eecc76f14289652c14e64fdd6a2665f1"
+    },
+    "overnight_state_oof_1m.csv": {
+      "committed": false,
+      "sha256": "deb020e96cae0cb0e15d314ac189f65ac6530f2711f572bd9b6b33956a31848e"
+    },
+    "overnight_state_oof_5m.csv": {
+      "committed": false,
+      "sha256": "de8e774d4bd8a5acc0470839377713d1e19de1d63cc9bceb969b1682f20f20c6"
+    }
+  },
+  "schema_version": 1,
+  "status": "development_only_negative_control"
+}

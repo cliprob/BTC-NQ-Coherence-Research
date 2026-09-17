@@ -140,3 +140,13 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - The state-model outer session boundaries and full-session purge are reused exactly.
 - Incremental evidence requires a negative upper 95% session-block bound for cross-market-minus-NQ-only squared-error loss and directionally consistent MAE.
 - The primary result rejects incremental return-forecast value for the registered cross-market linear model; post-hoc changes require a separately logged trial and cannot replace this result.
+
+### 2026-09-17 — overnight negative-control result
+
+- The control uses the CME equity-futures period from 18:00 on the previous evening to 09:30 ET and the same registered feature, model, and evidence definitions as the cash analysis.
+- After the 63-session feature warm-up, 488 sessions remain. The exact expanding walk is 135 initial training sessions, one purged session, and 16 consecutive 22-session validation blocks.
+- At five-minute resolution, magnitude improves state-persistence Brier score by `0.000259` relative to the coherence-only model; the complete-session 95% interval excludes zero.
+- Because the state improvement repeats overnight, cash-session specificity is rejected. This does not reject state dependence and does not establish a trading return.
+- The unconditional five-minute signed return interval contains zero. The registered Ridge comparison supplies no incremental overnight return evidence, and both models trail the fold training-mean benchmark.
+- One-minute return MSE and MAE move in opposing directions; the registered direction-consistency rule therefore prevents a favorable reinterpretation.
+- The negative control cannot replace the primary result, and its outcome cannot be omitted because it is inconvenient.

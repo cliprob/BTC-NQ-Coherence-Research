@@ -106,6 +106,13 @@ new nonlinear model, target transformation, window, or event filter would be a n
 development trial requiring explicit registration and genuinely new evaluation data. The
 current history is not a pristine final holdout.
 
+The mandatory overnight control reaches the same economic conclusion. Its five-minute
+cross-market-minus-NQ-only MSE difference is `+0.0106 bps²`, with a 95% interval of
+`[-0.0283, +0.0502]`; MAE is significantly worse for the cross-market model, and both
+Ridge models trail the fold training-mean benchmark. The registered incremental-return
+criterion is not met. See
+[`OVERNIGHT_NEGATIVE_CONTROL.md`](OVERNIGHT_NEGATIVE_CONTROL.md).
+
 ## Audit artifacts
 
 - [`return_model_summary.json`](../reports/development/return_model_summary.json) — primary

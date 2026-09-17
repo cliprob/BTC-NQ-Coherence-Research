@@ -1,0 +1,71 @@
+{
+  "definitions": {
+    "entry": "next_bar_open",
+    "exit": "horizon_open",
+    "one_minute_timing_path_minutes": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "primary_horizon_minutes": 5,
+    "secondary_horizons_minutes": [
+      15,
+      30,
+      60
+    ],
+    "session_end": "right_censor_state_and_invalidate_cross_session_return"
+  },
+  "five_minute_primary": {
+    "committed": false,
+    "current_agreement_rows": 58984,
+    "file_name": "outcomes_overnight_5m.csv",
+    "next_bar_labels": 58657,
+    "right_censored_persistence_rows": 741,
+    "rows": 102486,
+    "sha256": "f6825bcc88d1a5fa397dc7f2fd9bf223b92ed61b6b43fd4fa070be1bfe673d39",
+    "uncensored_persistence_rows": 58243,
+    "valid_return_rows": {
+      "15m": 100282,
+      "30m": 98629,
+      "5m": 101384,
+      "60m": 95323
+    }
+  },
+  "generated_at": "2026-09-17T15:42:38.285684+00:00",
+  "inputs": {
+    "feature_manifest_sha256": "d3ff13e28c72a323717594c15039483cdbb00cf57409bf92c75168ac4444bf1d",
+    "outcome_config_sha256": "e2629ea381ccd545aa7cecc570d04406d6e2bed7a79274c006730d85d62044af",
+    "outcome_implementation_sha256": "e694cc9ae367dcdabdcb3754e82ba0ee8a2e6906e84a08eaddf21d59fa86945c"
+  },
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "one_minute_robustness": {
+    "committed": false,
+    "current_agreement_rows": 280849,
+    "file_name": "outcomes_overnight_1m.csv",
+    "next_bar_labels": 280551,
+    "right_censored_persistence_rows": 714,
+    "rows": 512430,
+    "sha256": "8e9d66355d8926cb007ec171803aaa22414dd3aa3a7432df0d187cad7b421b07",
+    "uncensored_persistence_rows": 280135,
+    "valid_return_rows": {
+      "15m": 503614,
+      "1m": 511328,
+      "2m": 510777,
+      "30m": 495349,
+      "3m": 510226,
+      "4m": 509675,
+      "5m": 509124,
+      "60m": 478819
+    }
+  },
+  "outcome_version": "0.1.0",
+  "role": "overnight_negative_control",
+  "schema_version": 1,
+  "status": "development_only"
+}
