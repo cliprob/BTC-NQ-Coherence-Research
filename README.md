@@ -2,7 +2,12 @@
 
 An empirical study of whether synchronized, volatility-adjusted Bitcoin and Nasdaq futures moves define persistent cross-market regimes, and how joint move intensity and cross-market magnitude balance relate to regime duration and returns realized while the regime remains active.
 
-> **Research status: Phase 4 — overnight negative control complete.** Magnitude slightly improves prediction of state persistence in both cash and overnight sessions, so the effect is not cash-session-specific. Cross-market information does not improve the primary five-minute NQ return forecast over an NQ-only baseline. No strategy or alpha claim exists.
+> **Research status: completed development study (protocol v1.0.0).** The completed
+> record is locked after results for reproducibility; it was not preregistered and is not
+> confirmatory. Magnitude slightly improves prediction of state persistence in both cash
+> and overnight sessions, while cross-market information does not improve the primary
+> five-minute NQ return forecast over an NQ-only baseline. No strategy or alpha claim
+> exists.
 
 ## Current result
 
@@ -91,13 +96,13 @@ information available through bar t close
 
 Contemporaneous correlation is not itself a trading signal. A tradable result requires out-of-sample evidence that the jointly detected state persists and leaves a return available after causal execution. This timing requirement does not imply that one market leads the other.
 
-## Planned research sequence
+## Completed development scope
 
 - [x] Create a clean repository and a machine-readable draft protocol.
 - [x] Register and structurally audit the existing local BTC and NQ files.
 - [x] Define a development-only fallback that excludes incomplete and contract-transition sessions without forward-filling.
 - [x] Record complete contract-level history, a pre-ETP sample, and a pristine holdout as unavailable in the current iteration.
-- [ ] Review and freeze the research protocol.
+- [x] Close and version the development protocol without retroactive preregistration.
 - [x] Build deterministic canonicalization and session-eligibility pipelines for the registered data.
 - [x] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance at 1m and 5m.
 - [x] Produce descriptive event studies and response curves without strategy optimization.
@@ -105,26 +110,29 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Compare direction/coherence-only and magnitude-conditioned state models with nested purged walk-forward validation.
 - [x] Run the mandatory overnight negative control without changing primary parameters.
 - [x] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
-- [ ] Define entry and exit policies using development data only.
-- [ ] Lock the complete specification and open the final holdout once.
+- [x] Stop before entry/exit optimization because the registered return comparison did not support incremental value.
+- [x] Record that no pristine final holdout was available or opened; require a new protocol for future confirmation.
 - [ ] Publish an academic-style report, including negative or inconclusive results.
 
-See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the current specification,
+See [Research Protocol](docs/RESEARCH_PROTOCOL.md) for the closed specification,
+[Protocol Closure Record](docs/PROTOCOL_CLOSURE.md) for the meaning and limits of the
+post-study freeze,
 [Causal Outcomes and Descriptive Results](docs/OUTCOMES_AND_DESCRIPTIVE.md) for the
 implemented timing and first results, [State-Model Validation](docs/STATE_MODEL_VALIDATION.md)
 for persistence prediction, [Return-Model Validation](docs/RETURN_MODEL_VALIDATION.md) for
 the economic forecast test, [Overnight Negative Control](docs/OVERNIGHT_NEGATIVE_CONTROL.md)
 for the cash-session-specificity falsification, and [Decision Log](docs/DECISIONS.md) for
-unresolved choices.
+the final disposition of every research choice.
 
-## What this project will demonstrate
+## What this project demonstrates
 
 - causal feature construction and next-bar execution;
 - market-calendar, time-zone, session, and futures-roll handling;
 - volatility-normalized cross-market candle-body comparison;
 - event studies, conditional response surfaces, and uncertainty estimates;
 - incremental forecast evaluation: NQ-only versus NQ+BTC;
-- walk-forward validation, multiple-testing control, and honest holdout use;
+- walk-forward validation, multiplicity-aware primary/secondary separation, complete
+  trial ledgers, and honest disclosure that no pristine holdout exists;
 - separation of statistical predictability from economic tradability.
 
 ## What this project does not claim

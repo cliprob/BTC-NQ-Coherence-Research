@@ -7,11 +7,15 @@ from btc_nq_coherence.protocol import ProtocolError, load_protocol, validate_pro
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_repository_protocol_is_valid_draft() -> None:
+def test_repository_protocol_is_closed_development_record() -> None:
     protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
 
-    assert protocol["status"] == "draft"
-    assert protocol["governance"]["protocol_frozen"] is False
+    assert protocol["status"] == "completed_development"
+    assert protocol["protocol_version"] == "1.0.0"
+    assert protocol["governance"]["protocol_frozen"] is True
+    assert protocol["governance"]["freeze_scope"] == "completed_development_record"
+    assert protocol["governance"]["preregistered"] is False
+    assert protocol["governance"]["frozen_after_results"] is True
     assert protocol["design"]["strategy_stage_locked"] is True
     assert protocol["design"]["coherence_excludes_magnitude"] is True
     assert protocol["design"]["primary_candle_component"] == (
@@ -73,6 +77,11 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert current_iteration["pristine_final_holdout_available"] is False
     assert current_iteration["confirmatory_claims_permitted"] is False
 
+    multiplicity = protocol["governance"]["multiplicity"]
+    assert multiplicity["familywise_confirmatory_error_control"] == "not_claimed"
+    assert multiplicity["secondary_may_rescue_primary"] is False
+    assert multiplicity["future_confirmatory_procedure"] == "new_protocol_required"
+
 
 def test_frozen_protocol_rejects_unresolved_holdout() -> None:
     protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
@@ -80,6 +89,22 @@ def test_frozen_protocol_rejects_unresolved_holdout() -> None:
     protocol["governance"]["protocol_frozen"] = True
 
     with pytest.raises(ProtocolError, match="unresolved values"):
+        validate_protocol(protocol)
+
+
+def test_completed_record_cannot_be_relabelled_as_preregistered() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["governance"]["preregistered"] = True
+
+    with pytest.raises(ProtocolError, match="was not preregistered"):
+        validate_protocol(protocol)
+
+
+def test_secondary_results_cannot_rescue_primary_result() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["governance"]["multiplicity"]["secondary_may_rescue_primary"] = True
+
+    with pytest.raises(ProtocolError, match="Multiplicity governance has drifted"):
         validate_protocol(protocol)
 
 

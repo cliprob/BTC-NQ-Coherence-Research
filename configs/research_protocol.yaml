@@ -1,6 +1,6 @@
 schema_version: 1
-protocol_version: 0.10.0
-status: draft
+protocol_version: 1.0.0
+status: completed_development
 created_at: 2026-09-17
 
 research:
@@ -12,13 +12,13 @@ research:
   hypotheses:
     - id: H1
       name: regime_persistence
-      role: primary_candidate
+      role: development_context
     - id: H2
       name: magnitude_conditioned_persistence
-      role: primary_candidate
+      role: development_primary_state_comparison
     - id: H3
       name: coherence_decay
-      role: secondary
+      role: not_pursued_strategy_stage
     - id: H4
       name: post_etp_regime_change
       role: deferred_unavailable_in_current_data
@@ -49,7 +49,7 @@ design:
     timezone: America/New_York
     interval_semantics: left_closed_right_open
     primary:
-      role: confirmatory
+      role: development_primary
       calendar: XNYS
       nominal_open: "09:30"
       nominal_close: "16:00"
@@ -166,8 +166,25 @@ data:
     weekday_sampling_imbalance_present: true
 
 governance:
-  protocol_frozen: false
+  protocol_frozen: true
+  freeze_scope: completed_development_record
+  frozen_at: 2026-09-17
+  preregistered: false
+  frozen_after_results: true
   final_holdout_opened: false
+  future_confirmatory_protocol_required: true
+  strategy_stage_disposition: not_pursued_registered_return_evidence_absent
   append_only_trial_ledger_required: true
   raw_input_hashes_required: true
   deviation_log_required_after_freeze: true
+  multiplicity:
+    claim_scope: development_only
+    primary_resolution_minutes: 5
+    primary_state_comparison: m1_vs_m0_brier_score
+    primary_return_comparison: cross_market_vs_nq_only_mse
+    familywise_confirmatory_error_control: not_claimed
+    confidence_intervals: unadjusted_95_percent_session_block_bootstrap
+    secondary_results: descriptive_or_robustness_only
+    secondary_may_rescue_primary: false
+    all_trials_reported: true
+    future_confirmatory_procedure: new_protocol_required

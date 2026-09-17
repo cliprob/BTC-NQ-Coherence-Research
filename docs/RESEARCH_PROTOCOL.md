@@ -1,10 +1,16 @@
 # Research Protocol
 
-**Protocol version:** 0.10.0
+**Protocol version:** 1.0.0
 
-**Status:** DRAFT — not preregistered or frozen
+**Status:** COMPLETED DEVELOPMENT RECORD — locked after results; not preregistered
 
 **Created:** 2026-09-17
+
+**Closed:** 2026-09-17
+
+This version freezes what was actually specified, run and reported in the development
+study. The freeze is a reproducibility and audit boundary, not a retroactive
+preregistration. The inspected data remain ineligible for confirmatory claims.
 
 ## 1. Motivation
 
@@ -326,42 +332,56 @@ These restrictions are machine-readable in `configs/available_data_study.yaml`. 
 
 ## 8. Models and baselines
 
-The minimum comparison will preserve identical sampling and labels:
+The completed study preserved identical sampling and labels for:
 
 1. unconditional next-bar agreement-rate benchmark;
 2. \(M_0\): discrete-time logistic state model using \(C(15),C(30),C(60)\);
 3. \(M_1\): the same state model expanded with joint intensity and magnitude balance;
 4. linear NQ-only autoregressive/Ridge return model;
 5. the same return model expanded with BTC/coherence features;
-6. at most one constrained nonlinear return model as a robustness test.
+6. an optional constrained nonlinear return model, which was not run after the registered
+   linear return comparison failed to show incremental value.
 
 Complexity is justified only by incremental out-of-sample performance, not in-sample fit.
 
 ## 9. Evaluation
 
-Candidate outputs include:
+Reported outputs include:
 
-- event-time mean and median response with simultaneous uncertainty bands;
+- event-time response means with complete-session bootstrap intervals;
 - out-of-sample \(R^2\) and forecast-loss differences;
 - Brier score, log loss, and calibration for \(M_0\) and \(M_1\);
-- a nested-model predictive-accuracy test where its assumptions are appropriate;
 - day- or session-block bootstrap intervals;
 - coefficient or response stability across time, direction, session, and venue;
-- gross and net economic outcomes only in the strategy stage.
+- no gross or net strategy outcomes, because the strategy stage was not opened.
 
 An isolated positive point estimate is not sufficient evidence. Conclusions must account for uncertainty, multiple horizons, model attempts, and the full trial ledger.
 
 ## 10. Multiple testing and researcher degrees of freedom
 
-- One primary outcome, bar interval, horizon, direction, and model comparison must be chosen before freezing.
-- Secondary horizons and robustness checks must be labeled as such.
-- All attempted specifications must enter an append-only trial ledger.
-- Full response surfaces will be reported; only the most favorable cell may not be selected for presentation.
-- The final holdout may be opened once, after the code, configuration, and input hashes are frozen.
+- The five-minute `M1` versus `M0` Brier comparison and five-minute cross-market versus
+  NQ-only MSE comparison are primary for their distinct state and return questions.
+- Their 95% complete-session bootstrap intervals are unadjusted. No family-wise
+  confirmatory error-control claim is made because this is previously inspected
+  development data without a pristine holdout.
+- One-minute results, 15/30/60-minute horizons, response-surface cells, weekday results,
+  coefficients and the overnight analysis are secondary, diagnostic, robustness or
+  negative-control outputs. They cannot replace or rescue a primary result.
+- All nested model-selection attempts remain in append-preserving trial ledgers, and
+  unfavorable primary and control results are reported.
+- A future confirmatory study must register its own hypothesis family and error-control
+  procedure before opening new data; protocol v1.0.0 does not prescribe that future
+  design retroactively.
 
 ## 11. Strategy stage
 
-If predictive evidence is sufficient, candidate policies may compare:
+The strategy stage was not opened. The registered linear return comparison supplied no
+incremental five-minute cross-market value, and both Ridge models underperformed the fold
+training-mean benchmark. Optimizing entry and exit rules on the same inspected sample
+would therefore add researcher degrees of freedom without an economic forecasting basis.
+
+The following policies remain ideas for a separately registered future study, not
+results or unfinished requirements of this release:
 
 - fixed horizons as transparent benchmarks;
 - a coherence-decay exit with separate entry and exit thresholds and confirmation;
@@ -369,16 +389,21 @@ If predictive evidence is sufficient, candidate policies may compare:
 
 All policies receive identical candidate events and causal execution. Trading MNQ requires an MNQ-specific cost and liquidity model; NQ price behavior cannot silently substitute for MNQ execution quality.
 
-Entry and exit thresholds are intentionally absent from the state-research specification. They may be introduced only in the strategy stage, fitted on development folds, subject to minimum-event constraints, and frozen before final evaluation.
+Entry and exit thresholds are intentionally absent. Any future thresholds must be fitted
+on development folds, subject to minimum-event constraints, and frozen before a genuinely
+new final evaluation.
 
-## 12. Freeze procedure
+## 12. Closure and freeze scope
 
-The protocol becomes `FROZEN` only when:
+Protocol v1.0.0 is frozen as a **completed development record** because:
 
-1. all entries marked `TBD` in the decision log are resolved;
+1. every decision has a final disposition;
 2. the machine-readable YAML agrees with this document;
-3. a git tag records the frozen specification;
-4. raw-input identities and hashes are registered;
-5. the final-period boundaries are recorded before final-period inspection.
+3. source identities, derived artifacts and trial ledgers are hash-bound;
+4. all completed primary, robustness and negative-control analyses are reported;
+5. the release tag records an immutable audit boundary.
 
-Any post-freeze change requires a new protocol version and an explicit deviation log.
+No final holdout was available or opened, and the study was not preregistered. Therefore
+this closure cannot produce confirmatory evidence. Any post-freeze research change
+requires a new protocol version and explicit deviation log; any future confirmatory study
+requires a separate protocol created before its holdout is inspected.

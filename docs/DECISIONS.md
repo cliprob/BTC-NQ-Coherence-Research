@@ -1,22 +1,25 @@
 # Decision Log
 
-This file records research degrees of freedom before the protocol is frozen. `TBD` means no choice has been made and no confirmatory result may be produced from that choice.
+This file preserves both the original research decisions and their disposition at the
+close of the development study. Protocol v1.0.0 locks the completed record after results;
+it is not a preregistration and does not convert development evidence into confirmatory
+evidence.
 
-| ID | Decision | Current state | Evidence required before freeze |
+| ID | Decision | Disposition in protocol v1.0.0 | Governance |
 |---|---|---|---|
 | D-001 | Bar resolution | Resolved: 5-minute primary; mandatory 1-minute robustness | Same 15/30/60-minute clock-time scales; robustness runs regardless of the primary result |
 | D-002 | Primary economic return horizon | Resolved: 5 minutes at both resolutions, measured next-open to horizon-open | 5-minute bars use one future bar; 1-minute bars use five future bars; 15/30/60 minutes remain secondary |
 | D-003 | Coherence definition | Resolved: signed mean of body-direction products at 15/30/60-minute scales, used jointly | No window selection by P&L; body magnitude is excluded |
-| D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
-| D-005 | Primary traded instrument | Proposed: MNQ | Confirm availability of execution-quality data and cost assumptions |
+| D-004 | Joint-event definition | Resolved: current same-direction body event with continuous coherence, joint intensity and magnitude balance | Bodies use causal same-slot 63-session MAD; no event threshold was optimized |
+| D-005 | Primary traded instrument | Closed as not applicable: no strategy or execution study was run | MNQ remains a possible instrument only for a separately registered future study with execution-quality data |
 | D-006 | Development sample | Resolved for current iteration: 458 complete primary sessions through 2026-05-12 before warm-up | Entire incomplete and roll sessions excluded; weekday imbalance reported |
-| D-007 | Final holdout | Unavailable in current files; confirmatory claims prohibited | A future unseen range must be separately acquired and frozen |
-| D-008 | Pre-ETP sample start | Unavailable in current files; H4 deferred | Coverage beginning by 2022 remains a future data requirement |
+| D-007 | Final holdout | Closed limitation: unavailable in current files; no final holdout was opened | Any future unseen range requires a new protocol before inspection |
+| D-008 | Pre-ETP sample start | Closed limitation: unavailable; H4 was not tested | Coverage beginning by 2022 remains a separate future study |
 | D-009 | Session definition | Resolved: XNYS 09:30–16:00 ET primary; mandatory 18:00–09:30 ET overnight negative control | Official holidays/early closes; no target or position crosses primary close |
-| D-010 | Multiple-testing procedure | TBD | Match procedure to final estimands and dependence structure |
+| D-010 | Multiple-testing procedure | Resolved for development scope: no family-wise confirmatory claim; unadjusted 95% session-block intervals for registered primary comparisons | 5-minute results remain primary; 1-minute, secondary horizons, weekdays and overnight are robustness/control outputs and cannot rescue a primary result; every model-selection trial is retained |
 | D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
 | D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Both include common direction; evaluate with Brier score, log loss, and calibration |
-| D-013 | Entry/exit thresholds | Deferred to strategy stage | Must be fitted on development folds and frozen before final evaluation |
+| D-013 | Entry/exit thresholds | Closed as not pursued: the registered return comparison did not justify strategy optimization | Any later trading rule is a new research trial and cannot replace this study's negative economic result |
 | D-014 | Historical body-scale estimator | Resolved: same-slot MAD over previous 63 eligible sessions | Separate by asset and resolution; current session excluded; no epsilon or fallback |
 
 ## Recorded decisions
@@ -41,7 +44,8 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 
 - "Candle similarity" means agreement of open-to-close body direction, not wick or full-range similarity.
 - The signed body is defined as the log open-to-close return.
-- Coherence uses sequences of body directions; its exact estimator and lookback remain unresolved.
+- Coherence uses sequences of body directions; its estimator and lookbacks were resolved
+  later as the unweighted signed mean over 15/30/60-minute clock-time windows.
 - Joint intensity uses absolute, causally volatility-normalized body magnitudes.
 - Magnitude balance compares the normalized body magnitudes of BTC and NQ.
 - Wicks and high-low ranges are excluded from the primary specification and may appear only as labeled robustness features.
@@ -150,3 +154,22 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - The unconditional five-minute signed return interval contains zero. The registered Ridge comparison supplies no incremental overnight return evidence, and both models trail the fold training-mean benchmark.
 - One-minute return MSE and MAE move in opposing directions; the registered direction-consistency rule therefore prevents a favorable reinterpretation.
 - The negative control cannot replace the primary result, and its outcome cannot be omitted because it is inconvenient.
+
+### 2026-09-17 — development-study closure and multiplicity disposition
+
+- Protocol v1.0.0 locks the completed development record after all registered analyses;
+  it is explicitly not a preregistration or a pristine-holdout protocol.
+- The five-minute state and return comparisons are the registered primary comparisons
+  for their distinct questions. Their 95% complete-session bootstrap intervals are
+  unadjusted and support development-level statements only.
+- One-minute results, 15/30/60-minute response horizons, weekday breakdowns, coefficient
+  diagnostics and the overnight negative control are secondary, robustness or control
+  outputs. None may replace or rescue a primary result.
+- No family-wise confirmatory error-control claim is made. Complete trial ledgers and
+  full reporting address researcher degrees of freedom transparently without pretending
+  that post-study adjustment creates confirmation.
+- The return comparison did not show incremental cross-market value and both Ridge models
+  trailed the fold training-mean benchmark. The strategy stage, MNQ execution model and
+  entry/exit thresholds were therefore not pursued.
+- A future confirmatory or trading study requires a new protocol, new untouched data and
+  its own multiplicity and execution specification before those data are inspected.

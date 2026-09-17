@@ -34,8 +34,10 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
         raise ProtocolError("Unsupported schema_version; expected 1.")
 
     status = protocol.get("status")
-    if status not in {"draft", "frozen"}:
-        raise ProtocolError("status must be 'draft' or 'frozen'.")
+    if status not in {"draft", "frozen", "completed_development"}:
+        raise ProtocolError(
+            "status must be 'draft', 'frozen', or 'completed_development'."
+        )
 
     question = protocol["research"].get("primary_question", "")
     if not isinstance(question, str) or not question.strip():
@@ -47,6 +49,17 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     hypothesis_ids = [item.get("id") for item in hypotheses]
     if len(hypothesis_ids) != len(set(hypothesis_ids)):
         raise ProtocolError("Hypothesis IDs must be unique.")
+    expected_hypothesis_roles = {
+        "H1": "development_context",
+        "H2": "development_primary_state_comparison",
+        "H3": "not_pursued_strategy_stage",
+        "H4": "deferred_unavailable_in_current_data",
+    }
+    observed_hypothesis_roles = {
+        str(item.get("id")): item.get("role") for item in hypotheses
+    }
+    if observed_hypothesis_roles != expected_hypothesis_roles:
+        raise ProtocolError("Hypothesis roles have drifted from the completed study.")
 
     horizons = protocol["design"].get("candidate_horizons_minutes", [])
     if not horizons or any(not isinstance(value, int) or value <= 0 for value in horizons):
@@ -127,6 +140,8 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     primary_session = sessions.get("primary", {})
     if primary_session.get("calendar") != "XNYS":
         raise ProtocolError("Primary session must use the XNYS calendar.")
+    if primary_session.get("role") != "development_primary":
+        raise ProtocolError("The current primary session must remain development-only.")
     if primary_session.get("nominal_open") != "09:30":
         raise ProtocolError("Primary session must open at 09:30 New York time.")
     if primary_session.get("nominal_close") != "16:00":
@@ -283,7 +298,8 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     if state_models.get("m1_additional_predictors") != expected_m1_additions:
         raise ProtocolError("M1 must add joint intensity, balance, and absolute balance.")
 
-    frozen = bool(protocol["governance"].get("protocol_frozen"))
+    governance = protocol["governance"]
+    frozen = bool(governance.get("protocol_frozen"))
     if status == "frozen" and not frozen:
         raise ProtocolError("A frozen protocol must set governance.protocol_frozen=true.")
     if status == "frozen":
@@ -301,6 +317,39 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
             raise ProtocolError(
                 f"Frozen protocol has unresolved values: {sorted(missing_values)}"
             )
+    if status == "completed_development":
+        if not frozen:
+            raise ProtocolError("A completed development record must be locked.")
+        if governance.get("freeze_scope") != "completed_development_record":
+            raise ProtocolError("Development freeze scope must describe the completed record.")
+        if governance.get("preregistered") is not False:
+            raise ProtocolError("The completed development study was not preregistered.")
+        if governance.get("frozen_after_results") is not True:
+            raise ProtocolError("Development closure must disclose post-result freezing.")
+        if governance.get("final_holdout_opened") is not False:
+            raise ProtocolError("No final holdout was opened in this development study.")
+        if governance.get("future_confirmatory_protocol_required") is not True:
+            raise ProtocolError("Future confirmation requires a new protocol.")
+        if governance.get("strategy_stage_disposition") != (
+            "not_pursued_registered_return_evidence_absent"
+        ):
+            raise ProtocolError("Strategy-stage disposition must preserve the stopping rule.")
+
+    multiplicity = governance.get("multiplicity", {})
+    expected_multiplicity = {
+        "claim_scope": "development_only",
+        "primary_resolution_minutes": 5,
+        "primary_state_comparison": "m1_vs_m0_brier_score",
+        "primary_return_comparison": "cross_market_vs_nq_only_mse",
+        "familywise_confirmatory_error_control": "not_claimed",
+        "confidence_intervals": "unadjusted_95_percent_session_block_bootstrap",
+        "secondary_results": "descriptive_or_robustness_only",
+        "secondary_may_rescue_primary": False,
+        "all_trials_reported": True,
+        "future_confirmatory_procedure": "new_protocol_required",
+    }
+    if multiplicity != expected_multiplicity:
+        raise ProtocolError("Multiplicity governance has drifted from the closed study.")
 
 
 def main() -> None:
