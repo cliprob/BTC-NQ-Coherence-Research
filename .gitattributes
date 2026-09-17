@@ -1,4 +1,2 @@
-* text=auto eol=lf
-*.png binary
-*.pdf binary
-*.parquet binary
+reports/development/*.csv text eol=lf
+reports/development/*.json text eol=lf

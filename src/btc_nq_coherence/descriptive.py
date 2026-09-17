@@ -307,7 +307,14 @@ def weekday_diagnostics(events: pd.DataFrame) -> pd.DataFrame:
 
 def _write_csv(frame: pd.DataFrame, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    frame.to_csv(path, index=False, float_format="%.10g")
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        frame.to_csv(stream, index=False, float_format="%.10g", lineterminator="\n")
+
+
+def _write_json(payload: dict[str, Any], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
 
 def build_descriptive_artifacts(
@@ -415,10 +422,7 @@ def build_descriptive_artifacts(
             "No costs, trade policy, or claim of economic alpha is included.",
         ],
     }
-    summary_output.parent.mkdir(parents=True, exist_ok=True)
-    summary_output.write_text(
-        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    _write_json(summary, summary_output)
     manifest: dict[str, Any] = {
         "schema_version": 1,
         "descriptive_version": config["descriptive_version"],
@@ -441,10 +445,7 @@ def build_descriptive_artifacts(
         },
         "limitations": outcome_manifest["limitations"],
     }
-    manifest_output.parent.mkdir(parents=True, exist_ok=True)
-    manifest_output.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    _write_json(manifest, manifest_output)
     return summary
 
 
