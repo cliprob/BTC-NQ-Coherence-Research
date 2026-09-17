@@ -9,7 +9,9 @@ description = "Protocol-first research on conditional BTC–NQ co-movement and m
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "pandas-market-calendars>=5.4,<6",
   "PyYAML>=6.0.2,<7",
+  "tzdata>=2025.2,<2027",
 ]
 
 [project.optional-dependencies]

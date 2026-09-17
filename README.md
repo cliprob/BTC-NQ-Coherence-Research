@@ -78,8 +78,10 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 ## Planned research sequence
 
 - [x] Create a clean repository and a machine-readable draft protocol.
+- [x] Register and structurally audit the existing local BTC and NQ files.
+- [ ] Reacquire complete, contract-level NQ history; the current stitched file has systematic missing cash-session blocks.
 - [ ] Review and freeze the research protocol.
-- [ ] Build a reproducible data registry and validation layer.
+- [ ] Build reproducible source acquisition, canonicalization, and session-eligibility pipelines.
 - [ ] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Run the mandatory 1-minute robustness specification regardless of the primary result.

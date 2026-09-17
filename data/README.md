@@ -21,10 +21,25 @@ The following data is known to exist locally but is not copied here:
 
 - Binance BTCUSDT spot, one minute, approximately 2024-03-07 through 2026-03-07;
 - Binance BTCUSDT USDT-M futures, one minute, approximately 2024-03-07 through 2026-05-12;
-- stitched NQ one-minute bars with contract identifiers, approximately 2024-03-07 through 2026-03-06;
-- a previously used NQ extension through 2026-05-12 that must be located or reacquired.
+- stitched NQ one-minute bars with contract identifiers, approximately 2024-03-07 through 2026-05-12.
 
 This coverage can support engineering and post-ETP exploration. It cannot identify a pre/post January 2024 change.
+
+The exact known files, identities, schemas, provenance status, and eligibility limits are recorded in [`configs/data_registry.yaml`](../configs/data_registry.yaml). The raw NQ extension was located, but the base portion of the stitched history still has only partial provenance and an incompletely documented front-month roll rule. Calendar-aware auditing also found 83 incomplete XNYS sessions and 16,200 missing cash-session minutes. It is therefore engineering data only, not a valid input to the empirical study.
+
+## Reproduce the structural audit
+
+Pass local paths explicitly; absolute paths are never committed:
+
+```powershell
+python -m btc_nq_coherence.data_audit `
+  --registry configs/data_registry.yaml `
+  --path "btc_binance_um_futures_1m=C:\path\to\BTCUSDT.csv" `
+  --path "nq_ibkr_stitched_front_month_1m=C:\path\to\NQ.csv" `
+  --output data/registry/local_inventory_audit.json
+```
+
+The streaming audit checks file identity, timestamp ordering, duplicates, cadence breaks, finite OHLCV values, OHLC invariants, non-negative volume, NQ tick conformity, contract identifiers, and contract transitions. It then separates legitimate exchange closures from missing primary-session bars using a version-recorded XNYS-compatible market calendar.
 
 ## Planned local layout
 

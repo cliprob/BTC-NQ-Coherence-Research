@@ -1,0 +1,657 @@
+{
+  "audited_at": "2026-09-17T12:00:03.034521+00:00",
+  "registry_version": "0.1.0",
+  "results": [
+    {
+      "byte_size": 80695685,
+      "contract_transitions": [],
+      "dataset_id": "btc_binance_um_futures_1m",
+      "duplicate_timestamps": 0,
+      "expected_identity_matches": true,
+      "file_name": "BTCUSDT_um-futures_1m_2024-03-07_to_2026-05-12.csv",
+      "first_timestamp_utc": "2024-03-07T23:00:00+00:00",
+      "invalid_numeric_rows": 0,
+      "largest_same_contract_close_jump_bps": 500.350814,
+      "last_timestamp_utc": "2026-05-12T14:47:00+00:00",
+      "maximum_interval_minutes": 1.0,
+      "missing_contract_rows": 0,
+      "negative_volume_rows": 0,
+      "non_one_minute_intervals": 0,
+      "nonpositive_price_rows": 0,
+      "off_increment_price_values": 0,
+      "ohlc_invariant_violations": 0,
+      "out_of_order_timestamps": 0,
+      "primary_session_coverage": {
+        "calendar_library": "pandas_market_calendars==5.4.0",
+        "complete_sessions_tested": 545,
+        "complete_sessions_with_all_minutes": 545,
+        "expected_minutes": 211470,
+        "implementation_calendar": "NYSE",
+        "incomplete_sessions": [],
+        "missing_minutes": 0,
+        "observed_minutes": 211470,
+        "protocol_calendar": "XNYS"
+      },
+      "row_count": 1145748,
+      "sha256": "be73702d2ab5f9bc0f0de0d7d9621aa4ff1a4215a6607fe1d5a37060e903051c",
+      "structurally_valid": true
+    },
+    {
+      "byte_size": 47406964,
+      "contract_transitions": [
+        {
+          "close_gap_bps": 151.911328,
+          "next_contract": "202409",
+          "previous_contract": "202406",
+          "timestamp_utc": "2024-06-13T05:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 158.099172,
+          "next_contract": "202412",
+          "previous_contract": "202409",
+          "timestamp_utc": "2024-09-12T05:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 128.570444,
+          "next_contract": "202503",
+          "previous_contract": "202412",
+          "timestamp_utc": "2024-12-12T06:00:00+00:00"
+        },
+        {
+          "close_gap_bps": -1.269986,
+          "next_contract": "202506",
+          "previous_contract": "202503",
+          "timestamp_utc": "2025-03-13T05:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 98.801333,
+          "next_contract": "202509",
+          "previous_contract": "202506",
+          "timestamp_utc": "2025-06-12T05:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 88.282672,
+          "next_contract": "202512",
+          "previous_contract": "202509",
+          "timestamp_utc": "2025-09-11T05:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 15.545753,
+          "next_contract": "202603",
+          "previous_contract": "202512",
+          "timestamp_utc": "2025-12-11T06:00:00+00:00"
+        },
+        {
+          "close_gap_bps": 94.059106,
+          "next_contract": "202606",
+          "previous_contract": "202603",
+          "timestamp_utc": "2026-03-12T05:00:00+00:00"
+        }
+      ],
+      "dataset_id": "nq_ibkr_stitched_front_month_1m",
+      "duplicate_timestamps": 0,
+      "expected_identity_matches": true,
+      "file_name": "NQ_stitched_1min_2024-03-07_to_2026-05-12.csv",
+      "first_timestamp_utc": "2024-03-07T23:00:00+00:00",
+      "invalid_numeric_rows": 0,
+      "largest_same_contract_close_jump_bps": 444.282385,
+      "last_timestamp_utc": "2026-05-12T14:47:00+00:00",
+      "maximum_interval_minutes": 4381.0,
+      "missing_contract_rows": 0,
+      "negative_volume_rows": 0,
+      "non_one_minute_intervals": 568,
+      "nonpositive_price_rows": 0,
+      "off_increment_price_values": 0,
+      "ohlc_invariant_violations": 0,
+      "out_of_order_timestamps": 0,
+      "primary_session_coverage": {
+        "calendar_library": "pandas_market_calendars==5.4.0",
+        "complete_sessions_tested": 545,
+        "complete_sessions_with_all_minutes": 462,
+        "expected_minutes": 211470,
+        "implementation_calendar": "NYSE",
+        "incomplete_sessions": [
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-03-14"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-03-21"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-04-04"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-04-11"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-04-18"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-04-25"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-05-02"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-05-09"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-05-16"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-05-23"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-05-30"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-06-06"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-06-13"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-06-20"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-06-27"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-07-11"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-07-18"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-07-25"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-08-01"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-08-08"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-08-15"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-08-22"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-08-29"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-09-05"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-09-12"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-09-19"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-09-26"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-10-03"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-10-10"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-10-17"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-10-24"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2024-10-31"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-11-07"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-11-14"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-11-21"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-12-05"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-12-12"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-12-19"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2024-12-26"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-01-02"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-01-16"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-01-23"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-01-30"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-02-06"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-02-13"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-02-20"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-02-27"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-03-06"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-03-13"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-03-20"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-03-27"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-04-03"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-04-10"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-04-24"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-05-01"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-05-08"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-05-15"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-05-22"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-05-29"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-06-05"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-06-18"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-06-26"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-07-10"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-07-17"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-07-24"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-07-31"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-08-07"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-08-14"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-08-21"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-08-28"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-09-04"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-09-17"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-09-24"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-10-01"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-10-08"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-10-15"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-10-22"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 180,
+            "observed_minutes": 210,
+            "session_date": "2025-10-29"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-11-05"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-11-12"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-11-19"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-11-26"
+          },
+          {
+            "expected_minutes": 390,
+            "missing_minutes": 240,
+            "observed_minutes": 150,
+            "session_date": "2025-12-04"
+          }
+        ],
+        "missing_minutes": 16200,
+        "observed_minutes": 195270,
+        "protocol_calendar": "XNYS"
+      },
+      "row_count": 746086,
+      "sha256": "d3fe03a565f390502be08b5a402069cddabbf6e491bd1fa5cd1917be2683a2ab",
+      "structurally_valid": true
+    },
+    {
+      "byte_size": 145948186,
+      "contract_transitions": [],
+      "dataset_id": "btc_binance_spot_1m_legacy",
+      "duplicate_timestamps": 0,
+      "expected_identity_matches": true,
+      "file_name": "BTCUSDT_1m_2024-03-07_to_2026-03-07.csv",
+      "first_timestamp_utc": "2024-03-07T00:00:00+00:00",
+      "invalid_numeric_rows": 0,
+      "largest_same_contract_close_jump_bps": 428.980358,
+      "last_timestamp_utc": "2026-03-07T00:00:00+00:00",
+      "maximum_interval_minutes": 1.0,
+      "missing_contract_rows": 0,
+      "negative_volume_rows": 0,
+      "non_one_minute_intervals": 0,
+      "nonpositive_price_rows": 0,
+      "off_increment_price_values": 0,
+      "ohlc_invariant_violations": 0,
+      "out_of_order_timestamps": 0,
+      "primary_session_coverage": {
+        "calendar_library": "pandas_market_calendars==5.4.0",
+        "complete_sessions_tested": 501,
+        "complete_sessions_with_all_minutes": 501,
+        "expected_minutes": 194310,
+        "implementation_calendar": "NYSE",
+        "incomplete_sessions": [],
+        "missing_minutes": 0,
+        "observed_minutes": 194310,
+        "protocol_calendar": "XNYS"
+      },
+      "row_count": 1051201,
+      "sha256": "e8cf8bda93da9409bbfde011559d26c4b3882248ae6edec1d587bcfb8432dd9a",
+      "structurally_valid": true
+    }
+  ],
+  "schema_version": 1
+}

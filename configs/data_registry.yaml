@@ -1,0 +1,154 @@
+schema_version: 1
+registry_version: 0.1.0
+status: local_inventory_audited
+audited_at: 2026-09-17
+
+datasets:
+  btc_binance_um_futures_1m:
+    role: candidate_primary_btc
+    asset_class: crypto_perpetual_future
+    provider: Binance public data archive
+    venue: Binance Futures
+    instrument: BTCUSDT USDT-M perpetual
+    bar_interval_minutes: 1
+    timestamp_column: Open time
+    timestamp_format: "%Y-%m-%d %H:%M:%S%z"
+    source_timezone: UTC
+    timestamp_semantics: bar_open
+    columns:
+      open: Open
+      high: High
+      low: Low
+      close: Close
+      volume: Volume
+    contract_column: null
+    price_increment: null
+    session_coverage:
+      protocol_calendar: XNYS
+      implementation_calendar: NYSE
+    expected:
+      file_name: BTCUSDT_um-futures_1m_2024-03-07_to_2026-05-12.csv
+      sha256: be73702d2ab5f9bc0f0de0d7d9621aa4ff1a4215a6607fe1d5a37060e903051c
+      byte_size: 80695685
+      row_count: 1145748
+    provenance:
+      acquisition_method: reproducible_download_from_monthly_and_daily_archives
+      source_url: https://data.binance.vision/
+      source_archives_retained_locally: true
+      provenance_status: verified
+      redistribution_status: public_source_rows_not_committed
+    research_eligibility:
+      engineering: true
+      development: true
+      pre_etp_comparison: false
+      pristine_final_holdout: false
+    limitations:
+      - coverage begins after US spot BTC ETP trading started
+      - entire range was available to earlier exploratory research
+
+  nq_ibkr_stitched_front_month_1m:
+    role: candidate_primary_nq_price_process
+    asset_class: equity_index_future
+    provider: Interactive Brokers export and earlier stitched source
+    venue: CME
+    instrument: NQ front-month contracts
+    bar_interval_minutes: 1
+    timestamp_column: date
+    timestamp_format: "%Y%m%d %H:%M:%S"
+    source_timezone: America/Chicago
+    timestamp_semantics: bar_open
+    columns:
+      open: open
+      high: high
+      low: low
+      close: close
+      volume: volume
+    contract_column: contract
+    price_increment: 0.25
+    session_coverage:
+      protocol_calendar: XNYS
+      implementation_calendar: NYSE
+    expected:
+      file_name: NQ_stitched_1min_2024-03-07_to_2026-05-12.csv
+      sha256: d3fe03a565f390502be08b5a402069cddabbf6e491bd1fa5cd1917be2683a2ab
+      byte_size: 47406964
+      row_count: 746086
+    provenance:
+      acquisition_method: stitched_front_month_exports
+      source_url: null
+      source_archives_retained_locally: false
+      provenance_status: partial
+      redistribution_status: proprietary_rows_not_committed
+    research_eligibility:
+      engineering: true
+      development: false
+      pre_etp_comparison: false
+      pristine_final_holdout: false
+    limitations:
+      - provenance of the base file through 2026-03-06 is not fully documented
+      - the 2026 extension is documented as an IBKR front-month export
+      - roll selection rule is not recorded for the full history
+      - 83 of 545 complete XNYS sessions have missing cash-session minutes
+      - missing blocks are systematic by weekday and total 16200 minutes
+      - coverage begins after US spot BTC ETP trading started
+      - entire range was available to earlier exploratory research
+
+  btc_binance_spot_1m_legacy:
+    role: candidate_btc_venue_robustness
+    asset_class: crypto_spot
+    provider: Binance
+    venue: Binance Spot
+    instrument: BTCUSDT spot
+    bar_interval_minutes: 1
+    timestamp_column: Open Time
+    timestamp_format: "%Y-%m-%d %H:%M:%S"
+    source_timezone: UTC
+    timestamp_semantics: bar_open
+    columns:
+      open: Open
+      high: High
+      low: Low
+      close: Close
+      volume: Volume
+    contract_column: null
+    price_increment: null
+    session_coverage:
+      protocol_calendar: XNYS
+      implementation_calendar: NYSE
+    expected:
+      file_name: BTCUSDT_1m_2024-03-07_to_2026-03-07.csv
+      sha256: e8cf8bda93da9409bbfde011559d26c4b3882248ae6edec1d587bcfb8432dd9a
+      byte_size: 145948186
+      row_count: 1051201
+    provenance:
+      acquisition_method: legacy_local_export
+      source_url: null
+      source_archives_retained_locally: false
+      provenance_status: partial
+      redistribution_status: rows_not_committed
+    research_eligibility:
+      engineering: true
+      development: true
+      pre_etp_comparison: false
+      pristine_final_holdout: false
+    limitations:
+      - acquisition script and archive checksums are not retained with this file
+      - coverage begins after US spot BTC ETP trading started
+      - entire range was available to earlier exploratory research
+
+rejected_candidates:
+  nasdaq_generic_2024_2025:
+    file_name: Nasdaq_1_minute_data_2024-01-01_to_2025-12-05.csv
+    reason:
+      - instrument and vendor are not documented
+      - no futures contract identifier is present
+      - prices are not constrained to the NQ minimum tick
+      - unsuitable for roll-aware confirmatory futures research
+
+holdout:
+  available_in_registered_files: false
+  rule: >-
+    No timestamp at or before 2026-05-12 may be called a pristine final holdout,
+    because the range was already available during earlier project iterations.
+  proposed_start_exclusive: 2026-05-12
+  boundaries_frozen: false
