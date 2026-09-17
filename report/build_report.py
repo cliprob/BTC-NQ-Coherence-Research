@@ -812,7 +812,9 @@ def build_report() -> dict[str, Any]:
         "builder_sha256": _hash(Path(__file__)),
     }
     MANIFEST.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     return manifest
 

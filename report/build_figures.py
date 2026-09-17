@@ -272,7 +272,9 @@ def build_all() -> dict[str, Any]:
     }
     manifest_path = ROOT / "report" / "figure_manifest.json"
     manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     return manifest
 

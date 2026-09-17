@@ -1,6 +1,6 @@
 {
-  "builder_sha256": "e195fefd158111f4e3902ed55c7de32773a84b6a4a9789eee756b9fe7f204a41",
-  "figure_manifest_sha256": "2ce3431d5c70ae8ad454611b43ce59fcc2cb146ecfbf2c07dd8f9b2aeed8563c",
+  "builder_sha256": "eb101a70b76a670dd11dd024cf37c51bf336eec8e6c1875e9e871e771271701c",
+  "figure_manifest_sha256": "e594d23857ff33f2a09b9f07ef25cb37a50d0d14b7bb5fe8ee3edf3634350a92",
   "figures": {
     "primary_results.png": "ad73310ee0616a1e0b0304c79c9732ebd0448d8e2df92796fbb2eb2041ac6edb",
     "response_curve.png": "532064385d477253fe101f18cc82edcb34e5a5a1e45718ea2d670e084a1fb8f6",
