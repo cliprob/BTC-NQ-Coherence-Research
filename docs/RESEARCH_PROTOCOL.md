@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.5.0
+**Protocol version:** 0.6.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -48,8 +48,8 @@ Candidate state variables are deliberately separated:
 
 - **directional agreement** \(A_t\): whether the BTC and NQ bodies share a sign;
 - **coherence** \(C_t\): a causal continuous measure of agreement between recent sequences of body directions that excludes body magnitude;
-- **joint intensity** \(J_t\): a symmetric function such as \(\sqrt{|z^{BTC}_t z^{NQ}_t|}\);
-- **magnitude balance** \(B_t\): a signed difference or log-ratio between the absolute standardized body magnitudes.
+- **joint intensity** \(J_t\): the geometric mean of absolute standardized body magnitudes;
+- **magnitude balance** \(B_t\): the normalized difference between absolute standardized body magnitudes.
 
 Magnitude must not be embedded in \(C_t\) and then reused to explain persistence of \(C_t\). Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
 
@@ -77,25 +77,59 @@ where \(n_K\) is the number of complete bars spanning \(K\). The primary represe
 
 Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning is identical in the primary and robustness resolutions.
 
-### 3.2 Baseline and magnitude-conditioned state models
+### 3.2 Joint intensity and magnitude balance
+
+For each asset, define absolute standardized body magnitude as:
+
+\[
+m_t^i = |z_t^i|.
+\]
+
+Joint intensity is:
+
+\[
+J_t = \sqrt{m_t^{BTC}m_t^{NQ}}.
+\]
+
+This symmetric coordinate is zero if either market has no body movement and becomes large only through the combined scale of both moves. It does not designate a leading market.
+
+Magnitude balance is:
+
+\[
+B_t = \frac{m_t^{BTC}-m_t^{NQ}}
+{m_t^{BTC}+m_t^{NQ}}.
+\]
+
+It lies on \([-1,1]\): positive values indicate relatively stronger BTC movement, negative values indicate relatively stronger NQ movement, and zero denotes equal standardized body magnitudes. If both magnitudes are zero, the balance is undefined and the observation is ineligible; no numerical epsilon is introduced.
+
+For an eligible observation with current directional agreement, common direction is retained separately:
+
+\[
+S_t = \operatorname{sign}(b_t^{BTC})
+= \operatorname{sign}(b_t^{NQ}) \in \{-1,+1\}.
+\]
+
+The pair \((J_t,B_t)\) separates common event scale from relative strength. The model also receives \(|B_t|\), allowing the degree of imbalance to matter independently of which market is relatively stronger.
+
+### 3.3 Baseline and magnitude-conditioned state models
 
 State-model observations require current agreement, \(d_t=+1\). The baseline state model is:
 
 \[
-M_0: P(d_{t+1}=+1 \mid \mathbf C_t).
+M_0: P(d_{t+1}=+1 \mid \mathbf C_t,S_t).
 \]
 
 The magnitude-conditioned model is:
 
 \[
-M_1: P(d_{t+1}=+1 \mid \mathbf C_t,J_t,B_t).
+M_1: P(d_{t+1}=+1 \mid \mathbf C_t,S_t,J_t,B_t,|B_t|).
 \]
 
-Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. \(M_1\) tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence; it does not assume catch-up or a lead–lag direction.
+Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. \(M_1\) tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence and common direction; it does not assume catch-up, reversal, a coefficient sign, or a lead–lag direction.
 
 The primary comparison uses out-of-sample Brier score, log loss, and calibration. Trading P&L is prohibited as a model- or scale-selection criterion. Regularization is selected inside the training/validation process and recorded in the trial ledger.
 
-### 3.3 Bar resolution and construction
+### 3.4 Bar resolution and construction
 
 The primary specification uses five-minute bars. A one-minute version is a mandatory secondary robustness specification and must be run and reported regardless of whether the primary result is positive, negative, or inconclusive. The one-minute result cannot replace or retroactively redefine the primary result.
 

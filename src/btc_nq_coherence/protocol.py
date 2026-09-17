@@ -118,12 +118,47 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     if construction.get("coherence_scales_are_clock_time") is not True:
         raise ProtocolError("Coherence scales must remain fixed in clock time.")
 
+    magnitude = design.get("magnitude_coordinates", {})
+    if magnitude.get("normalized_body_magnitude") != "absolute_standardized_body":
+        raise ProtocolError("Magnitude must use the absolute standardized body.")
+    if magnitude.get("historical_scale_must_be_causal") is not True:
+        raise ProtocolError("The historical body scale must be causal.")
+    if magnitude.get("joint_intensity") != "geometric_mean":
+        raise ProtocolError("Joint intensity must use the geometric mean.")
+    if magnitude.get("magnitude_balance") != "normalized_difference":
+        raise ProtocolError("Magnitude balance must use the normalized difference.")
+    if magnitude.get("magnitude_balance_range") != [-1, 1]:
+        raise ProtocolError("Magnitude balance must be bounded on [-1, 1].")
+    if magnitude.get("zero_denominator_policy") != "ineligible":
+        raise ProtocolError("Zero-denominator magnitude balance must be ineligible.")
+    if magnitude.get("coefficient_sign_constraints") != "none":
+        raise ProtocolError("Magnitude coefficient signs must not be constrained.")
+
+    expected_m0 = [
+        "coherence_15m",
+        "coherence_30m",
+        "coherence_60m",
+        "common_direction",
+    ]
+    expected_m1_additions = [
+        "joint_intensity",
+        "magnitude_balance",
+        "absolute_magnitude_balance",
+    ]
+    if state_models.get("m0_predictors") != expected_m0:
+        raise ProtocolError("M0 must include coherence scales and common direction.")
+    if state_models.get("m1_additional_predictors") != expected_m1_additions:
+        raise ProtocolError("M1 must add joint intensity, balance, and absolute balance.")
+
     frozen = bool(protocol["governance"].get("protocol_frozen"))
     if status == "frozen" and not frozen:
         raise ProtocolError("A frozen protocol must set governance.protocol_frozen=true.")
     if status == "frozen":
         unresolved = {
             "primary_horizon_minutes": protocol["design"].get("primary_horizon_minutes"),
+            "historical_scale_estimator": protocol["design"]
+            .get("magnitude_coordinates", {})
+            .get("historical_scale_estimator"),
             "final_holdout_start": protocol["data"].get("final_holdout_start"),
             "final_holdout_end": protocol["data"].get("final_holdout_end"),
         }

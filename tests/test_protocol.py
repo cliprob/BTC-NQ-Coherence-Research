@@ -28,6 +28,15 @@ def test_repository_protocol_is_valid_draft() -> None:
         is True
     )
     assert protocol["design"]["state_model_comparison"]["coherence_threshold"] is None
+    assert protocol["design"]["magnitude_coordinates"]["joint_intensity"] == (
+        "geometric_mean"
+    )
+    assert protocol["design"]["magnitude_coordinates"]["magnitude_balance"] == (
+        "normalized_difference"
+    )
+    assert protocol["design"]["state_model_comparison"]["m0_predictors"][-1] == (
+        "common_direction"
+    )
     assert protocol["research"]["hypotheses"][1]["name"] == (
         "magnitude_conditioned_persistence"
     )
@@ -105,4 +114,23 @@ def test_primary_bar_ohlcv_rules_cannot_drift() -> None:
     protocol["design"]["bar_construction"]["close"] = "mean"
 
     with pytest.raises(ProtocolError, match="registered OHLCV aggregation"):
+        validate_protocol(protocol)
+
+
+def test_joint_intensity_definition_cannot_drift() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["magnitude_coordinates"]["joint_intensity"] = "mean"
+
+    with pytest.raises(ProtocolError, match="must use the geometric mean"):
+        validate_protocol(protocol)
+
+
+def test_m1_must_represent_signed_and_absolute_balance() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["state_model_comparison"]["m1_additional_predictors"] = [
+        "joint_intensity",
+        "magnitude_balance",
+    ]
+
+    with pytest.raises(ProtocolError, match="must add joint intensity"):
         validate_protocol(protocol)

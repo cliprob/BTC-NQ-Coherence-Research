@@ -14,9 +14,10 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | D-008 | Pre-ETP sample start | Proposed: 2022-01-01 | Confirm consistent BTC and futures coverage |
 | D-009 | Session definition | Proposed: US cash hours primary | Specify overnight and weekend negative controls |
 | D-010 | Multiple-testing procedure | TBD | Match procedure to final estimands and dependence structure |
-| D-011 | Magnitude-balance representation | TBD: signed difference or log-ratio of absolute standardized moves | Compare numerical stability and interpretability without selecting on final P&L |
-| D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Evaluate with Brier score, log loss, and calibration |
+| D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
+| D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Both include common direction; evaluate with Brier score, log loss, and calibration |
 | D-013 | Entry/exit thresholds | Deferred to strategy stage | Must be fitted on development folds and frozen before final evaluation |
+| D-014 | Historical body-scale estimator | TBD | Must be causal, resolution-specific, and fitted without final-period information |
 
 ## Recorded decisions
 
@@ -30,7 +31,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 ### 2026-09-17 — magnitude without an assumed lead–lag direction
 
 - H2 is `magnitude-conditioned persistence`, not `magnitude catch-up`.
-- Coherence measures direction and normalized candle shape; it must exclude joint intensity and magnitude balance.
+- Coherence measures candle-body direction agreement; it must exclude joint intensity and magnitude balance.
 - Joint intensity measures how strong the common move is.
 - Magnitude balance measures relative BTC–NQ move strength without assuming which market leads.
 - Catch-up, continuation, reversal, and no balance effect are competing exploratory outcomes.
@@ -63,3 +64,13 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Five-minute OHLCV bars use first open, maximum high, minimum low, last close, and summed volume on UTC-aligned boundaries.
 - Incomplete bins are ineligible; prices are not forward-filled and bars cannot cross session, roll, or known-gap boundaries.
 - A favorable one-minute result cannot replace a negative or inconclusive five-minute primary result.
+
+### 2026-09-17 — joint intensity and magnitude balance
+
+- Absolute standardized body magnitude is \(m_t^i=|z_t^i|\).
+- Joint intensity is the symmetric geometric mean \(J_t=\sqrt{m_t^{BTC}m_t^{NQ}}\).
+- Magnitude balance is \(B_t=(m_t^{BTC}-m_t^{NQ})/(m_t^{BTC}+m_t^{NQ})\), bounded on \([-1,1]\).
+- A zero denominator is ineligible rather than stabilized with an arbitrary epsilon.
+- Common direction \(S_t\) is included in both nested state models.
+- \(M_0\) uses the three coherence scales and \(S_t\).
+- \(M_1\) adds \(J_t\), \(B_t\), and \(|B_t|\), with no prespecified coefficient signs.

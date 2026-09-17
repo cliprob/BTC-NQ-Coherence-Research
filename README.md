@@ -30,6 +30,12 @@ All three continuous measures are used together. No historically best window is 
 
 No entry or exit threshold is defined during the state-research stage. Thresholds belong exclusively to a later strategy stage.
 
+### Magnitude coordinates
+
+For each asset, body magnitude is the absolute body return divided by a causal historical scale. Joint intensity is the geometric mean of the two normalized magnitudes. Magnitude balance is their normalized difference on `[-1, 1]`: positive when BTC is relatively stronger, negative when NQ is relatively stronger, and zero when they are equal.
+
+The baseline state model uses the three coherence scales and the current common direction. The nested magnitude model adds joint intensity, signed magnitude balance, and absolute magnitude imbalance. No coefficient sign is imposed in advance.
+
 ## Bar resolution
 
 The primary specification uses **5-minute bars** constructed from validated one-minute source data. A **1-minute robustness specification is mandatory and is run regardless of the 5-minute result**. Both resolutions retain the same 15/30/60-minute clock-time coherence scales, so the economic meaning of each feature is unchanged.
