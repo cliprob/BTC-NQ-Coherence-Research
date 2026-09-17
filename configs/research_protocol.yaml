@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: 0.6.0
+protocol_version: 0.7.0
 status: draft
 created_at: 2026-09-17
 
@@ -49,8 +49,24 @@ design:
     catch_up: exploratory_not_assumed
   magnitude_coordinates:
     normalized_body_magnitude: absolute_standardized_body
-    historical_scale_estimator: null
-    historical_scale_must_be_causal: true
+    historical_scale:
+      estimator: same_session_slot_mad
+      mad_consistency_constant: 1.4826
+      lookback_eligible_sessions: 63
+      reference_sessions: analysis_calendar_eligible_sessions
+      slot_timezone: America/New_York
+      separate_by_asset: true
+      separate_by_resolution: true
+      include_current_session: false
+      current_body_centering: none
+      missing_slot_policy: extend_back_until_63_valid
+      minimum_valid_observations: 63
+      zero_or_nonfinite_scale_policy: ineligible
+      epsilon_floor: null
+      cross_slot_fallback: false
+      future_data_fallback: false
+      roll_or_known_gap_policy: ineligible
+      online_update_from_completed_prior_sessions: true
     joint_intensity: geometric_mean
     magnitude_balance: normalized_difference
     magnitude_balance_range: [-1, 1]
@@ -99,6 +115,7 @@ data:
   final_holdout_start: null
   final_holdout_end: null
   raw_data_committed: false
+  minimum_pre_sample_warmup_sessions: 63
 
 governance:
   protocol_frozen: false

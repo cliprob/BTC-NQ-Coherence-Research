@@ -121,8 +121,43 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     magnitude = design.get("magnitude_coordinates", {})
     if magnitude.get("normalized_body_magnitude") != "absolute_standardized_body":
         raise ProtocolError("Magnitude must use the absolute standardized body.")
-    if magnitude.get("historical_scale_must_be_causal") is not True:
-        raise ProtocolError("The historical body scale must be causal.")
+    scale = magnitude.get("historical_scale", {})
+    if scale.get("estimator") != "same_session_slot_mad":
+        raise ProtocolError("Historical body scale must use same-slot MAD.")
+    if scale.get("mad_consistency_constant") != 1.4826:
+        raise ProtocolError("MAD consistency constant must be 1.4826.")
+    if scale.get("lookback_eligible_sessions") != 63:
+        raise ProtocolError("Historical body scale must use 63 eligible sessions.")
+    if scale.get("reference_sessions") != "analysis_calendar_eligible_sessions":
+        raise ProtocolError("BTC and NQ must use the same eligible analysis sessions.")
+    if scale.get("slot_timezone") != "America/New_York":
+        raise ProtocolError("Historical scale slots must be DST-aware New York time.")
+    if scale.get("separate_by_asset") is not True:
+        raise ProtocolError("Historical scale must be separate for each asset.")
+    if scale.get("separate_by_resolution") is not True:
+        raise ProtocolError("Historical scale must be separate for each resolution.")
+    if scale.get("include_current_session") is not False:
+        raise ProtocolError("The current session cannot enter its own historical scale.")
+    if scale.get("current_body_centering") != "none":
+        raise ProtocolError("The current body must not be median-centered.")
+    if scale.get("missing_slot_policy") != "extend_back_until_63_valid":
+        raise ProtocolError("Missing slots must extend the causal lookback.")
+    if scale.get("minimum_valid_observations") != 63:
+        raise ProtocolError("Historical scale requires 63 valid observations.")
+    if scale.get("zero_or_nonfinite_scale_policy") != "ineligible":
+        raise ProtocolError("Zero or non-finite historical scale must be ineligible.")
+    if scale.get("epsilon_floor") is not None:
+        raise ProtocolError("Historical scale cannot use an epsilon floor.")
+    if scale.get("cross_slot_fallback") is not False:
+        raise ProtocolError("Historical scale cannot use cross-slot fallback.")
+    if scale.get("future_data_fallback") is not False:
+        raise ProtocolError("Historical scale cannot use future-data fallback.")
+    if scale.get("roll_or_known_gap_policy") != "ineligible":
+        raise ProtocolError("Roll- or gap-contaminated scale inputs must be ineligible.")
+    if scale.get("online_update_from_completed_prior_sessions") is not True:
+        raise ProtocolError("Historical scale must update causally between sessions.")
+    if protocol["data"].get("minimum_pre_sample_warmup_sessions") != 63:
+        raise ProtocolError("The dataset must provide a 63-session warm-up.")
     if magnitude.get("joint_intensity") != "geometric_mean":
         raise ProtocolError("Joint intensity must use the geometric mean.")
     if magnitude.get("magnitude_balance") != "normalized_difference":
@@ -158,7 +193,8 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
             "primary_horizon_minutes": protocol["design"].get("primary_horizon_minutes"),
             "historical_scale_estimator": protocol["design"]
             .get("magnitude_coordinates", {})
-            .get("historical_scale_estimator"),
+            .get("historical_scale", {})
+            .get("estimator"),
             "final_holdout_start": protocol["data"].get("final_holdout_start"),
             "final_holdout_end": protocol["data"].get("final_holdout_end"),
         }

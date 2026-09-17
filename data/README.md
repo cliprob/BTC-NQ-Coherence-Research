@@ -36,3 +36,7 @@ data/
 ```
 
 Every registered source must record provider, instrument, venue, timezone, interval, start/end, row count, file size, SHA-256, acquisition timestamp, and redistribution status.
+
+## Warm-up requirement
+
+The research sample requires at least 63 prior eligible analysis sessions at every required session slot. Source files must therefore begin at least one trading quarter before the first reported observation. Warm-up rows are used only for causal feature construction and are not scored as research outcomes.

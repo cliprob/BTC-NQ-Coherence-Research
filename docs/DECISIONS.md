@@ -17,7 +17,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
 | D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Both include common direction; evaluate with Brier score, log loss, and calibration |
 | D-013 | Entry/exit thresholds | Deferred to strategy stage | Must be fitted on development folds and frozen before final evaluation |
-| D-014 | Historical body-scale estimator | TBD | Must be causal, resolution-specific, and fitted without final-period information |
+| D-014 | Historical body-scale estimator | Resolved: same-slot MAD over previous 63 eligible sessions | Separate by asset and resolution; current session excluded; no epsilon or fallback |
 
 ## Recorded decisions
 
@@ -74,3 +74,15 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Common direction \(S_t\) is included in both nested state models.
 - \(M_0\) uses the three coherence scales and \(S_t\).
 - \(M_1\) adds \(J_t\), \(B_t\), and \(|B_t|\), with no prespecified coefficient signs.
+
+### 2026-09-17 — causal historical body scale
+
+- The scale is `1.4826 × MAD` of the same session slot over the previous 63 eligible analysis sessions.
+- It is estimated separately for BTC and NQ and for one- and five-minute bars.
+- The current body is divided by the scale without median-centering, preserving its direction.
+- Session slots are DST-aware in `America/New_York`; stored data remains UTC.
+- BTC uses the same eligible analysis-session dates and slots as NQ.
+- The current session is excluded; completed prior sessions may update later validation or holdout scales online.
+- Missing slots extend the search backward until 63 valid observations exist.
+- Fewer than 63 observations, zero/non-finite MAD, roll contamination, or known gaps make the observation ineligible.
+- No epsilon floor, cross-slot substitution, or future-data fallback is allowed.

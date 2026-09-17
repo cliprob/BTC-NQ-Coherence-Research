@@ -34,6 +34,11 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["design"]["magnitude_coordinates"]["magnitude_balance"] == (
         "normalized_difference"
     )
+    scale = protocol["design"]["magnitude_coordinates"]["historical_scale"]
+    assert scale["estimator"] == "same_session_slot_mad"
+    assert scale["lookback_eligible_sessions"] == 63
+    assert scale["include_current_session"] is False
+    assert scale["epsilon_floor"] is None
     assert protocol["design"]["state_model_comparison"]["m0_predictors"][-1] == (
         "common_direction"
     )
@@ -133,4 +138,39 @@ def test_m1_must_represent_signed_and_absolute_balance() -> None:
     ]
 
     with pytest.raises(ProtocolError, match="must add joint intensity"):
+        validate_protocol(protocol)
+
+
+def test_historical_scale_cannot_use_standard_deviation() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    scale = protocol["design"]["magnitude_coordinates"]["historical_scale"]
+    scale["estimator"] = "standard_deviation"
+
+    with pytest.raises(ProtocolError, match="must use same-slot MAD"):
+        validate_protocol(protocol)
+
+
+def test_historical_scale_cannot_include_current_session() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    scale = protocol["design"]["magnitude_coordinates"]["historical_scale"]
+    scale["include_current_session"] = True
+
+    with pytest.raises(ProtocolError, match="cannot enter its own"):
+        validate_protocol(protocol)
+
+
+def test_historical_scale_lookback_cannot_drift() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    scale = protocol["design"]["magnitude_coordinates"]["historical_scale"]
+    scale["lookback_eligible_sessions"] = 20
+
+    with pytest.raises(ProtocolError, match="must use 63 eligible sessions"):
+        validate_protocol(protocol)
+
+
+def test_dataset_warmup_must_match_scale_lookback() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["data"]["minimum_pre_sample_warmup_sessions"] = 20
+
+    with pytest.raises(ProtocolError, match="63-session warm-up"):
         validate_protocol(protocol)

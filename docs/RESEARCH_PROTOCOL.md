@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.6.0
+**Protocol version:** 0.7.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -42,7 +42,7 @@ For asset \(i\), a causal standardized body is provisionally defined as:
 z^i_t = \frac{b^i_t}{\widehat{\sigma}^{i,body}_{t-1}},
 \]
 
-where \(\widehat{\sigma}^{i,body}_{t-1}\) is estimated only from completed bodies preceding bar \(t\). This makes BTC and NQ body magnitudes comparable without using the current body to set its own scale.
+where \(\widehat{\sigma}^{i,body}_{t-1}\) is the causal, resolution-specific scale defined below. This makes BTC and NQ body magnitudes comparable without using the current body to set its own scale.
 
 Candidate state variables are deliberately separated:
 
@@ -77,7 +77,45 @@ where \(n_K\) is the number of complete bars spanning \(K\). The primary represe
 
 Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning is identical in the primary and robustness resolutions.
 
-### 3.2 Joint intensity and magnitude balance
+### 3.2 Causal historical body scale
+
+For asset \(i\), resolution \(r\), and the DST-aware session slot \(s(t)\), define the reference set:
+
+\[
+\mathcal H^{i,r}_t =
+\left\{
+b^{i,r}_{d,s(t)}:
+d \in \text{the previous 63 eligible analysis sessions}
+\right\}.
+\]
+
+The 63 sessions approximate one trading quarter and are fixed by protocol rather than selected by empirical performance. If a slot is missing in a prior session, the search extends backward until 63 valid same-slot observations are available.
+
+Let:
+
+\[
+\widetilde b^{i,r}_{t-1}
+= \operatorname{median}(\mathcal H^{i,r}_t).
+\]
+
+The historical scale is:
+
+\[
+\widehat{\sigma}^{i,r}_{t-1}
+= 1.4826\,
+\operatorname{median}_{x\in\mathcal H^{i,r}_t}
+\left|x-\widetilde b^{i,r}_{t-1}\right|.
+\]
+
+The current body is divided by this scale without subtracting the historical median, preserving its observed direction. The scale is estimated separately for BTC and NQ and separately for the one- and five-minute resolutions.
+
+Session slots are derived DST-aware in `America/New_York` while stored timestamps remain UTC. BTC uses the same eligible analysis-session dates and slots as NQ rather than its weekend or around-the-clock history.
+
+The current session is excluded from its own scale. During validation or final evaluation, earlier completed sessions from the same evaluation period may update later scales because this information would have been available online; the formula and 63-session lookback remain frozen.
+
+An observation is ineligible if fewer than 63 valid reference bodies exist, the resulting MAD is zero or non-finite, or the body is contaminated by a futures roll, session boundary, or known data gap. No epsilon floor, future-data fallback, or cross-slot substitution is permitted.
+
+### 3.3 Joint intensity and magnitude balance
 
 For each asset, define absolute standardized body magnitude as:
 
@@ -111,7 +149,7 @@ S_t = \operatorname{sign}(b_t^{BTC})
 
 The pair \((J_t,B_t)\) separates common event scale from relative strength. The model also receives \(|B_t|\), allowing the degree of imbalance to matter independently of which market is relatively stronger.
 
-### 3.3 Baseline and magnitude-conditioned state models
+### 3.4 Baseline and magnitude-conditioned state models
 
 State-model observations require current agreement, \(d_t=+1\). The baseline state model is:
 
@@ -129,7 +167,7 @@ Both are discrete-time logistic models fitted only inside the appropriate traini
 
 The primary comparison uses out-of-sample Brier score, log loss, and calibration. Trading P&L is prohibited as a model- or scale-selection criterion. Regularization is selected inside the training/validation process and recorded in the trial ledger.
 
-### 3.4 Bar resolution and construction
+### 3.5 Bar resolution and construction
 
 The primary specification uses five-minute bars. A one-minute version is a mandatory secondary robustness specification and must be run and reported regardless of whether the primary result is positive, negative, or inconclusive. The one-minute result cannot replace or retroactively redefine the primary result.
 
