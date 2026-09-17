@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: 0.4.0
+protocol_version: 0.5.0
 status: draft
 created_at: 2026-09-17
 
@@ -30,7 +30,9 @@ research:
 
 design:
   price_domain: returns_not_levels
-  proposed_primary_bar_minutes: 5
+  primary_bar_minutes: 5
+  robustness_bar_minutes: [1]
+  run_robustness_regardless_of_primary_result: true
   primary_horizon_minutes: null
   candidate_horizons_minutes: [1, 5, 10, 15, 30, 60]
   primary_session: proposed_us_cash_hours
@@ -63,6 +65,19 @@ design:
     pnl_selection_prohibited: true
     coherence_threshold: null
     threshold_stage: strategy_only
+  bar_construction:
+    source_bar_minutes: 1
+    primary_derived_from_source: true
+    alignment_timezone: UTC
+    open: first
+    high: maximum
+    low: minimum
+    close: last
+    volume: sum
+    incomplete_bin_policy: ineligible
+    forward_fill_prices: false
+    may_cross_session_roll_or_known_gap: false
+    coherence_scales_are_clock_time: true
 
 data:
   development_data_previously_inspected: true

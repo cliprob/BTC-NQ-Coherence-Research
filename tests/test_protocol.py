@@ -20,6 +20,9 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["design"]["primary_uses_wicks_or_range"] is False
     assert protocol["design"]["coherence_measure"]["scales_minutes"] == [15, 30, 60]
     assert protocol["design"]["coherence_measure"]["use_scales_jointly"] is True
+    assert protocol["design"]["primary_bar_minutes"] == 5
+    assert protocol["design"]["robustness_bar_minutes"] == [1]
+    assert protocol["design"]["run_robustness_regardless_of_primary_result"] is True
     assert (
         protocol["design"]["state_model_comparison"]["pnl_selection_prohibited"]
         is True
@@ -78,4 +81,28 @@ def test_state_research_cannot_set_strategy_threshold() -> None:
     protocol["design"]["state_model_comparison"]["coherence_threshold"] = 0.7
 
     with pytest.raises(ProtocolError, match="cannot be set before strategy"):
+        validate_protocol(protocol)
+
+
+def test_one_minute_robustness_cannot_be_conditionally_skipped() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["run_robustness_regardless_of_primary_result"] = False
+
+    with pytest.raises(ProtocolError, match="robustness analysis is mandatory"):
+        validate_protocol(protocol)
+
+
+def test_incomplete_primary_bar_cannot_be_accepted() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["bar_construction"]["incomplete_bin_policy"] = "accept"
+
+    with pytest.raises(ProtocolError, match="must be ineligible"):
+        validate_protocol(protocol)
+
+
+def test_primary_bar_ohlcv_rules_cannot_drift() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["bar_construction"]["close"] = "mean"
+
+    with pytest.raises(ProtocolError, match="registered OHLCV aggregation"):
         validate_protocol(protocol)

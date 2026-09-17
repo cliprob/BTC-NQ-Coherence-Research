@@ -4,7 +4,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 
 | ID | Decision | Current state | Evidence required before freeze |
 |---|---|---|---|
-| D-001 | Primary bar interval | Proposed: 5 minutes | Synchronization and microstructure audit; 1-minute retained as robustness |
+| D-001 | Bar resolution | Resolved: 5-minute primary; mandatory 1-minute robustness | Same 15/30/60-minute clock-time scales; robustness runs regardless of the primary result |
 | D-002 | Primary forecast horizon | TBD | Economic mechanism and development-only response study; must be chosen without final P&L |
 | D-003 | Coherence definition | Resolved: signed mean of body-direction products at 15/30/60-minute scales, used jointly | No window selection by P&L; body magnitude is excluded |
 | D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
@@ -54,3 +54,12 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - \(M_1\) adds joint body intensity and body-magnitude balance.
 - Model comparison uses Brier score, log loss, and calibration; trading P&L is prohibited for this choice.
 - Entry and exit thresholds remain undefined until the strategy stage.
+
+### 2026-09-17 — primary and robustness bar resolutions
+
+- The primary specification uses five-minute bars derived from validated one-minute source data.
+- The one-minute specification is a mandatory secondary robustness check and is reported regardless of the primary outcome.
+- Both resolutions use identical 15-, 30-, and 60-minute clock-time coherence scales.
+- Five-minute OHLCV bars use first open, maximum high, minimum low, last close, and summed volume on UTC-aligned boundaries.
+- Incomplete bins are ineligible; prices are not forward-filled and bars cannot cross session, roll, or known-gap boundaries.
+- A favorable one-minute result cannot replace a negative or inconclusive five-minute primary result.

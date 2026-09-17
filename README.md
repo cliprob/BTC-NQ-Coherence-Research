@@ -30,6 +30,12 @@ All three continuous measures are used together. No historically best window is 
 
 No entry or exit threshold is defined during the state-research stage. Thresholds belong exclusively to a later strategy stage.
 
+## Bar resolution
+
+The primary specification uses **5-minute bars** constructed from validated one-minute source data. A **1-minute robustness specification is mandatory and is run regardless of the 5-minute result**. Both resolutions retain the same 15/30/60-minute clock-time coherence scales, so the economic meaning of each feature is unchanged.
+
+Five-minute bars are aligned in UTC and use first open, maximum high, minimum low, last close, and summed volume. Incomplete bins are ineligible and prices are never forward-filled.
+
 ## Design principle
 
 Detection and execution are deliberately separated:
@@ -56,6 +62,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [ ] Build a reproducible data registry and validation layer.
 - [ ] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
+- [ ] Run the mandatory 1-minute robustness specification regardless of the primary result.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
 - [ ] Lock the complete specification and open the final holdout once.

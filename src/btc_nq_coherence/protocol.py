@@ -85,6 +85,39 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     if state_models.get("threshold_stage") != "strategy_only":
         raise ProtocolError("Coherence thresholds belong only to the strategy stage.")
 
+    design = protocol["design"]
+    if design.get("primary_bar_minutes") != 5:
+        raise ProtocolError("The primary bar interval must be five minutes.")
+    if design.get("robustness_bar_minutes") != [1]:
+        raise ProtocolError("The robustness bar interval must be one minute.")
+    if design.get("run_robustness_regardless_of_primary_result") is not True:
+        raise ProtocolError("The one-minute robustness analysis is mandatory.")
+
+    construction = design.get("bar_construction", {})
+    if construction.get("source_bar_minutes") != 1:
+        raise ProtocolError("Five-minute bars must derive from one-minute source data.")
+    if construction.get("primary_derived_from_source") is not True:
+        raise ProtocolError("Primary bars must be derived from the registered source data.")
+    if construction.get("alignment_timezone") != "UTC":
+        raise ProtocolError("Derived bars must use UTC-aligned boundaries.")
+    expected_ohlcv = {
+        "open": "first",
+        "high": "maximum",
+        "low": "minimum",
+        "close": "last",
+        "volume": "sum",
+    }
+    if any(construction.get(field) != rule for field, rule in expected_ohlcv.items()):
+        raise ProtocolError("Derived bars must use the registered OHLCV aggregation rules.")
+    if construction.get("incomplete_bin_policy") != "ineligible":
+        raise ProtocolError("Incomplete aggregated bars must be ineligible.")
+    if construction.get("forward_fill_prices") is not False:
+        raise ProtocolError("Market prices must not be forward-filled.")
+    if construction.get("may_cross_session_roll_or_known_gap") is not False:
+        raise ProtocolError("Bars cannot cross sessions, rolls, or known gaps.")
+    if construction.get("coherence_scales_are_clock_time") is not True:
+        raise ProtocolError("Coherence scales must remain fixed in clock time.")
+
     frozen = bool(protocol["governance"].get("protocol_frozen"))
     if status == "frozen" and not frozen:
         raise ProtocolError("A frozen protocol must set governance.protocol_frozen=true.")

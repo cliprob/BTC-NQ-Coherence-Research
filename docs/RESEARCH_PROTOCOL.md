@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.4.0
+**Protocol version:** 0.5.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -75,7 +75,7 @@ where \(n_K\) is the number of complete bars spanning \(K\). The primary represe
 \mathbf C_t = [C_t(15), C_t(30), C_t(60)].
 \]
 
-Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning remains stable if the primary bar interval is changed before protocol freeze.
+Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning is identical in the primary and robustness resolutions.
 
 ### 3.2 Baseline and magnitude-conditioned state models
 
@@ -94,6 +94,29 @@ M_1: P(d_{t+1}=+1 \mid \mathbf C_t,J_t,B_t).
 Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. \(M_1\) tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence; it does not assume catch-up or a lead–lag direction.
 
 The primary comparison uses out-of-sample Brier score, log loss, and calibration. Trading P&L is prohibited as a model- or scale-selection criterion. Regularization is selected inside the training/validation process and recorded in the trial ledger.
+
+### 3.3 Bar resolution and construction
+
+The primary specification uses five-minute bars. A one-minute version is a mandatory secondary robustness specification and must be run and reported regardless of whether the primary result is positive, negative, or inconclusive. The one-minute result cannot replace or retroactively redefine the primary result.
+
+Both specifications use the same 15-, 30-, and 60-minute clock-time coherence scales:
+
+| Resolution | 15 minutes | 30 minutes | 60 minutes |
+|---|---:|---:|---:|
+| Primary: 5-minute bars | 3 bars | 6 bars | 12 bars |
+| Robustness: 1-minute bars | 15 bars | 30 bars | 60 bars |
+
+Validated one-minute data is the common source. Five-minute bars are constructed on UTC-aligned boundaries using:
+
+- first valid open;
+- maximum high;
+- minimum low;
+- last valid close;
+- summed volume.
+
+A five-minute bin is eligible only when every expected one-minute observation is present and valid under the relevant session calendar. Missing prices are never forward-filled. Session boundaries, futures rolls, and known data gaps cannot be crossed by an aggregated bar.
+
+The five-minute primary reduces timestamp sensitivity and microstructure noise. The one-minute robustness analysis tests whether aggregation conceals a faster relationship; it is secondary even if its point estimate is more favorable.
 
 For an eligible observation with \(d_t=+1\), let \(T_t\) denote the number of consecutive future bars for which \(d_u=+1\), beginning at \(t+1\). This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
 
