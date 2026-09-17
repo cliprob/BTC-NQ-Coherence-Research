@@ -6,7 +6,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 |---|---|---|---|
 | D-001 | Primary bar interval | Proposed: 5 minutes | Synchronization and microstructure audit; 1-minute retained as robustness |
 | D-002 | Primary forecast horizon | TBD | Economic mechanism and development-only response study; must be chosen without final P&L |
-| D-003 | Coherence definition | Body-direction sequence; estimator and lookback TBD | Compare a small declared family on stability and interpretability; body magnitude is excluded |
+| D-003 | Coherence definition | Resolved: signed mean of body-direction products at 15/30/60-minute scales, used jointly | No window selection by P&L; body magnitude is excluded |
 | D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
 | D-005 | Primary traded instrument | Proposed: MNQ | Confirm availability of execution-quality data and cost assumptions |
 | D-006 | Development sample | Existing data through 2026-05-12 may be exploratory | Register exact file hashes and prior exposure |
@@ -15,6 +15,8 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | D-009 | Session definition | Proposed: US cash hours primary | Specify overnight and weekend negative controls |
 | D-010 | Multiple-testing procedure | TBD | Match procedure to final estimands and dependence structure |
 | D-011 | Magnitude-balance representation | TBD: signed difference or log-ratio of absolute standardized moves | Compare numerical stability and interpretability without selecting on final P&L |
+| D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Evaluate with Brier score, log loss, and calibration |
+| D-013 | Entry/exit thresholds | Deferred to strategy stage | Must be fitted on development folds and frozen before final evaluation |
 
 ## Recorded decisions
 
@@ -42,3 +44,13 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Joint intensity uses absolute, causally volatility-normalized body magnitudes.
 - Magnitude balance compares the normalized body magnitudes of BTC and NQ.
 - Wicks and high-low ranges are excluded from the primary specification and may appear only as labeled robustness features.
+
+### 2026-09-17 — multi-scale directional coherence
+
+- Per-bar agreement is the product of BTC and NQ candle-body signs: `+1`, `-1`, or `0` for an exact doji.
+- Coherence is the unweighted arithmetic mean of per-bar agreement.
+- The 15-, 30-, and 60-minute continuous coherence measures are used together; no single best window is selected.
+- Conditional on current agreement, \(M_0\) predicts next-bar directional agreement from the three coherence scales.
+- \(M_1\) adds joint body intensity and body-magnitude balance.
+- Model comparison uses Brier score, log loss, and calibration; trading P&L is prohibited for this choice.
+- Entry and exit thresholds remain undefined until the strategy stage.

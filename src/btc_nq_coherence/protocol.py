@@ -67,6 +67,24 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
             "Wicks and high-low range must be excluded from the primary design."
         )
 
+    coherence = protocol["design"].get("coherence_measure", {})
+    if coherence.get("per_bar_agreement") != "signed_body_direction_product":
+        raise ProtocolError("Coherence must use the signed body-direction product.")
+    if coherence.get("aggregation") != "unweighted_arithmetic_mean":
+        raise ProtocolError("Coherence must use the unweighted arithmetic mean.")
+    if coherence.get("scales_minutes") != [15, 30, 60]:
+        raise ProtocolError("Coherence scales must be exactly 15, 30, and 60 minutes.")
+    if coherence.get("use_scales_jointly") is not True:
+        raise ProtocolError("All coherence scales must be used jointly.")
+
+    state_models = protocol["design"].get("state_model_comparison", {})
+    if state_models.get("pnl_selection_prohibited") is not True:
+        raise ProtocolError("Trading P&L cannot select the coherence state model.")
+    if state_models.get("coherence_threshold") is not None:
+        raise ProtocolError("A coherence threshold cannot be set before strategy research.")
+    if state_models.get("threshold_stage") != "strategy_only":
+        raise ProtocolError("Coherence thresholds belong only to the strategy stage.")
+
     frozen = bool(protocol["governance"].get("protocol_frozen"))
     if status == "frozen" and not frozen:
         raise ProtocolError("A frozen protocol must set governance.protocol_frozen=true.")

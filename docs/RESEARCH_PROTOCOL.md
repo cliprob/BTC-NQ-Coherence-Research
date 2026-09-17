@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.3.0
+**Protocol version:** 0.4.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -53,10 +53,52 @@ Candidate state variables are deliberately separated:
 
 Magnitude must not be embedded in \(C_t\) and then reused to explain persistence of \(C_t\). Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
 
-Let \(T_t\) denote the remaining duration of a coherence episode detected at \(t\). A primary state-dynamics estimand is a survival probability such as:
+### 3.1 Directional aggregation and time scales
+
+Per-bar body-direction agreement is:
 
 \[
-P(T_t > k \mid C_t, J_t, B_t).
+d_t = \operatorname{sign}(b^{BTC}_t)\operatorname{sign}(b^{NQ}_t).
+\]
+
+Thus, \(d_t=+1\) denotes same-direction bodies, \(d_t=-1\) denotes opposite-direction bodies, and an exact doji contributes zero. A missing or invalid body makes the affected rolling window ineligible rather than being treated as disagreement.
+
+For a clock-time scale \(K\), directional coherence is the unweighted arithmetic mean:
+
+\[
+C_t(K)=\frac{1}{n_K}\sum_{j=0}^{n_K-1}d_{t-j},
+\]
+
+where \(n_K\) is the number of complete bars spanning \(K\). The primary representation uses the three scales \(K\in\{15,30,60\}\) minutes together:
+
+\[
+\mathbf C_t = [C_t(15), C_t(30), C_t(60)].
+\]
+
+Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning remains stable if the primary bar interval is changed before protocol freeze.
+
+### 3.2 Baseline and magnitude-conditioned state models
+
+State-model observations require current agreement, \(d_t=+1\). The baseline state model is:
+
+\[
+M_0: P(d_{t+1}=+1 \mid \mathbf C_t).
+\]
+
+The magnitude-conditioned model is:
+
+\[
+M_1: P(d_{t+1}=+1 \mid \mathbf C_t,J_t,B_t).
+\]
+
+Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. \(M_1\) tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence; it does not assume catch-up or a lead–lag direction.
+
+The primary comparison uses out-of-sample Brier score, log loss, and calibration. Trading P&L is prohibited as a model- or scale-selection criterion. Regularization is selected inside the training/validation process and recorded in the trial ledger.
+
+For an eligible observation with \(d_t=+1\), let \(T_t\) denote the number of consecutive future bars for which \(d_u=+1\), beginning at \(t+1\). This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
+
+\[
+P(T_t \ge k \mid \mathbf C_t, J_t, B_t, d_t=+1).
 \]
 
 For economic interpretation, let \(S_t\) denote the common detected direction. A candidate signed NQ outcome is:
@@ -67,7 +109,7 @@ Y_{t,h} = S_t \sum_{u=t+1}^{t+h} r^{NQ}_u.
 
 A positive value denotes continuation in the jointly detected direction and a negative value denotes reversal. Future observations appear here as outcomes needed to evaluate persistence and tradability; their use does not assert a BTC-to-NQ lead–lag mechanism.
 
-At the later predictive-model stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
+At the later return-prediction stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
 
 \[
 \Delta L_h = L(\widehat r^{NQ\text{-only}}_{t,t+h})
@@ -104,13 +146,14 @@ The order is binding once the protocol is frozen:
 
 1. data-quality and synchronization audit;
 2. descriptive contemporaneous co-movement;
-3. event-time response curves across the complete horizon set;
-4. joint-intensity and magnitude-balance surfaces for regime survival and within-regime returns;
-5. nested out-of-sample forecast comparison;
-6. strategy construction only if predictive evidence warrants it;
-7. one final holdout evaluation.
+3. out-of-sample comparison of the direction-only \(M_0\) and magnitude-conditioned \(M_1\) state models;
+4. event-time response curves across the complete return-horizon set;
+5. joint-intensity and magnitude-balance surfaces for regime persistence and within-regime returns;
+6. nested out-of-sample return-forecast comparison;
+7. strategy construction only if predictive evidence warrants it;
+8. one final holdout evaluation.
 
-Trading P&L must not be used to select definitions during stages 1–4.
+Trading P&L must not be used to select definitions or models during stages 1–6.
 
 ## 6. Timing and leakage rules
 
@@ -137,11 +180,12 @@ The existing March 2024–May 2026 data may be used for engineering and explorat
 
 The minimum comparison will preserve identical sampling and labels:
 
-1. unconditional or zero-return benchmark;
-2. linear NQ-only autoregressive/Ridge model;
-3. the same model expanded with BTC/coherence features;
-4. a direction-classification analogue if classification is retained;
-5. at most one constrained nonlinear model as a robustness test.
+1. unconditional next-bar agreement-rate benchmark;
+2. \(M_0\): discrete-time logistic state model using \(C(15),C(30),C(60)\);
+3. \(M_1\): the same state model expanded with joint intensity and magnitude balance;
+4. linear NQ-only autoregressive/Ridge return model;
+5. the same return model expanded with BTC/coherence features;
+6. at most one constrained nonlinear return model as a robustness test.
 
 Complexity is justified only by incremental out-of-sample performance, not in-sample fit.
 
@@ -151,7 +195,7 @@ Candidate outputs include:
 
 - event-time mean and median response with simultaneous uncertainty bands;
 - out-of-sample \(R^2\) and forecast-loss differences;
-- Brier score and calibration if direction probabilities are modeled;
+- Brier score, log loss, and calibration for \(M_0\) and \(M_1\);
 - a nested-model predictive-accuracy test where its assumptions are appropriate;
 - day- or session-block bootstrap intervals;
 - coefficient or response stability across time, direction, session, and venue;
@@ -176,6 +220,8 @@ If predictive evidence is sufficient, candidate policies may compare:
 - an expected-value exit when predicted incremental return no longer covers estimated costs.
 
 All policies receive identical candidate events and causal execution. Trading MNQ requires an MNQ-specific cost and liquidity model; NQ price behavior cannot silently substitute for MNQ execution quality.
+
+Entry and exit thresholds are intentionally absent from the state-research specification. They may be introduced only in the strategy stage, fitted on development folds, subject to minimum-event constraints, and frozen before final evaluation.
 
 ## 12. Freeze procedure
 

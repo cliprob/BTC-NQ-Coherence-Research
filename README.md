@@ -22,6 +22,14 @@ The hypotheses do not assume that BTC leads NQ or that the weaker market must ca
 
 ETF adoption motivates a possible change in market integration, but this project will not infer ETF causality from a simple before/after price comparison.
 
+## Agreed coherence representation
+
+For each bar, the BTC and NQ candle-body directions are multiplied to obtain `+1` for agreement, `-1` for disagreement, and `0` for an exact doji. Coherence is the arithmetic mean of this signed agreement over three clock-time scales: **15, 30, and 60 minutes**.
+
+All three continuous measures are used together. No historically best window is selected. Conditional on current body-direction agreement, a discrete-time logistic model produces a next-bar agreement probability from the three scales. A second nested model adds joint body intensity and body-magnitude balance to test whether magnitude improves state-persistence estimates. Model comparison uses Brier score, log loss, and calibration—not trading P&L.
+
+No entry or exit threshold is defined during the state-research stage. Thresholds belong exclusively to a later strategy stage.
+
 ## Design principle
 
 Detection and execution are deliberately separated:
@@ -46,7 +54,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [x] Create a clean repository and a machine-readable draft protocol.
 - [ ] Review and freeze the research protocol.
 - [ ] Build a reproducible data registry and validation layer.
-- [ ] Implement separately measured body-direction coherence, body-based joint intensity, and body-magnitude balance.
+- [ ] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.

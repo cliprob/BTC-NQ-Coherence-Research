@@ -18,6 +18,13 @@ def test_repository_protocol_is_valid_draft() -> None:
         "log_close_over_open_body"
     )
     assert protocol["design"]["primary_uses_wicks_or_range"] is False
+    assert protocol["design"]["coherence_measure"]["scales_minutes"] == [15, 30, 60]
+    assert protocol["design"]["coherence_measure"]["use_scales_jointly"] is True
+    assert (
+        protocol["design"]["state_model_comparison"]["pnl_selection_prohibited"]
+        is True
+    )
+    assert protocol["design"]["state_model_comparison"]["coherence_threshold"] is None
     assert protocol["research"]["hypotheses"][1]["name"] == (
         "magnitude_conditioned_persistence"
     )
@@ -55,4 +62,20 @@ def test_primary_design_cannot_silently_add_wicks() -> None:
     protocol["design"]["primary_uses_wicks_or_range"] = True
 
     with pytest.raises(ProtocolError, match="Wicks and high-low range"):
+        validate_protocol(protocol)
+
+
+def test_coherence_scales_cannot_drift() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["coherence_measure"]["scales_minutes"] = [15, 30]
+
+    with pytest.raises(ProtocolError, match="exactly 15, 30, and 60"):
+        validate_protocol(protocol)
+
+
+def test_state_research_cannot_set_strategy_threshold() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["state_model_comparison"]["coherence_threshold"] = 0.7
+
+    with pytest.raises(ProtocolError, match="cannot be set before strategy"):
         validate_protocol(protocol)

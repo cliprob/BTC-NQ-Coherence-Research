@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: 0.3.0
+protocol_version: 0.4.0
 status: draft
 created_at: 2026-09-17
 
@@ -45,6 +45,24 @@ design:
     joint_intensity: common_normalized_body_strength
     magnitude_balance: cross_market_relative_body_strength
     catch_up: exploratory_not_assumed
+  coherence_measure:
+    per_bar_agreement: signed_body_direction_product
+    exact_doji_value: 0
+    missing_or_invalid_policy: ineligible_window
+    aggregation: unweighted_arithmetic_mean
+    scales_minutes: [15, 30, 60]
+    use_scales_jointly: true
+    output_range: [-1, 1]
+  state_model_comparison:
+    eligibility: current_bar_body_direction_agreement
+    target: next_bar_body_direction_agreement_given_current_agreement
+    estimator: discrete_time_logistic
+    m0_predictors: [coherence_15m, coherence_30m, coherence_60m]
+    m1_additional_predictors: [joint_intensity, magnitude_balance]
+    evaluation: [brier_score, log_loss, calibration]
+    pnl_selection_prohibited: true
+    coherence_threshold: null
+    threshold_stage: strategy_only
 
 data:
   development_data_previously_inspected: true
