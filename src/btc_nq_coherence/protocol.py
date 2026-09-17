@@ -53,6 +53,32 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
         raise ProtocolError("Candidate horizons must be positive integer minutes.")
     if horizons != sorted(set(horizons)):
         raise ProtocolError("Candidate horizons must be sorted and unique.")
+    if protocol["design"].get("primary_horizon_minutes") != 5:
+        raise ProtocolError("The primary economic return horizon must be five minutes.")
+    if horizons != [5, 15, 30, 60]:
+        raise ProtocolError(
+            "Return horizons must be the 5-minute primary and 15/30/60-minute secondary curve."
+        )
+
+    economic_return = protocol["design"].get("economic_return", {})
+    if economic_return.get("price_basis") != "next_open_to_horizon_open":
+        raise ProtocolError("Economic returns must use next-open to horizon-open prices.")
+    if economic_return.get("primary_horizon_minutes") != 5:
+        raise ProtocolError("Economic-return configuration must preserve the 5-minute primary.")
+    if economic_return.get("primary_five_minute_bars") != 1:
+        raise ProtocolError("The 5-minute primary must span one future 5-minute bar.")
+    if economic_return.get("robustness_one_minute_bars") != 5:
+        raise ProtocolError("The 1-minute robustness primary must span five future bars.")
+    if economic_return.get("one_minute_timing_diagnostics_minutes") != [1, 2, 3, 4, 5]:
+        raise ProtocolError("One-minute timing diagnostics must report +1 through +5 minutes.")
+    if economic_return.get("secondary_response_horizons_minutes") != [15, 30, 60]:
+        raise ProtocolError("Secondary economic horizons must be 15, 30, and 60 minutes.")
+    if economic_return.get("intermediate_diagnostics_secondary_only") is not True:
+        raise ProtocolError("Intermediate one-minute responses must remain secondary.")
+    if economic_return.get("secondary_may_replace_primary") is not False:
+        raise ProtocolError("A secondary horizon cannot replace the five-minute primary.")
+    if economic_return.get("target_must_remain_in_primary_session") is not True:
+        raise ProtocolError("Economic-return targets must remain in the primary session.")
 
     if protocol["design"].get("coherence_excludes_magnitude") is not True:
         raise ProtocolError(

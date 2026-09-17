@@ -23,6 +23,15 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["design"]["primary_bar_minutes"] == 5
     assert protocol["design"]["robustness_bar_minutes"] == [1]
     assert protocol["design"]["run_robustness_regardless_of_primary_result"] is True
+    assert protocol["design"]["primary_horizon_minutes"] == 5
+    assert protocol["design"]["candidate_horizons_minutes"] == [5, 15, 30, 60]
+    economic_return = protocol["design"]["economic_return"]
+    assert economic_return["price_basis"] == "next_open_to_horizon_open"
+    assert economic_return["primary_five_minute_bars"] == 1
+    assert economic_return["robustness_one_minute_bars"] == 5
+    assert economic_return["one_minute_timing_diagnostics_minutes"] == [1, 2, 3, 4, 5]
+    assert economic_return["secondary_response_horizons_minutes"] == [15, 30, 60]
+    assert economic_return["secondary_may_replace_primary"] is False
     sessions = protocol["design"]["session_scope"]
     assert sessions["primary"]["calendar"] == "XNYS"
     assert sessions["primary"]["nominal_open"] == "09:30"
@@ -114,6 +123,30 @@ def test_one_minute_robustness_cannot_be_conditionally_skipped() -> None:
     protocol["design"]["run_robustness_regardless_of_primary_result"] = False
 
     with pytest.raises(ProtocolError, match="robustness analysis is mandatory"):
+        validate_protocol(protocol)
+
+
+def test_primary_economic_horizon_cannot_drift() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["primary_horizon_minutes"] = 1
+
+    with pytest.raises(ProtocolError, match="must be five minutes"):
+        validate_protocol(protocol)
+
+
+def test_one_minute_economic_primary_must_span_five_bars() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["economic_return"]["robustness_one_minute_bars"] = 1
+
+    with pytest.raises(ProtocolError, match="must span five future bars"):
+        validate_protocol(protocol)
+
+
+def test_secondary_horizon_cannot_replace_primary() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["design"]["economic_return"]["secondary_may_replace_primary"] = True
+
+    with pytest.raises(ProtocolError, match="cannot replace"):
         validate_protocol(protocol)
 
 

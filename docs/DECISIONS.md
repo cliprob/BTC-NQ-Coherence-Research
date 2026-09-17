@@ -5,7 +5,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | ID | Decision | Current state | Evidence required before freeze |
 |---|---|---|---|
 | D-001 | Bar resolution | Resolved: 5-minute primary; mandatory 1-minute robustness | Same 15/30/60-minute clock-time scales; robustness runs regardless of the primary result |
-| D-002 | Primary forecast horizon | TBD | Economic mechanism and development-only response study; must be chosen without final P&L |
+| D-002 | Primary economic return horizon | Resolved: 5 minutes at both resolutions, measured next-open to horizon-open | 5-minute bars use one future bar; 1-minute bars use five future bars; 15/30/60 minutes remain secondary |
 | D-003 | Coherence definition | Resolved: signed mean of body-direction products at 15/30/60-minute scales, used jointly | No window selection by P&L; body magnitude is excluded |
 | D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
 | D-005 | Primary traded instrument | Proposed: MNQ | Confirm availability of execution-quality data and cost assumptions |
@@ -97,3 +97,13 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Overnight results are separately reported, use the same feature definitions, and cannot select or replace primary parameters or conclusions.
 - Weekends, holidays, the CME maintenance break, and unavailable NQ periods are excluded.
 - The post-cash period before the maintenance break belongs to neither specification.
+
+### 2026-09-17 — five-minute primary economic horizon
+
+- The primary economic outcome is the signed NQ return over the five minutes immediately following an eligible event.
+- The event is known only after its bar closes. Measurement starts at the next tradable open and ends at the open exactly five minutes later; no event-bar close fill is assumed.
+- In the five-minute primary specification this is one future open-to-open bar return.
+- In the one-minute robustness specification it is the cumulative open-to-open return across five future one-minute bars.
+- The cumulative one-minute path at +1, +2, +3, +4, and +5 minutes is a secondary timing diagnostic. It cannot redefine the primary endpoint.
+- Fifteen-, thirty-, and sixty-minute open-to-open responses form a prespecified secondary response curve. The most favorable secondary horizon cannot replace the five-minute primary.
+- This economic horizon is distinct from the state-persistence label: the latter remains next-bar agreement and therefore spans five minutes in the primary specification but one minute in the robustness specification.

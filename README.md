@@ -44,6 +44,12 @@ The primary specification uses **5-minute bars** constructed from validated one-
 
 Five-minute bars are aligned in UTC and use first open, maximum high, minimum low, last close, and summed volume. Incomplete bins are ineligible and prices are never forward-filled.
 
+## Economic return horizon
+
+The primary economic outcome is always the **subsequent five-minute NQ return**, measured causally from the first tradable open after the event bar closes to the open five minutes later. In the 5-minute specification this is the next bar's open-to-open return. In the 1-minute robustness specification it is the cumulative return over the next five one-minute bars.
+
+The cumulative 1-minute response path at +1 through +5 minutes is reported only as a timing diagnostic. Open-to-open responses at 15, 30, and 60 minutes form a prespecified secondary response curve; none may replace the 5-minute primary after results are observed. This economic endpoint is separate from the next-bar state-persistence label, whose duration necessarily follows the chosen bar resolution.
+
 ## Session scope
 
 Primary signals, targets, and simulated positions are restricted to the US cash-equity session, `09:30–16:00 America/New_York`, shortened by official early closes. Signals are formed only after an eligible bar closes, and targets or positions may not cross the official session close. Causal coherence lookbacks may use valid pre-09:30 bars so that the cash open remains observable.

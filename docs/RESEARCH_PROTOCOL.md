@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.8.0
+**Protocol version:** 0.9.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -202,19 +202,43 @@ The causal 15-, 30-, and 60-minute feature lookbacks may include valid bars befo
 
 The mandatory overnight negative control covers the CME equity-futures session from `18:00` on the prior evening through `09:30 America/New_York`. It excludes the daily CME maintenance interval, weekends, holidays, and unavailable NQ periods. It uses the same feature definitions and is reported regardless of the primary result, but it is evaluated separately and cannot select, alter, or replace primary parameters or conclusions. The post-cash interval from 16:00 until the maintenance break is outside both the primary and overnight specifications.
 
+### 3.7 Primary economic return horizon
+
+Let \(\tau_t\) be the boundary at which event bar \(t\) has fully closed and its signal becomes observable. Let \(O^{NQ}_{\tau_t}\) be the first tradable NQ open at that boundary. The unsigned open-to-open NQ response over \(h\) clock minutes is:
+
+\[
+R^{NQ}_{t,h}=\log\left(\frac{O^{NQ}_{\tau_t+h}}{O^{NQ}_{\tau_t}}\right).
+\]
+
+This timing does not assume a fill at the already observed event-bar close. It represents measurement from the next tradable open after signal formation to the open at the end of the stated horizon.
+
+The primary economic horizon is fixed at \(h=5\) minutes for both data resolutions:
+
+| Specification | Event known | Primary measurement | Equivalent bars |
+|---|---|---|---:|
+| 5-minute primary | after the event bar closes at \(\tau_t\) | \(O_{\tau_t}\) to \(O_{\tau_t+5m}\) | 1 future 5-minute bar |
+| 1-minute robustness | after the event bar closes at \(\tau_t\) | \(O_{\tau_t}\) to \(O_{\tau_t+5m}\) | 5 future 1-minute bars |
+
+In the one-minute robustness specification, cumulative responses at +1, +2, +3, +4, and +5 minutes are reported as secondary timing diagnostics. They may describe when a response appears or decays, but they cannot redefine the primary endpoint after inspection.
+
+The 15-, 30-, and 60-minute open-to-open responses form a prespecified secondary response curve. They test persistence, decay, or reversal over longer horizons; no member of that curve may replace the five-minute primary based on observed performance. Every response must end before the applicable official session boundary or the observation is ineligible.
+
+This economic endpoint is distinct from the state-persistence target in Section 3.4. The state model predicts next-bar directional agreement, which spans five minutes in the primary specification and one minute in the robustness specification. By contrast, the primary economic return always spans five clock minutes, preserving the same economic question across resolutions.
+
 For an eligible observation with \(d_t=+1\), let \(T_t\) denote the number of consecutive future bars for which \(d_u=+1\), beginning at \(t+1\). This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
 
 \[
 P(T_t \ge k \mid \mathbf C_t, J_t, B_t, d_t=+1).
 \]
 
-For economic interpretation, let \(S_t\) denote the common detected direction. A candidate signed NQ outcome is:
+For economic interpretation, let \(S_t\) denote the common detected direction. The signed NQ outcome is:
 
 \[
-Y_{t,h} = S_t \sum_{u=t+1}^{t+h} r^{NQ}_u.
+Y_{t,h} = S_t R^{NQ}_{t,h},
+\qquad h\in\{5,15,30,60\}\text{ minutes}.
 \]
 
-A positive value denotes continuation in the jointly detected direction and a negative value denotes reversal. Future observations appear here as outcomes needed to evaluate persistence and tradability; their use does not assert a BTC-to-NQ lead–lag mechanism.
+A positive value denotes continuation in the jointly detected direction and a negative value denotes reversal. Five minutes is the primary horizon; 15, 30, and 60 minutes are secondary. Future observations appear here as outcomes needed to evaluate persistence and tradability; their use does not assert a BTC-to-NQ lead–lag mechanism.
 
 At the later return-prediction stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
 
@@ -223,7 +247,7 @@ At the later return-prediction stage, the incremental out-of-sample value of the
 - L(\widehat r^{NQ+BTC}_{t,t+h}),
 \]
 
-evaluated at preregistered horizons \(h\). A positive \(\Delta L_h\) means the expanded information set reduces forecast loss.
+evaluated at the primary five-minute horizon and the prespecified secondary horizons. A positive \(\Delta L_h\) means the expanded information set reduces forecast loss.
 
 ## 4. Hypotheses
 
