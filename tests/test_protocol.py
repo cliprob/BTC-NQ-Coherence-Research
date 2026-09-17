@@ -23,6 +23,17 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["design"]["primary_bar_minutes"] == 5
     assert protocol["design"]["robustness_bar_minutes"] == [1]
     assert protocol["design"]["run_robustness_regardless_of_primary_result"] is True
+    sessions = protocol["design"]["session_scope"]
+    assert sessions["primary"]["calendar"] == "XNYS"
+    assert sessions["primary"]["nominal_open"] == "09:30"
+    assert sessions["primary"]["nominal_close"] == "16:00"
+    assert sessions["overnight_negative_control"]["enabled"] is True
+    assert (
+        sessions["overnight_negative_control"][
+            "may_select_or_replace_primary_parameters"
+        ]
+        is False
+    )
     assert (
         protocol["design"]["state_model_comparison"]["pnl_selection_prohibited"]
         is True
@@ -173,4 +184,31 @@ def test_dataset_warmup_must_match_scale_lookback() -> None:
     protocol["data"]["minimum_pre_sample_warmup_sessions"] = 20
 
     with pytest.raises(ProtocolError, match="63-session warm-up"):
+        validate_protocol(protocol)
+
+
+def test_primary_target_cannot_cross_official_close() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    primary = protocol["design"]["session_scope"]["primary"]
+    primary["target_must_end_by_official_close"] = False
+
+    with pytest.raises(ProtocolError, match="must end by the official close"):
+        validate_protocol(protocol)
+
+
+def test_overnight_control_cannot_be_skipped() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    overnight = protocol["design"]["session_scope"]["overnight_negative_control"]
+    overnight["required_regardless_of_primary_result"] = False
+
+    with pytest.raises(ProtocolError, match="overnight negative control is mandatory"):
+        validate_protocol(protocol)
+
+
+def test_overnight_result_cannot_replace_primary() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    overnight = protocol["design"]["session_scope"]["overnight_negative_control"]
+    overnight["may_select_or_replace_primary_parameters"] = True
+
+    with pytest.raises(ProtocolError, match="cannot select primary parameters"):
         validate_protocol(protocol)

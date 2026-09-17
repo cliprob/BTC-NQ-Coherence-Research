@@ -44,6 +44,12 @@ The primary specification uses **5-minute bars** constructed from validated one-
 
 Five-minute bars are aligned in UTC and use first open, maximum high, minimum low, last close, and summed volume. Incomplete bins are ineligible and prices are never forward-filled.
 
+## Session scope
+
+Primary signals, targets, and simulated positions are restricted to the US cash-equity session, `09:30–16:00 America/New_York`, shortened by official early closes. Signals are formed only after an eligible bar closes, and targets or positions may not cross the official session close. Causal coherence lookbacks may use valid pre-09:30 bars so that the cash open remains observable.
+
+The NQ overnight session from `18:00` on the prior evening to `09:30 America/New_York` is a mandatory, separately reported negative control. It uses the same feature definitions but cannot select or replace the primary specification. Weekends, the CME maintenance break, holidays, and invalid bars are excluded.
+
 ## Design principle
 
 Detection and execution are deliberately separated:
@@ -71,6 +77,7 @@ Contemporaneous correlation is not itself a trading signal. A tradable result re
 - [ ] Implement the agreed 15/30/60-minute body-direction coherence representation, body-based joint intensity, and body-magnitude balance.
 - [ ] Produce descriptive event studies and response curves without strategy optimization.
 - [ ] Run the mandatory 1-minute robustness specification regardless of the primary result.
+- [ ] Run the mandatory overnight negative control without changing primary parameters.
 - [ ] Compare NQ-only and NQ+BTC forecasts with purged walk-forward evaluation.
 - [ ] Define entry and exit policies using development data only.
 - [ ] Lock the complete specification and open the final holdout once.

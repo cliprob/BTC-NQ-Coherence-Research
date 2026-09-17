@@ -1,5 +1,5 @@
 schema_version: 1
-protocol_version: 0.7.0
+protocol_version: 0.8.0
 status: draft
 created_at: 2026-09-17
 
@@ -35,7 +35,34 @@ design:
   run_robustness_regardless_of_primary_result: true
   primary_horizon_minutes: null
   candidate_horizons_minutes: [1, 5, 10, 15, 30, 60]
-  primary_session: proposed_us_cash_hours
+  session_scope:
+    timezone: America/New_York
+    interval_semantics: left_closed_right_open
+    primary:
+      role: confirmatory
+      calendar: XNYS
+      nominal_open: "09:30"
+      nominal_close: "16:00"
+      early_close_policy: official_calendar_close
+      signal_after_bar_close: true
+      target_must_end_by_official_close: true
+      exit_must_end_by_official_close: true
+      truncate_target_or_position_at_close: false
+      carry_position_overnight: false
+      causal_lookback_may_precede_open: true
+      pre_open_bars_may_be_signals_or_outcomes: false
+    overnight_negative_control:
+      enabled: true
+      required_regardless_of_primary_result: true
+      role: negative_control
+      calendar: CME_equity_futures
+      start_previous_evening: "18:00"
+      end: "09:30"
+      excludes_maintenance_break: true
+      excludes_weekends_and_holidays: true
+      separately_reported: true
+      may_select_or_replace_primary_parameters: false
+      post_cash_pre_maintenance_included: false
   earliest_execution: next_bar_open
   prediction_comparison: nq_only_vs_nq_plus_btc
   strategy_stage_locked: true

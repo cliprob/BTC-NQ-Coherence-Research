@@ -12,7 +12,7 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | D-006 | Development sample | Existing data through 2026-05-12 may be exploratory | Register exact file hashes and prior exposure |
 | D-007 | Final holdout | TBD and unopened | Boundaries must be committed before data inspection |
 | D-008 | Pre-ETP sample start | Proposed: 2022-01-01 | Confirm consistent BTC and futures coverage |
-| D-009 | Session definition | Proposed: US cash hours primary | Specify overnight and weekend negative controls |
+| D-009 | Session definition | Resolved: XNYS 09:30–16:00 ET primary; mandatory 18:00–09:30 ET overnight negative control | Official holidays/early closes; no target or position crosses primary close |
 | D-010 | Multiple-testing procedure | TBD | Match procedure to final estimands and dependence structure |
 | D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
 | D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Both include common direction; evaluate with Brier score, log loss, and calibration |
@@ -86,3 +86,14 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - Missing slots extend the search backward until 63 valid observations exist.
 - Fewer than 63 observations, zero/non-finite MAD, roll contamination, or known gaps make the observation ineligible.
 - No epsilon floor, cross-slot substitution, or future-data fallback is allowed.
+
+### 2026-09-17 — primary cash session and overnight control
+
+- Primary signal bars, targets, and simulated positions use `09:30–16:00 America/New_York` and the official XNYS holiday/early-close calendar.
+- Signals are formed after bar close; the earliest primary executions are 09:35 for five-minute bars and 09:31 for one-minute bars.
+- Targets and positions must finish by the official session close and are never truncated or carried overnight.
+- Causal feature lookbacks may use valid pre-09:30 bars, preserving the market open without expanding primary signal or outcome timestamps.
+- The mandatory overnight negative control covers the CME equity-futures period from 18:00 on the prior evening through 09:30 ET.
+- Overnight results are separately reported, use the same feature definitions, and cannot select or replace primary parameters or conclusions.
+- Weekends, holidays, the CME maintenance break, and unavailable NQ periods are excluded.
+- The post-cash period before the maintenance break belongs to neither specification.

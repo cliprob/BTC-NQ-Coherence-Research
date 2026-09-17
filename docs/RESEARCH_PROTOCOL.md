@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.7.0
+**Protocol version:** 0.8.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -190,6 +190,18 @@ A five-minute bin is eligible only when every expected one-minute observation is
 
 The five-minute primary reduces timestamp sensitivity and microstructure noise. The one-minute robustness analysis tests whether aggregation conceals a faster relationship; it is secondary even if its point estimate is more favorable.
 
+### 3.6 Session scope and overnight negative control
+
+Primary signal bars, prediction targets, and simulated positions are restricted to the US cash-equity session. The nominal session is `09:30–16:00 America/New_York`, using the official XNYS calendar for holidays and early closes. On an early-close date, the official close replaces 16:00.
+
+Bars use left-closed, right-open intervals. For the five-minute primary, the first cash-session bar is `[09:30,09:35)` and the last full-session bar is `[15:55,16:00)`. A signal may be formed only after a primary-session bar closes. The first possible five-minute execution is therefore 09:35; the one-minute robustness analogue is 09:31.
+
+Every target and simulated position must finish by the official cash-session close. Observations whose target, label, or required exit would cross that close are ineligible rather than truncated. Positions may not be carried overnight.
+
+The causal 15-, 30-, and 60-minute feature lookbacks may include valid bars before 09:30. This preserves information available at the cash open without admitting pre-session signal timestamps or outcomes into the primary sample. Such lookback bars must still pass the same gap, roll, timestamp, and data-quality rules.
+
+The mandatory overnight negative control covers the CME equity-futures session from `18:00` on the prior evening through `09:30 America/New_York`. It excludes the daily CME maintenance interval, weekends, holidays, and unavailable NQ periods. It uses the same feature definitions and is reported regardless of the primary result, but it is evaluated separately and cannot select, alter, or replace primary parameters or conclusions. The post-cash interval from 16:00 until the maintenance break is outside both the primary and overnight specifications.
+
 For an eligible observation with \(d_t=+1\), let \(T_t\) denote the number of consecutive future bars for which \(d_u=+1\), beginning at \(t+1\). This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
 
 \[
@@ -245,10 +257,11 @@ The order is binding once the protocol is frozen:
 4. event-time response curves across the complete return-horizon set;
 5. joint-intensity and magnitude-balance surfaces for regime persistence and within-regime returns;
 6. nested out-of-sample return-forecast comparison;
-7. strategy construction only if predictive evidence warrants it;
-8. one final holdout evaluation.
+7. separately reported overnight negative control;
+8. strategy construction only if predictive evidence warrants it;
+9. one final holdout evaluation.
 
-Trading P&L must not be used to select definitions or models during stages 1–6.
+Trading P&L must not be used to select definitions or models during stages 1–7.
 
 ## 6. Timing and leakage rules
 
@@ -258,6 +271,7 @@ Trading P&L must not be used to select definitions or models during stages 1–6
 - Futures roll transitions, incomplete bars, session boundaries, and material data gaps are explicitly marked and excluded where necessary.
 - Fold boundaries are purged by at least the maximum label horizon. Any additional embargo must be specified before the final evaluation.
 - Overlapping labels may be used for response estimation only with dependence-aware inference. A trading simulation must enforce its separately declared position policy.
+- Primary labels and simulated positions may not cross the official cash-session close; observations are excluded rather than shortened.
 
 ## 7. Data requirements
 

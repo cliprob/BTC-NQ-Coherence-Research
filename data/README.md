@@ -11,6 +11,8 @@ Raw data must not be committed to this repository.
 | NQ/MNQ contracts | source timestamp, OHLCV, contract ID | Outcome, roll handling, and execution study |
 | Exchange calendar | session, holiday, early-close metadata | Eligibility and session controls |
 
+Primary eligibility follows the XNYS `09:30–16:00 America/New_York` cash calendar, including official holidays and early closes. Overnight negative-control eligibility additionally requires the CME equity-futures calendar and maintenance schedule. Calendar versions must be recorded with generated datasets.
+
 Bid/ask or quote data is preferred for the eventual execution study. Bar-only slippage assumptions must be reported as modeled costs rather than observed execution.
 
 ## Existing local inventory

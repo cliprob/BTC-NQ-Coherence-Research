@@ -93,6 +93,57 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
     if design.get("run_robustness_regardless_of_primary_result") is not True:
         raise ProtocolError("The one-minute robustness analysis is mandatory.")
 
+    sessions = design.get("session_scope", {})
+    if sessions.get("timezone") != "America/New_York":
+        raise ProtocolError("Session scope must be DST-aware America/New_York.")
+    if sessions.get("interval_semantics") != "left_closed_right_open":
+        raise ProtocolError("Session bars must use left-closed, right-open intervals.")
+    primary_session = sessions.get("primary", {})
+    if primary_session.get("calendar") != "XNYS":
+        raise ProtocolError("Primary session must use the XNYS calendar.")
+    if primary_session.get("nominal_open") != "09:30":
+        raise ProtocolError("Primary session must open at 09:30 New York time.")
+    if primary_session.get("nominal_close") != "16:00":
+        raise ProtocolError("Primary session must close at 16:00 New York time.")
+    if primary_session.get("early_close_policy") != "official_calendar_close":
+        raise ProtocolError("Primary session must honor official early closes.")
+    if primary_session.get("signal_after_bar_close") is not True:
+        raise ProtocolError("Primary signals must form after bar close.")
+    if primary_session.get("target_must_end_by_official_close") is not True:
+        raise ProtocolError("Primary targets must end by the official close.")
+    if primary_session.get("exit_must_end_by_official_close") is not True:
+        raise ProtocolError("Primary exits must occur by the official close.")
+    if primary_session.get("truncate_target_or_position_at_close") is not False:
+        raise ProtocolError("Targets and positions cannot be truncated at the close.")
+    if primary_session.get("carry_position_overnight") is not False:
+        raise ProtocolError("Primary positions cannot be carried overnight.")
+    if primary_session.get("causal_lookback_may_precede_open") is not True:
+        raise ProtocolError("Causal lookbacks must preserve information at the open.")
+    if primary_session.get("pre_open_bars_may_be_signals_or_outcomes") is not False:
+        raise ProtocolError("Pre-open bars cannot be primary signals or outcomes.")
+
+    overnight = sessions.get("overnight_negative_control", {})
+    if overnight.get("enabled") is not True:
+        raise ProtocolError("The overnight negative control must be enabled.")
+    if overnight.get("required_regardless_of_primary_result") is not True:
+        raise ProtocolError("The overnight negative control is mandatory.")
+    if overnight.get("calendar") != "CME_equity_futures":
+        raise ProtocolError("Overnight control must use the CME equity calendar.")
+    if overnight.get("start_previous_evening") != "18:00":
+        raise ProtocolError("Overnight control must start at 18:00 New York time.")
+    if overnight.get("end") != "09:30":
+        raise ProtocolError("Overnight control must end at 09:30 New York time.")
+    if overnight.get("excludes_maintenance_break") is not True:
+        raise ProtocolError("Overnight control must exclude CME maintenance.")
+    if overnight.get("excludes_weekends_and_holidays") is not True:
+        raise ProtocolError("Overnight control must exclude weekends and holidays.")
+    if overnight.get("separately_reported") is not True:
+        raise ProtocolError("Overnight control must be reported separately.")
+    if overnight.get("may_select_or_replace_primary_parameters") is not False:
+        raise ProtocolError("Overnight results cannot select primary parameters.")
+    if overnight.get("post_cash_pre_maintenance_included") is not False:
+        raise ProtocolError("Post-cash trading is outside the overnight control.")
+
     construction = design.get("bar_construction", {})
     if construction.get("source_bar_minutes") != 1:
         raise ProtocolError("Five-minute bars must derive from one-minute source data.")
