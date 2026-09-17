@@ -41,6 +41,20 @@ python -m btc_nq_coherence.data_audit `
 
 The streaming audit checks file identity, timestamp ordering, duplicates, cadence breaks, finite OHLCV values, OHLC invariants, non-negative volume, NQ tick conformity, contract identifiers, and contract transitions. It then separates legitimate exchange closures from missing primary-session bars using a version-recorded XNYS-compatible market calendar.
 
+## Build the constrained development dataset
+
+```powershell
+python -m btc_nq_coherence.canonicalize `
+  --registry configs/data_registry.yaml `
+  --study configs/available_data_study.yaml `
+  --nq-path "C:\path\to\NQ.csv" `
+  --btc-path "C:\path\to\BTCUSDT.csv" `
+  --output data/interim/synchronized_development_1m.csv `
+  --manifest data/registry/available_data_eligibility.json
+```
+
+The generated local CSV retains synchronized common minutes and adds explicit eligibility flags. It never fills a missing market price. The committed manifest contains every excluded session and the exact output hash without publishing proprietary rows.
+
 ## Planned local layout
 
 ```text

@@ -235,6 +235,27 @@ def validate_protocol(protocol: dict[str, Any]) -> None:
         raise ProtocolError("Historical scale must update causally between sessions.")
     if protocol["data"].get("minimum_pre_sample_warmup_sessions") != 63:
         raise ProtocolError("The dataset must provide a 63-session warm-up.")
+    current_iteration = protocol["data"].get("current_iteration", {})
+    if current_iteration.get("mode") != "development_only":
+        raise ProtocolError("The current available-data iteration must be development-only.")
+    if current_iteration.get("complete_primary_sessions_before_warmup") != 458:
+        raise ProtocolError("Current primary-session eligibility must match the data manifest.")
+    if current_iteration.get("complete_overnight_sessions_before_warmup") != 551:
+        raise ProtocolError("Current overnight eligibility must match the data manifest.")
+    if current_iteration.get("exclude_incomplete_session_entirely") is not True:
+        raise ProtocolError("Incomplete sessions must be excluded in full.")
+    if current_iteration.get("exclude_contract_transition_session") is not True:
+        raise ProtocolError("Contract-transition sessions must be excluded in full.")
+    if current_iteration.get("forward_fill_prices") is not False:
+        raise ProtocolError("The current study cannot forward-fill prices.")
+    if current_iteration.get("pre_etp_sample_available") is not False:
+        raise ProtocolError("The current files do not contain a pre-ETP sample.")
+    if current_iteration.get("pristine_final_holdout_available") is not False:
+        raise ProtocolError("The current files do not contain a pristine final holdout.")
+    if current_iteration.get("confirmatory_claims_permitted") is not False:
+        raise ProtocolError("Confirmatory claims are prohibited for the current files.")
+    if current_iteration.get("weekday_sampling_imbalance_present") is not True:
+        raise ProtocolError("The observed weekday sampling imbalance must be disclosed.")
     if magnitude.get("joint_intensity") != "geometric_mean":
         raise ProtocolError("Joint intensity must use the geometric mean.")
     if magnitude.get("magnitude_balance") != "normalized_difference":

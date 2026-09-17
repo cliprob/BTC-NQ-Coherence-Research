@@ -9,9 +9,9 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 | D-003 | Coherence definition | Resolved: signed mean of body-direction products at 15/30/60-minute scales, used jointly | No window selection by P&L; body magnitude is excluded |
 | D-004 | Joint-event definition | Continuous primary; thresholded events secondary | Confirm exact normalization and trailing volatility estimator |
 | D-005 | Primary traded instrument | Proposed: MNQ | Confirm availability of execution-quality data and cost assumptions |
-| D-006 | Development sample | Existing data through 2026-05-12 may be exploratory | Register exact file hashes and prior exposure |
-| D-007 | Final holdout | TBD and unopened | Boundaries must be committed before data inspection |
-| D-008 | Pre-ETP sample start | Proposed: 2022-01-01 | Confirm consistent BTC and futures coverage |
+| D-006 | Development sample | Resolved for current iteration: 458 complete primary sessions through 2026-05-12 before warm-up | Entire incomplete and roll sessions excluded; weekday imbalance reported |
+| D-007 | Final holdout | Unavailable in current files; confirmatory claims prohibited | A future unseen range must be separately acquired and frozen |
+| D-008 | Pre-ETP sample start | Unavailable in current files; H4 deferred | Coverage beginning by 2022 remains a future data requirement |
 | D-009 | Session definition | Resolved: XNYS 09:30–16:00 ET primary; mandatory 18:00–09:30 ET overnight negative control | Official holidays/early closes; no target or position crosses primary close |
 | D-010 | Multiple-testing procedure | TBD | Match procedure to final estimands and dependence structure |
 | D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
@@ -107,3 +107,13 @@ This file records research degrees of freedom before the protocol is frozen. `TB
 - The cumulative one-minute path at +1, +2, +3, +4, and +5 minutes is a secondary timing diagnostic. It cannot redefine the primary endpoint.
 - Fifteen-, thirty-, and sixty-minute open-to-open responses form a prespecified secondary response curve. The most favorable secondary horizon cannot replace the five-minute primary.
 - This economic horizon is distinct from the state-persistence label: the latter remains next-bar agreement and therefore spans five minutes in the primary specification but one minute in the robustness specification.
+
+### 2026-09-17 — constrained available-data study
+
+- Research continues on the existing registered files as development-only work; better source data is not assumed to be available.
+- An incomplete primary or overnight session is excluded in full. Missing prices are never forward-filled.
+- Every session containing an NQ contract transition is excluded in full.
+- The deterministic eligibility pass retains 458 primary sessions and 551 overnight sessions before feature warm-up.
+- Only 31 Thursdays survive in the primary sample, versus 98–113 sessions for each other weekday. Weekday-specific reporting is mandatory.
+- The current range cannot estimate the pre/post-ETP hypothesis and cannot supply a pristine final holdout.
+- Walk-forward results may refine or reject the hypothesis but may not support confirmed-alpha or deployment-readiness language.

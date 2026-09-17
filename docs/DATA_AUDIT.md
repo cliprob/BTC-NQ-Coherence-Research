@@ -8,7 +8,7 @@
 
 The local BTC files are structurally complete over their recorded ranges. The stitched NQ file is syntactically valid and preserves contract identifiers, but it is **not research-ready**: 83 of 545 complete XNYS cash sessions contain missing blocks, for a total of 16,200 absent one-minute bars. The pattern is concentrated on 71 Thursdays and 12 Wednesdays, which is consistent with an acquisition or stitching artifact rather than ordinary exchange closures.
 
-No missing price is to be forward-filled. The NQ history must be reacquired from a source that preserves individual contract identifiers and complete minute bars, or reconstructed from retained source exports with a documented roll rule and independently verified session coverage.
+No missing price is to be forward-filled. Reacquisition remains preferable, but the repository now defines a constrained fallback for the data actually available: use only sessions for which every expected BTC and NQ minute is present, exclude the entire session containing a contract transition, and label every result development-only.
 
 ## Registered inventory
 
@@ -43,12 +43,23 @@ The existing files also cannot estimate a pre/post January 2024 regime change. T
 
 ## Required remediation before feature research
 
-1. Reacquire contract-level NQ or MNQ one-minute OHLCV with documented vendor metadata and timestamp semantics.
-2. Retain immutable source exports and hashes rather than only a stitched derivative.
-3. Register the deterministic front-contract/roll policy; never infer it from future liquidity.
-4. Repeat the structural and official-calendar audit and require zero missing primary-session minutes in all retained sessions.
-5. Acquire data beginning no later than 2022 if the post-ETP comparison remains in scope.
-6. Reserve an unseen period strictly after 2026-05-12; do not inspect it during feature or model development.
+1. Build the development dataset only from complete sessions under `configs/available_data_study.yaml`.
+2. Exclude complete roll-session dates as well as sessions with missing bars; never forward-fill.
+3. Report the resulting weekday distribution and all excluded dates in the generated manifest.
+4. Treat all inference as post-ETP development evidence, not a pre/post comparison or final holdout result.
+5. If better data later becomes available, register it as a new immutable source and rerun the same eligibility layer.
 
 The exact machine-readable findings are in [`data/registry/local_inventory_audit.json`](../data/registry/local_inventory_audit.json). Raw market rows remain outside Git.
 
+## Implemented fallback outcome
+
+The deterministic canonicalization pass retained:
+
+| Role | Candidate sessions | Eligible sessions | Eligible minutes | Excluded sessions |
+|---|---:|---:|---:|---:|
+| XNYS primary | 545 | 458 | 177,540 | 87 |
+| CME overnight negative control | 560 | 551 | 512,430 | 9 |
+
+The primary eligible-session weekday counts are Monday 106, Tuesday 113, Wednesday 98, Thursday 31, and Friday 110. This severe Thursday underrepresentation is an explicit limitation of every analysis using the current data. Results must be shown by weekday and treated as development evidence rather than population-level confirmation.
+
+The synchronized local output contains 746,086 common BTC–NQ minutes with explicit primary and overnight eligibility flags. It is ignored by Git; only its hash, source identities, exclusions, counts, and limitations are committed in [`data/registry/available_data_eligibility.json`](../data/registry/available_data_eligibility.json).

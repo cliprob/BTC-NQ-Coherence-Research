@@ -1,0 +1,42 @@
+schema_version: 1
+status: development_only
+
+sources:
+  btc_dataset_id: btc_binance_um_futures_1m
+  nq_dataset_id: nq_ibkr_stitched_front_month_1m
+
+availability:
+  earliest_common_timestamp_utc: "2024-03-07T23:00:00Z"
+  latest_common_timestamp_utc: "2026-05-12T14:47:00Z"
+  pre_etp_sample_available: false
+  pristine_final_holdout_available: false
+  confirmatory_claims_permitted: false
+  post_etp_structural_change_estimable: false
+
+eligibility:
+  primary_session:
+    protocol_calendar: XNYS
+    implementation_calendar: NYSE
+    require_every_expected_minute: true
+    exclude_contract_transition_session: true
+    incomplete_session_policy: exclude_entire_session
+  overnight_negative_control:
+    implementation_calendar: CME_Equity
+    require_every_expected_minute: true
+    exclude_contract_transition_session: true
+    incomplete_session_policy: exclude_entire_session
+  missing_price_policy: never_forward_fill
+  minimum_causal_warmup_sessions: 63
+
+interpretation:
+  allowed:
+    - pipeline_engineering
+    - descriptive_post_etp_analysis
+    - development_only_walk_forward_evaluation
+    - hypothesis_refinement
+  prohibited:
+    - pristine_holdout_claim
+    - pre_post_etp_claim
+    - confirmed_alpha_claim
+    - deployment_readiness_claim
+

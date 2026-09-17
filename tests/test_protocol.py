@@ -65,6 +65,13 @@ def test_repository_protocol_is_valid_draft() -> None:
     assert protocol["research"]["hypotheses"][1]["name"] == (
         "magnitude_conditioned_persistence"
     )
+    current_iteration = protocol["data"]["current_iteration"]
+    assert current_iteration["mode"] == "development_only"
+    assert current_iteration["complete_primary_sessions_before_warmup"] == 458
+    assert current_iteration["complete_overnight_sessions_before_warmup"] == 551
+    assert current_iteration["pre_etp_sample_available"] is False
+    assert current_iteration["pristine_final_holdout_available"] is False
+    assert current_iteration["confirmatory_claims_permitted"] is False
 
 
 def test_frozen_protocol_rejects_unresolved_holdout() -> None:
@@ -244,4 +251,12 @@ def test_overnight_result_cannot_replace_primary() -> None:
     overnight["may_select_or_replace_primary_parameters"] = True
 
     with pytest.raises(ProtocolError, match="cannot select primary parameters"):
+        validate_protocol(protocol)
+
+
+def test_current_data_cannot_be_relabelled_as_confirmatory() -> None:
+    protocol = load_protocol(ROOT / "configs" / "research_protocol.yaml")
+    protocol["data"]["current_iteration"]["confirmatory_claims_permitted"] = True
+
+    with pytest.raises(ProtocolError, match="Confirmatory claims are prohibited"):
         validate_protocol(protocol)

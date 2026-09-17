@@ -1,6 +1,6 @@
 # Research Protocol
 
-**Protocol version:** 0.9.0
+**Protocol version:** 0.10.0
 
 **Status:** DRAFT — not preregistered or frozen
 
@@ -308,6 +308,21 @@ The target dataset should include:
 - a final period not inspected during protocol or model development.
 
 The existing March 2024–May 2026 data may be used for engineering and exploratory development. It cannot establish a pre/post BTC ETP effect. Because earlier research inspected much of this period, it is not a pristine final holdout for the new study.
+
+### 7.1 Current available-data implementation
+
+The current repository iteration proceeds with the registered local files under an explicit `development-only` constraint. No unavailable row is imputed. A primary or overnight session is eligible only if every expected one-minute BTC and NQ bar is present under its official calendar, and every session containing an NQ contract transition is excluded in full.
+
+After applying those rules, 458 primary XNYS sessions and 551 overnight-control sessions remain before the 63-session feature warm-up. The primary sample is not weekday-balanced: only 31 Thursdays survive, compared with 98–113 sessions for each other weekday. Every empirical result must therefore report weekday-specific stability and may not be generalized as if sessions were missing at random.
+
+The registered range begins after US spot BTC ETP trading started and has already been inspected in previous iterations. Consequently:
+
+- H4 is deferred and cannot be estimated from the current files;
+- no result from this range is a pristine final-holdout result;
+- walk-forward estimates are development evidence only;
+- confirmed-alpha, deployment-readiness, and causal ETF claims are prohibited.
+
+These restrictions are machine-readable in `configs/available_data_study.yaml`. They do not change the mathematical feature definitions or permit selection on future outcomes.
 
 ## 8. Models and baselines
 

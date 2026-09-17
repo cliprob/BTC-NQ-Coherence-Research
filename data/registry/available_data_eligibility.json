@@ -1,0 +1,946 @@
+{
+  "calendar_library": "pandas_market_calendars==5.4.0",
+  "canonical_output": {
+    "committed": false,
+    "file_name": "synchronized_development_1m.csv",
+    "row_count": 746086,
+    "sha256": "ec37b3d35a9e8d8b9931e1d29172997c741c4b3d6ffaf7c22f1e6c50d9991cca"
+  },
+  "common_range_utc": {
+    "end": "2026-05-12T14:47:00+00:00",
+    "start": "2024-03-07T23:00:00+00:00"
+  },
+  "generated_at": "2026-09-17T14:38:27.760112+00:00",
+  "limitations": {
+    "confirmatory_claims_permitted": false,
+    "pre_etp_sample_available": false,
+    "pristine_final_holdout_available": false
+  },
+  "overnight_negative_control": {
+    "candidate_sessions": 560,
+    "eligible_minutes": 512430,
+    "eligible_sessions": 551,
+    "eligible_sessions_by_weekday": {
+      "Friday": 111,
+      "Monday": 114,
+      "Thursday": 101,
+      "Tuesday": 114,
+      "Wednesday": 111
+    },
+    "excluded_sessions": [
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 300,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2024-06-13"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 300,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2024-09-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 360,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2024-12-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 300,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2025-03-13"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 2,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2025-04-03"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 300,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2025-06-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 300,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2025-09-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 360,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2025-12-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 0,
+        "reasons": [
+          "contract_transition_session"
+        ],
+        "role": "overnight_negative_control",
+        "session_date": "2026-03-12"
+      }
+    ]
+  },
+  "primary": {
+    "candidate_sessions": 545,
+    "eligible_minutes": 177540,
+    "eligible_sessions": 458,
+    "eligible_sessions_by_weekday": {
+      "Friday": 110,
+      "Monday": 106,
+      "Thursday": 31,
+      "Tuesday": 113,
+      "Wednesday": 98
+    },
+    "excluded_sessions": [
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-03-14"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-03-21"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-04-04"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-04-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-04-18"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-04-25"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-05-02"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-05-09"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-05-16"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-05-23"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-05-30"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-06-06"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2024-06-13"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-06-20"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-06-27"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-07-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-07-18"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-07-25"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-08-01"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-08-08"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-08-15"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-08-22"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-08-29"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-09-05"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2024-09-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-09-19"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-09-26"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-10-03"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-10-10"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-10-17"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-10-24"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-10-31"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-11-07"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-11-14"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-11-21"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-12-05"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2024-12-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-12-19"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2024-12-26"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-01-02"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-01-16"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-01-23"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-01-30"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-02-06"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-02-13"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-02-20"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-02-27"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-03-06"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes",
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2025-03-13"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-03-20"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-03-27"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-04-03"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-04-10"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-04-24"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-05-01"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-05-08"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-05-15"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-05-22"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-05-29"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-06-05"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 0,
+        "reasons": [
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2025-06-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-06-18"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-06-26"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-07-10"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-07-17"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-07-24"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-07-31"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-08-07"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-08-14"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-08-21"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-08-28"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-09-04"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 0,
+        "reasons": [
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2025-09-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-09-17"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-09-24"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-10-01"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-10-08"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-10-15"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-10-22"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 180,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-10-29"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-11-05"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-11-12"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-11-19"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-11-26"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 240,
+        "reasons": [
+          "missing_nq_minutes"
+        ],
+        "role": "primary",
+        "session_date": "2025-12-04"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 0,
+        "reasons": [
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2025-12-11"
+      },
+      {
+        "missing_btc_minutes": 0,
+        "missing_nq_minutes": 0,
+        "reasons": [
+          "contract_transition_session"
+        ],
+        "role": "primary",
+        "session_date": "2026-03-12"
+      }
+    ]
+  },
+  "roll_session_dates": [
+    "2024-06-13",
+    "2024-09-12",
+    "2024-12-12",
+    "2025-03-13",
+    "2025-06-12",
+    "2025-09-11",
+    "2025-12-11",
+    "2026-03-12"
+  ],
+  "schema_version": 1,
+  "source_files": {
+    "btc": {
+      "dataset_id": "btc_binance_um_futures_1m",
+      "row_count": 1145748,
+      "sha256": "be73702d2ab5f9bc0f0de0d7d9621aa4ff1a4215a6607fe1d5a37060e903051c"
+    },
+    "nq": {
+      "dataset_id": "nq_ibkr_stitched_front_month_1m",
+      "row_count": 746086,
+      "sha256": "d3fe03a565f390502be08b5a402069cddabbf6e491bd1fa5cd1917be2683a2ab"
+    }
+  },
+  "status": "development_only"
+}
