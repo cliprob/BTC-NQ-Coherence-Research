@@ -152,7 +152,7 @@ def verify_report() -> None:
     if len(reader.pages) != manifest["page_count"]:
         raise ValueError("PDF page count does not match the report manifest.")
     if not 8 <= len(reader.pages) <= 14:
-        raise ValueError("Journal manuscript should contain between 8 and 14 pages.")
+        raise ValueError("Research report should contain between 8 and 14 pages.")
     text = "\n".join(page.extract_text() or "" for page in reader.pages)
     required = [
         "Magnitude-conditioned state persistence",

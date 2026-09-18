@@ -10,6 +10,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports" / "development"
@@ -64,8 +65,158 @@ def _style() -> None:
             "figure.facecolor": "white",
             "axes.facecolor": "white",
             "savefig.facecolor": "white",
+            "svg.fonttype": "none",
+            "svg.hashsalt": "btc-nq-coherence-research",
         }
     )
+
+
+def build_research_design() -> Path:
+    """Build the causal-timing diagram used by the public README."""
+    fig, ax = plt.subplots(figsize=(11.6, 3.1))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 3.2)
+    ax.axis("off")
+
+    stages = [
+        {
+            "x": 1.45,
+            "eyebrow": "INPUT HISTORY",
+            "title": "Past-only normalization",
+            "detail": "63 prior eligible sessions",
+            "time": "history < t",
+            "face": "#F3F2FF",
+            "edge": BLUE,
+        },
+        {
+            "x": 4.55,
+            "eyebrow": "INFORMATION SET",
+            "title": "Event bar closes",
+            "detail": "Features locked; forecast formed",
+            "time": "close t",
+            "face": "#F3F2FF",
+            "edge": BLUE,
+        },
+        {
+            "x": 7.55,
+            "eyebrow": "EXECUTION",
+            "title": "First tradable open",
+            "detail": "Return measurement begins",
+            "time": "open t+1",
+            "face": "#ECFAF5",
+            "edge": GREEN,
+        },
+        {
+            "x": 10.55,
+            "eyebrow": "EVALUATION",
+            "title": "Outcome measured",
+            "detail": "5 min primary; 15/30/60 secondary",
+            "time": "open t+h",
+            "face": "#F5F5F5",
+            "edge": GRAY,
+        },
+    ]
+
+    line_y = 0.82
+    ax.annotate(
+        "",
+        xy=(11.35, line_y),
+        xytext=(0.65, line_y),
+        arrowprops={"arrowstyle": "-|>", "color": "#8A8A8A", "lw": 1.15},
+    )
+    ax.axvline(
+        stages[1]["x"],
+        ymin=0.17,
+        ymax=0.94,
+        color=RED,
+        linewidth=0.85,
+        linestyle=(0, (3, 3)),
+        zorder=0,
+    )
+    ax.text(
+        stages[1]["x"],
+        3.05,
+        "INFORMATION CUTOFF",
+        ha="center",
+        va="top",
+        fontsize=7.2,
+        color=RED,
+        fontweight="bold",
+    )
+
+    for stage in stages:
+        x = stage["x"]
+        box = FancyBboxPatch(
+            (x - 1.33, 1.36),
+            2.66,
+            1.13,
+            boxstyle="round,pad=0.02,rounding_size=0.08",
+            linewidth=0.85,
+            edgecolor=stage["edge"],
+            facecolor=stage["face"],
+        )
+        ax.add_patch(box)
+        ax.text(
+            x,
+            2.29,
+            stage["eyebrow"],
+            ha="center",
+            va="center",
+            fontsize=7.0,
+            color=stage["edge"],
+            fontweight="bold",
+        )
+        ax.text(
+            x,
+            1.95,
+            stage["title"],
+            ha="center",
+            va="center",
+            fontsize=9.0,
+            color=BLACK,
+            fontweight="bold",
+        )
+        ax.text(
+            x,
+            1.64,
+            stage["detail"],
+            ha="center",
+            va="center",
+            fontsize=7.2,
+            color=GRAY,
+        )
+        ax.scatter(
+            [x],
+            [line_y],
+            s=42,
+            color=stage["edge"],
+            edgecolor="white",
+            linewidth=1.0,
+            zorder=3,
+        )
+        ax.text(
+            x,
+            0.46,
+            stage["time"],
+            ha="center",
+            va="center",
+            fontsize=7.5,
+            color=BLACK,
+        )
+
+    ax.text(
+        6,
+        0.08,
+        "All predictors are fixed before the first executable return is observed.",
+        ha="center",
+        va="bottom",
+        fontsize=7.4,
+        color=GRAY,
+    )
+    svg_output = FIGURES / "research_design.svg"
+    fig.savefig(svg_output, format="svg", bbox_inches="tight", metadata={"Date": None})
+    plt.close(fig)
+    return svg_output
 
 
 def _errorbar_panel(
@@ -261,6 +412,7 @@ def build_all() -> dict[str, Any]:
     returns = _load_json(inputs["return_model_summary.json"])
     overnight = _load_json(inputs["overnight_control_summary.json"])
     outputs = [
+        build_research_design(),
         build_primary_results(state, returns, overnight),
         build_response_curve(),
         build_calibration(),
