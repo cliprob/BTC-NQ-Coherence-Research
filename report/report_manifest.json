@@ -1,9 +1,9 @@
 {
   "builder_sha256": "17b0148bee83abdae602ede823b7160075d81380adef9c19fdd9e247ac4ff841",
-  "figure_manifest_sha256": "ad6fa2665ac94c782f927138d0b9c4a86fa4895fb850a0a4db03e95a0a06751c",
+  "figure_manifest_sha256": "b522a6479c4f1086f91bc3e99f5d481be2903d8ed67245e9e5b7c7a3b1db9de2",
   "figures": {
     "primary_results.png": "f56eca1a304b8efc2a0b76e457c06d7bfbf11c9d92473292c6aec16cd7fb795f",
-    "research_design.svg": "bec34187f923614d3cdd35526b5f1195e716a550ac11bf6ef81e1c908e85ef1a",
+    "research_design.svg": "34545a2de42d4b729b29f65277e62c2abf873f4d1b78544a0f8a58e82dc3eadd",
     "response_curve.png": "f5fe0071fa5c7bfe4caa7228cac1b2aee25ebf8653bec0217bed42d331d5c2cd",
     "state_calibration.png": "2663448b41c6e04c26dd3927981d60c8311685700c5f4cc1c833c455dd73b468"
   },

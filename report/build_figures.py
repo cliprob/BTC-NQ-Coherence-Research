@@ -10,7 +10,7 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.patches import Rectangle
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports" / "development"
@@ -73,149 +73,178 @@ def _style() -> None:
 
 def build_research_design() -> Path:
     """Build the causal-timing diagram used by the public README."""
-    fig, ax = plt.subplots(figsize=(11.6, 3.1))
-    ax.set_xlim(0, 12)
-    ax.set_ylim(0, 3.2)
+    fig, ax = plt.subplots(figsize=(10.8, 2.65))
+    ax.set_xlim(0, 10.8)
+    ax.set_ylim(0, 2.8)
     ax.axis("off")
 
-    stages = [
-        {
-            "x": 1.45,
-            "eyebrow": "INPUT HISTORY",
-            "title": "Past-only normalization",
-            "detail": "63 prior eligible sessions",
-            "time": "history < t",
-            "face": "#F3F2FF",
-            "edge": BLUE,
-        },
-        {
-            "x": 4.55,
-            "eyebrow": "INFORMATION SET",
-            "title": "Event bar closes",
-            "detail": "Features locked; forecast formed",
-            "time": "close t",
-            "face": "#F3F2FF",
-            "edge": BLUE,
-        },
-        {
-            "x": 7.55,
-            "eyebrow": "EXECUTION",
-            "title": "First tradable open",
-            "detail": "Return measurement begins",
-            "time": "open t+1",
-            "face": "#ECFAF5",
-            "edge": GREEN,
-        },
-        {
-            "x": 10.55,
-            "eyebrow": "EVALUATION",
-            "title": "Outcome measured",
-            "detail": "5 min primary; 15/30/60 secondary",
-            "time": "open t+h",
-            "face": "#F5F5F5",
-            "edge": GRAY,
-        },
-    ]
+    history_start = 0.75
+    event_close = 4.45
+    tradable_open = 6.55
+    outcome_open = 9.75
+    line_y = 1.18
 
-    line_y = 0.82
+    ax.add_patch(
+        Rectangle(
+            (history_start, line_y - 0.11),
+            event_close - history_start,
+            0.22,
+            facecolor="#E8E8E8",
+            edgecolor="none",
+            zorder=1,
+        )
+    )
+    ax.add_patch(
+        Rectangle(
+            (tradable_open, line_y - 0.11),
+            outcome_open - tradable_open,
+            0.22,
+            facecolor="#CFCFCF",
+            edgecolor="none",
+            zorder=1,
+        )
+    )
     ax.annotate(
         "",
-        xy=(11.35, line_y),
-        xytext=(0.65, line_y),
-        arrowprops={"arrowstyle": "-|>", "color": "#8A8A8A", "lw": 1.15},
+        xy=(10.25, line_y),
+        xytext=(0.55, line_y),
+        arrowprops={"arrowstyle": "-|>", "color": "#5A5A5A", "lw": 0.9},
     )
     ax.axvline(
-        stages[1]["x"],
-        ymin=0.17,
-        ymax=0.94,
-        color=RED,
-        linewidth=0.85,
-        linestyle=(0, (3, 3)),
+        event_close,
+        ymin=0.16,
+        ymax=0.90,
+        color=BLACK,
+        linewidth=0.7,
+        linestyle=(0, (2.5, 2.5)),
         zorder=0,
     )
+
     ax.text(
-        stages[1]["x"],
-        3.05,
-        "INFORMATION CUTOFF",
+        (history_start + event_close) / 2,
+        line_y,
+        "historical feature construction",
         ha="center",
-        va="top",
-        fontsize=7.2,
-        color=RED,
-        fontweight="bold",
+        va="center",
+        fontsize=7.1,
+        color=BLACK,
     )
-
-    for stage in stages:
-        x = stage["x"]
-        box = FancyBboxPatch(
-            (x - 1.33, 1.36),
-            2.66,
-            1.13,
-            boxstyle="round,pad=0.02,rounding_size=0.08",
-            linewidth=0.85,
-            edgecolor=stage["edge"],
-            facecolor=stage["face"],
-        )
-        ax.add_patch(box)
-        ax.text(
-            x,
-            2.29,
-            stage["eyebrow"],
-            ha="center",
-            va="center",
-            fontsize=7.0,
-            color=stage["edge"],
-            fontweight="bold",
-        )
-        ax.text(
-            x,
-            1.95,
-            stage["title"],
-            ha="center",
-            va="center",
-            fontsize=9.0,
-            color=BLACK,
-            fontweight="bold",
-        )
-        ax.text(
-            x,
-            1.64,
-            stage["detail"],
-            ha="center",
-            va="center",
-            fontsize=7.2,
-            color=GRAY,
-        )
-        ax.scatter(
-            [x],
-            [line_y],
-            s=42,
-            color=stage["edge"],
-            edgecolor="white",
-            linewidth=1.0,
-            zorder=3,
-        )
-        ax.text(
-            x,
-            0.46,
-            stage["time"],
-            ha="center",
-            va="center",
-            fontsize=7.5,
-            color=BLACK,
-        )
-
     ax.text(
-        6,
-        0.08,
-        "All predictors are fixed before the first executable return is observed.",
+        (tradable_open + outcome_open) / 2,
+        line_y,
+        "return measurement window",
+        ha="center",
+        va="center",
+        fontsize=7.1,
+        color=BLACK,
+    )
+    ax.text(
+        (event_close + tradable_open) / 2,
+        line_y + 0.20,
+        "no close-price fill",
         ha="center",
         va="bottom",
-        fontsize=7.4,
+        fontsize=6.8,
         color=GRAY,
+    )
+
+    markers = [history_start, event_close, tradable_open, outcome_open]
+    ax.scatter(
+        markers,
+        [line_y] * len(markers),
+        s=20,
+        facecolor="white",
+        edgecolor=BLACK,
+        linewidth=0.8,
+        zorder=3,
+    )
+
+    annotations = [
+        (
+            history_start,
+            2.20,
+            "Prior eligible sessions",
+            "same-slot scale; causal lookbacks",
+            "history < t",
+        ),
+        (
+            event_close,
+            2.20,
+            "Event bar closes",
+            "features locked; forecast formed",
+            "close t",
+        ),
+        (
+            tradable_open,
+            0.63,
+            "First tradable open",
+            "return measurement begins",
+            "open t+1",
+        ),
+        (
+            outcome_open,
+            2.20,
+            "Outcome measured",
+            "5 min primary; 15/30/60 min secondary",
+            "open t+h",
+        ),
+    ]
+    for x, title_y, title, detail, time in annotations:
+        above_axis = title_y > line_y
+        end_y = title_y - 0.18 if above_axis else title_y + 0.18
+        ax.plot(
+            [x, x],
+            [line_y + (0.11 if above_axis else -0.11), end_y],
+            color="#777777",
+            linewidth=0.55,
+            zorder=0,
+        )
+        ax.text(
+            x,
+            title_y,
+            title,
+            ha="center",
+            va="center",
+            fontsize=8.0,
+            color=BLACK,
+            fontweight="bold",
+        )
+        ax.text(
+            x,
+            title_y - 0.28,
+            detail,
+            ha="center",
+            va="center",
+            fontsize=6.8,
+            color=GRAY,
+        )
+        ax.text(
+            x,
+            title_y + 0.27 if above_axis else title_y - 0.55,
+            time,
+            ha="center",
+            va="center",
+            fontsize=6.8,
+            color=BLACK,
+        )
+
+    ax.text(
+        event_close,
+        0.30,
+        "information cutoff",
+        ha="center",
+        va="center",
+        fontsize=6.4,
+        color=BLACK,
+        fontstyle="italic",
     )
     svg_output = FIGURES / "research_design.svg"
     fig.savefig(svg_output, format="svg", bbox_inches="tight", metadata={"Date": None})
     plt.close(fig)
+    normalized_svg = "\n".join(
+        line.rstrip() for line in svg_output.read_text(encoding="utf-8").splitlines()
+    )
+    svg_output.write_text(normalized_svg + "\n", encoding="utf-8", newline="\n")
     return svg_output
 
 

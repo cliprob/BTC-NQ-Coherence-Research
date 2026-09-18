@@ -249,8 +249,8 @@ A positive value denotes continuation in the jointly detected direction and a ne
 At the later return-prediction stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
 
 $$
-\Delta L_h = L(\widehat r^{NQ\text{-only}}_{t,t+h})
-- L(\widehat r^{NQ+BTC}_{t,t+h}),
+\Delta L_h = L(\widehat r^{NQ\text{-only}}_{t,t+h}) -
+L(\widehat r^{NQ+BTC}_{t,t+h}),
 $$
 
 evaluated at the primary five-minute horizon and the prespecified secondary horizons. A positive $\Delta L_h$ means the expanded information set reduces forecast loss.
