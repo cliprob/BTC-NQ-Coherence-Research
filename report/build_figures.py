@@ -15,12 +15,12 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports" / "development"
 FIGURES = ROOT / "report" / "figures"
 
-NAVY = "#17324D"
-BLUE = "#2F5D8A"
-TEAL = "#3B7A78"
-RED = "#A64B4B"
-GRAY = "#667085"
-LIGHT = "#D8E1E8"
+BLUE = "#6C63FF"
+GREEN = "#00A878"
+RED = "#D95F59"
+GRAY = "#525252"
+BLACK = "#1A1A1A"
+GRID = "#D9D9D9"
 
 
 def _hash(path: Path) -> str:
@@ -39,20 +39,28 @@ def _style() -> None:
     plt.rcParams.update(
         {
             "font.family": "DejaVu Sans",
-            "font.size": 9,
-            "axes.titlesize": 10.5,
-            "axes.titleweight": "bold",
-            "axes.labelsize": 9,
-            "axes.edgecolor": LIGHT,
-            "axes.linewidth": 0.8,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-            "xtick.color": GRAY,
-            "ytick.color": NAVY,
-            "axes.labelcolor": NAVY,
-            "text.color": NAVY,
-            "grid.color": "#E8EDF1",
-            "grid.linewidth": 0.7,
+            "font.size": 7.5,
+            "axes.titlesize": 8.5,
+            "axes.titleweight": "normal",
+            "axes.labelsize": 8,
+            "axes.edgecolor": BLACK,
+            "axes.linewidth": 0.6,
+            "axes.spines.top": True,
+            "axes.spines.right": True,
+            "xtick.color": BLACK,
+            "ytick.color": BLACK,
+            "xtick.labelsize": 7,
+            "ytick.labelsize": 7,
+            "xtick.direction": "out",
+            "ytick.direction": "out",
+            "xtick.major.size": 3,
+            "ytick.major.size": 3,
+            "axes.labelcolor": BLACK,
+            "text.color": BLACK,
+            "grid.color": GRID,
+            "grid.linewidth": 0.55,
+            "grid.alpha": 0.8,
+            "legend.fontsize": 7,
             "figure.facecolor": "white",
             "axes.facecolor": "white",
             "savefig.facecolor": "white",
@@ -74,22 +82,26 @@ def _errorbar_panel(
     lower = np.asarray([value[0] for value in intervals]) * scale
     upper = np.asarray([value[1] for value in intervals]) * scale
     errors = np.vstack([values - lower, upper - values])
-    colors = [TEAL, BLUE]
-    ax.errorbar(
-        values,
-        y,
-        xerr=errors,
-        fmt="none",
-        ecolor=GRAY,
-        elinewidth=2,
-        capsize=4,
-        capthick=1.3,
-        zorder=2,
-    )
-    ax.scatter(values, y, s=48, c=colors, edgecolor="white", linewidth=0.8, zorder=3)
-    ax.axvline(0, color=RED, linestyle="--", linewidth=1)
+    colors = [BLUE, GREEN]
+    for index, color in enumerate(colors):
+        ax.errorbar(
+            values[index],
+            y[index],
+            xerr=errors[:, index].reshape(2, 1),
+            fmt="o",
+            color=color,
+            ecolor=color,
+            markersize=4,
+            markeredgecolor=BLACK,
+            markeredgewidth=0.35,
+            elinewidth=1.0,
+            capsize=3,
+            capthick=0.8,
+            zorder=3,
+        )
+    ax.axvline(0, color=RED, linestyle="--", linewidth=0.8)
     ax.set_yticks(y, labels)
-    ax.set_title(title, loc="left", pad=10)
+    ax.set_title(title, loc="left", pad=7)
     ax.set_xlabel(xlabel)
     ax.grid(axis="x")
 
@@ -104,7 +116,7 @@ def build_primary_results(
         "cross_market_minus_nq_only"
     ]
 
-    fig, axes = plt.subplots(1, 2, figsize=(10.6, 3.15), constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 2.75), constrained_layout=True)
     _errorbar_panel(
         axes[0],
         [
@@ -116,8 +128,8 @@ def build_primary_results(
             overnight_state["brier_session_block_95_ci"],
         ],
         ["Cash session", "Overnight control"],
-        "A. State persistence: M1 minus M0",
-        "Brier-loss difference (x10^-4)",
+        r"A. State persistence: $M_1-M_0$",
+        r"Brier-loss difference ($\times 10^{-4}$)",
         scale=10_000,
     )
     _errorbar_panel(
@@ -131,19 +143,11 @@ def build_primary_results(
             overnight_return["squared_error_session_block_95_ci"],
         ],
         ["Cash session", "Overnight control"],
-        "B. NQ return forecast: cross-market minus NQ-only",
-        "MSE difference (bps^2)",
-    )
-    fig.suptitle(
-        "Cross-market magnitude improves state prediction, not the primary return forecast",
-        x=0.01,
-        ha="left",
-        fontsize=12,
-        fontweight="bold",
-        color=NAVY,
+        r"B. NQ return forecast: cross-market $-$ NQ-only",
+        r"MSE difference ($\mathrm{bps}^2$)",
     )
     output = FIGURES / "primary_results.png"
-    fig.savefig(output, dpi=220, bbox_inches="tight")
+    fig.savefig(output, dpi=300, bbox_inches="tight")
     plt.close(fig)
     return output
 
@@ -160,11 +164,11 @@ def _response_rows(path: Path) -> pd.DataFrame:
 def build_response_curve() -> Path:
     cash = _response_rows(REPORTS / "horizon_response.csv")
     overnight = _response_rows(REPORTS / "overnight_horizon_response.csv")
-    fig, ax = plt.subplots(figsize=(7.9, 3.25), constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(7.3, 3.0), constrained_layout=True)
     x = np.arange(4)
     for offset, frame, label, color in [
-        (-0.07, cash, "Cash session", NAVY),
-        (0.07, overnight, "Overnight control", TEAL),
+        (-0.07, cash, "Cash session", BLUE),
+        (0.07, overnight, "Overnight control", GREEN),
     ]:
         mean = frame["mean_signed_nq_return_bps"].to_numpy()
         lo = frame["block_bootstrap_ci_lower_bps"].to_numpy()
@@ -174,21 +178,23 @@ def build_response_curve() -> Path:
             mean,
             yerr=np.vstack([mean - lo, hi - mean]),
             marker="o",
-            markersize=5,
-            linewidth=1.7,
-            capsize=3,
+            markersize=3.8,
+            markeredgecolor=BLACK,
+            markeredgewidth=0.3,
+            linewidth=1.1,
+            elinewidth=0.9,
+            capsize=2.5,
             color=color,
             label=label,
         )
-    ax.axhline(0, color=RED, linestyle="--", linewidth=1)
+    ax.axhline(0, color=RED, linestyle="--", linewidth=0.8)
     ax.set_xticks(x, ["5 (primary)", "15", "30", "60"])
     ax.set_xlabel("Forward horizon (minutes)")
     ax.set_ylabel("Mean signed NQ return (bps)")
-    ax.set_title("Prespecified response curve with session-block 95% intervals", loc="left")
-    ax.grid(axis="y")
+    ax.grid()
     ax.legend(frameon=False, ncol=2, loc="upper left")
     output = FIGURES / "response_curve.png"
-    fig.savefig(output, dpi=220, bbox_inches="tight")
+    fig.savefig(output, dpi=300, bbox_inches="tight")
     plt.close(fig)
     return output
 
@@ -203,42 +209,37 @@ def _calibration_rows(path: Path, model: str) -> pd.DataFrame:
 
 
 def build_calibration() -> Path:
-    fig, axes = plt.subplots(1, 2, figsize=(8.5, 3.25), constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(8.0, 3.0), constrained_layout=True)
     for ax, path, title in [
         (axes[0], REPORTS / "state_model_calibration.csv", "Cash session"),
         (axes[1], REPORTS / "overnight_state_calibration.csv", "Overnight control"),
     ]:
         for model, label, color, marker in [
-            ("m0", "M0: coherence", GRAY, "o"),
-            ("m1", "M1: + magnitude", TEAL, "s"),
+            ("m0", r"$M_0$: coherence", BLUE, "o"),
+            ("m1", r"$M_1$: + magnitude", GREEN, "s"),
         ]:
             frame = _calibration_rows(path, model)
             ax.plot(
                 frame["mean_predicted_probability"],
                 frame["observed_agreement_rate"],
                 marker=marker,
-                markersize=5,
-                linewidth=1.5,
+                markersize=3.8,
+                markeredgecolor=BLACK,
+                markeredgewidth=0.3,
+                linewidth=1.0,
                 color=color,
                 label=label,
             )
-        ax.plot([0, 1], [0, 1], color=RED, linestyle="--", linewidth=1)
+        ax.plot([0.45, 0.85], [0.45, 0.85], color=RED, linestyle="--", linewidth=0.8)
         ax.set_xlim(0.45, 0.85)
-        ax.set_ylim(0.45, 0.85)
+        ax.set_ylim(0.40, 0.85)
         ax.set_title(title, loc="left")
         ax.set_xlabel("Mean predicted probability")
         ax.grid()
     axes[0].set_ylabel("Observed agreement rate")
     axes[1].legend(frameon=False, loc="lower right", fontsize=8)
-    fig.suptitle(
-        "Five-minute state-model reliability",
-        x=0.01,
-        ha="left",
-        fontsize=11.5,
-        fontweight="bold",
-    )
     output = FIGURES / "state_calibration.png"
-    fig.savefig(output, dpi=220, bbox_inches="tight")
+    fig.savefig(output, dpi=300, bbox_inches="tight")
     plt.close(fig)
     return output
 

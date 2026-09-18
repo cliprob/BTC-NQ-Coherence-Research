@@ -1,24 +1,24 @@
 {
-  "builder_sha256": "28ba1be88113089135ab8b5f1480390b75ec1466c9fcfa07bf430e6ed17ccd28",
-  "figure_manifest_sha256": "e594d23857ff33f2a09b9f07ef25cb37a50d0d14b7bb5fe8ee3edf3634350a92",
+  "builder_sha256": "9b895eb136b5b5fc4ddbf7480a9370ae21f89ca78eee6e0b56b1dca8b9cb9c97",
+  "figure_manifest_sha256": "e9ff0801ebd3695ae56cd0f420a92eabae030ca12d1515eeb8dc37d019e3adb5",
   "figures": {
-    "primary_results.png": "ad73310ee0616a1e0b0304c79c9732ebd0448d8e2df92796fbb2eb2041ac6edb",
-    "response_curve.png": "532064385d477253fe101f18cc82edcb34e5a5a1e45718ea2d670e084a1fb8f6",
-    "state_calibration.png": "bbc35b43dc708b197e393438e75d6264e02cfd0e2cfd5e2b12105a242c2f71a2"
+    "primary_results.png": "f56eca1a304b8efc2a0b76e457c06d7bfbf11c9d92473292c6aec16cd7fb795f",
+    "response_curve.png": "f5fe0071fa5c7bfe4caa7228cac1b2aee25ebf8653bec0217bed42d331d5c2cd",
+    "state_calibration.png": "2663448b41c6e04c26dd3927981d60c8311685700c5f4cc1c833c455dd73b468"
   },
   "latex_source": {
     "file_name": "manuscript.tex",
-    "sha256": "525f0bef91fef745558785c35a48e23f9f6a5bf81792843d0d45d37e374f3f0b"
+    "sha256": "d43b13cbf0410aa4faf7372def9e1d64d635cfa8d856f2fa6dca67d46890e95c"
   },
   "page_count": 8,
   "pdf": {
     "file_name": "btc_nq_coherence_research.pdf",
-    "sha256": "1b940034946c7256870d54543f5feef580cacba7c676549723c9842c5a44138c"
+    "sha256": "c10e7bea23a006dd327a00f39b96653259248d87156a06b52f0c290f9c252217"
   },
   "protocol_sha256": "dddb2b201c152b04665edc1dc82caf3d893795dac85ad464fef6fd86888adc64",
-  "report_version": "1.1.0",
+  "report_version": "1.2.0",
   "schema_version": 2,
   "source_policy": "committed_frozen_aggregates_only",
   "status": "completed_development_manuscript",
-  "typesetting": "LaTeX journal-preprint"
+  "typesetting": "LaTeX research report"
 }

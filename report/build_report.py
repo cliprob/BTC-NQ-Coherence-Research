@@ -98,10 +98,10 @@ def _write_manifest(figure_manifest: dict[str, Any]) -> dict[str, Any]:
     reader = PdfReader(str(OUTPUT))
     manifest = {
         "schema_version": 2,
-        "report_version": "1.1.0",
+        "report_version": "1.2.0",
         "status": "completed_development_manuscript",
         "source_policy": "committed_frozen_aggregates_only",
-        "typesetting": "LaTeX journal-preprint",
+        "typesetting": "LaTeX research report",
         "page_count": len(reader.pages),
         "pdf": {"file_name": OUTPUT.name, "sha256": _hash(OUTPUT)},
         "latex_source": {"file_name": SOURCE.name, "sha256": _hash(SOURCE)},

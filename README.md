@@ -37,7 +37,7 @@ intervals. Negative values favor the expanded BTC-NQ model.
 | Overnight state Brier, $M_1-M_0$ | 36,230 | $-0.000259$ | $[-0.000440,-0.000081]$ | State result is not cash-session-specific |
 | Overnight return MSE, cross-market $-$ NQ-only | 35,804 | $+0.0106\ \mathrm{bps}^2$ | $[-0.0283,+0.0502]$ | Inconclusive; MAE worsens |
 
-The full paper is available as a [journal-style PDF](output/pdf/btc_nq_coherence_research.pdf)
+The full study is available as a [PDF report](output/pdf/btc_nq_coherence_research.pdf)
 and reproducible [LaTeX source](report/manuscript.tex).
 
 ## Research design
@@ -71,8 +71,8 @@ $$
 and per-bar directional agreement is
 
 $$
-d_t=\operatorname{sign}(b_t^{\mathrm{BTC}})
-    \operatorname{sign}(b_t^{\mathrm{NQ}})\in\{-1,0,+1\}.
+d_t=\mathrm{sgn}(b_t^{\mathrm{BTC}})
+    \mathrm{sgn}(b_t^{\mathrm{NQ}})\in\{-1,0,+1\}.
 $$
 
 Directional coherence is kept separate from magnitude:
@@ -168,7 +168,7 @@ pytest
 python report/build_report.py --check
 ```
 
-To rebuild the paper, install MiKTeX or TeX Live with `pdflatex`, then run:
+To rebuild the report, use MiKTeX or TeX Live with `pdflatex`, then run:
 
 ```bash
 python report/build_report.py
@@ -184,9 +184,9 @@ configs/                  frozen research specifications
 data/                     schemas, registry, hashes, and local-data instructions
 docs/                     protocol, validation notes, provenance, and decision log
 reports/development/      compact model outputs and complete trial ledgers
-report/manuscript.tex     journal-style LaTeX paper
+report/manuscript.tex     LaTeX research report
 report/figures/           deterministic publication figures
-output/pdf/               compiled paper
+output/pdf/               compiled report
 src/btc_nq_coherence/     research implementation
 tests/                    unit, integration, and artifact-integrity tests
 ```
