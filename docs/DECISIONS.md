@@ -17,8 +17,8 @@ evidence.
 | D-008 | Pre-ETP sample start | Closed limitation: unavailable; H4 was not tested | Coverage beginning by 2022 remains a separate future study |
 | D-009 | Session definition | Resolved: XNYS 09:30–16:00 ET primary; mandatory 18:00–09:30 ET overnight negative control | Official holidays/early closes; no target or position crosses primary close |
 | D-010 | Multiple-testing procedure | Resolved for development scope: no family-wise confirmatory claim; unadjusted 95% session-block intervals for registered primary comparisons | 5-minute results remain primary; 1-minute, secondary horizons, weekdays and overnight are robustness/control outputs and cannot rescue a primary result; every model-selection trial is retained |
-| D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | \(M_1\) includes \(J\), \(B\), and \(|B|\); no sign is imposed |
-| D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models \(M_0\) and \(M_1\) | Both include common direction; evaluate with Brier score, log loss, and calibration |
+| D-011 | Magnitude coordinates | Resolved: geometric-mean joint intensity and normalized-difference balance | $M_1$ includes $J$, $B$, and $|B|$; no sign is imposed |
+| D-012 | Coherence state estimator | Resolved: nested discrete-time logistic models $M_0$ and $M_1$ | Both include common direction; evaluate with Brier score, log loss, and calibration |
 | D-013 | Entry/exit thresholds | Closed as not pursued: the registered return comparison did not justify strategy optimization | Any later trading rule is a new research trial and cannot replace this study's negative economic result |
 | D-014 | Historical body-scale estimator | Resolved: same-slot MAD over previous 63 eligible sessions | Separate by asset and resolution; current session excluded; no epsilon or fallback |
 
@@ -55,8 +55,8 @@ evidence.
 - Per-bar agreement is the product of BTC and NQ candle-body signs: `+1`, `-1`, or `0` for an exact doji.
 - Coherence is the unweighted arithmetic mean of per-bar agreement.
 - The 15-, 30-, and 60-minute continuous coherence measures are used together; no single best window is selected.
-- Conditional on current agreement, \(M_0\) predicts next-bar directional agreement from the three coherence scales.
-- \(M_1\) adds joint body intensity and body-magnitude balance.
+- Conditional on current agreement, $M_0$ predicts next-bar directional agreement from the three coherence scales.
+- $M_1$ adds joint body intensity and body-magnitude balance.
 - Model comparison uses Brier score, log loss, and calibration; trading P&L is prohibited for this choice.
 - Entry and exit thresholds remain undefined until the strategy stage.
 
@@ -71,13 +71,13 @@ evidence.
 
 ### 2026-09-17 — joint intensity and magnitude balance
 
-- Absolute standardized body magnitude is \(m_t^i=|z_t^i|\).
-- Joint intensity is the symmetric geometric mean \(J_t=\sqrt{m_t^{BTC}m_t^{NQ}}\).
-- Magnitude balance is \(B_t=(m_t^{BTC}-m_t^{NQ})/(m_t^{BTC}+m_t^{NQ})\), bounded on \([-1,1]\).
+- Absolute standardized body magnitude is $m_t^i=|z_t^i|$.
+- Joint intensity is the symmetric geometric mean $J_t=\sqrt{m_t^{BTC}m_t^{NQ}}$.
+- Magnitude balance is $B_t=(m_t^{BTC}-m_t^{NQ})/(m_t^{BTC}+m_t^{NQ})$, bounded on $[-1,1]$.
 - A zero denominator is ineligible rather than stabilized with an arbitrary epsilon.
-- Common direction \(S_t\) is included in both nested state models.
-- \(M_0\) uses the three coherence scales and \(S_t\).
-- \(M_1\) adds \(J_t\), \(B_t\), and \(|B_t|\), with no prespecified coefficient signs.
+- Common direction $S_t$ is included in both nested state models.
+- $M_0$ uses the three coherence scales and $S_t$.
+- $M_1$ adds $J_t$, $B_t$, and $|B_t|$, with no prespecified coefficient signs.
 
 ### 2026-09-17 — causal historical body scale
 

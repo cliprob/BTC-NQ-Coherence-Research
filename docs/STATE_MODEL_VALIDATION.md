@@ -11,17 +11,17 @@ profitable and does not use P&L for model selection.
 
 Conditional on current same-direction bodies, the target is:
 
-\[
+$$
 P(d_{t+1}=+1 \mid d_t=+1).
-\]
+$$
 
 The nested models are:
 
 | Model | Predictors |
 |---|---|
 | Training-rate benchmark | Agreement frequency in the outer training fold |
-| \(M_0\) | coherence at 15/30/60 minutes, common direction |
-| \(M_1\) | all \(M_0\) predictors plus joint intensity, signed magnitude balance, absolute magnitude balance |
+| $M_0$ | coherence at 15/30/60 minutes, common direction |
+| $M_1$ | all $M_0$ predictors plus joint intensity, signed magnitude balance, absolute magnitude balance |
 
 `M0` is a direction/coherence baseline, not yet the pure NQ-only return baseline planned
 for the later return-forecast stage. The comparison here isolates the incremental value
@@ -37,7 +37,7 @@ of body magnitude within the state-persistence question.
 - both the 5-minute primary and 1-minute robustness specifications use identical session
   boundaries;
 - `StandardScaler` and logistic regression are fitted inside each training fold only;
-- \(C\in\{0.01,0.1,1,10\}\) is selected separately for each model and outer fold from
+- $C\in\{0.01,0.1,1,10\}$ is selected separately for each model and outer fold from
   three inner expanding validation blocks by event-weighted OOF Brier score;
 - the primary metric is Brier score; log loss is secondary and fixed-width reliability
   bins diagnose calibration;
@@ -58,12 +58,12 @@ The pooled OOF sample contains 13,724 events from 264 validation sessions spanni
 | Model | Brier score | Log loss | Expected calibration error |
 |---|---:|---:|---:|
 | Training-rate benchmark | 0.217250 | 0.626229 | 0.009849 |
-| \(M_0\) | 0.216736 | 0.625038 | 0.010755 |
-| \(M_1\) | **0.216037** | **0.623370** | **0.009218** |
+| $M_0$ | 0.216736 | 0.625038 | 0.010755 |
+| $M_1$ | **0.216037** | **0.623370** | **0.009218** |
 
 The primary paired difference is:
 
-| Loss difference, \(M_1-M_0\) | Estimate | Session-block 95% CI |
+| Loss difference, $M_1-M_0$ | Estimate | Session-block 95% CI |
 |---|---:|---:|
 | Brier score | **-0.000699** | **[-0.001120, -0.000297]** |
 | Log loss | **-0.001668** | **[-0.002668, -0.000703]** |
@@ -80,8 +80,8 @@ The robustness sample contains 67,483 events across the same 264 sessions.
 | Model | Brier score | Log loss | Expected calibration error |
 |---|---:|---:|---:|
 | Training-rate benchmark | 0.222683 | 0.637534 | 0.011560 |
-| \(M_0\) | 0.221126 | 0.634031 | 0.008314 |
-| \(M_1\) | **0.220829** | **0.633357** | 0.008667 |
+| $M_0$ | 0.221126 | 0.634031 | 0.008314 |
+| $M_1$ | **0.220829** | **0.633357** | 0.008667 |
 
 The `M1 − M0` Brier difference is `-0.000297`, with a 95% interval of
 `[-0.000418, -0.000173]`. The log-loss difference is `-0.000674`, with a 95% interval of

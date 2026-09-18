@@ -36,82 +36,82 @@ Do synchronized, volatility-adjusted BTC and NQ moves form persistent coherence 
 
 The primary candle primitive is the signed open-to-close body return, never the raw price difference:
 
-\[
+$$
 b^i_t = \log\left(\frac{P^{i,close}_t}{P^{i,open}_t}\right).
-\]
+$$
 
 Wicks and the high-low range are excluded from the primary specification. They may be considered only in a separately labeled robustness analysis after the primary body-based definitions are frozen.
 
-For asset \(i\), a causal standardized body is provisionally defined as:
+For asset $i$, a causal standardized body is provisionally defined as:
 
-\[
+$$
 z^i_t = \frac{b^i_t}{\widehat{\sigma}^{i,body}_{t-1}},
-\]
+$$
 
-where \(\widehat{\sigma}^{i,body}_{t-1}\) is the causal, resolution-specific scale defined below. This makes BTC and NQ body magnitudes comparable without using the current body to set its own scale.
+where $\widehat{\sigma}^{i,body}_{t-1}$ is the causal, resolution-specific scale defined below. This makes BTC and NQ body magnitudes comparable without using the current body to set its own scale.
 
 Candidate state variables are deliberately separated:
 
-- **directional agreement** \(A_t\): whether the BTC and NQ bodies share a sign;
-- **coherence** \(C_t\): a causal continuous measure of agreement between recent sequences of body directions that excludes body magnitude;
-- **joint intensity** \(J_t\): the geometric mean of absolute standardized body magnitudes;
-- **magnitude balance** \(B_t\): the normalized difference between absolute standardized body magnitudes.
+- **directional agreement** $A_t$: whether the BTC and NQ bodies share a sign;
+- **coherence** $C_t$: a causal continuous measure of agreement between recent sequences of body directions that excludes body magnitude;
+- **joint intensity** $J_t$: the geometric mean of absolute standardized body magnitudes;
+- **magnitude balance** $B_t$: the normalized difference between absolute standardized body magnitudes.
 
-Magnitude must not be embedded in \(C_t\) and then reused to explain persistence of \(C_t\). Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
+Magnitude must not be embedded in $C_t$ and then reused to explain persistence of $C_t$. Keeping state similarity, common intensity, and relative strength separate prevents a partly tautological result.
 
 ### 3.1 Directional aggregation and time scales
 
 Per-bar body-direction agreement is:
 
-\[
-d_t = \operatorname{sign}(b^{BTC}_t)\operatorname{sign}(b^{NQ}_t).
-\]
+$$
+d_t = \mathrm{sgn}(b^{BTC}_t)\mathrm{sgn}(b^{NQ}_t).
+$$
 
-Thus, \(d_t=+1\) denotes same-direction bodies, \(d_t=-1\) denotes opposite-direction bodies, and an exact doji contributes zero. A missing or invalid body makes the affected rolling window ineligible rather than being treated as disagreement.
+Thus, $d_t=+1$ denotes same-direction bodies, $d_t=-1$ denotes opposite-direction bodies, and an exact doji contributes zero. A missing or invalid body makes the affected rolling window ineligible rather than being treated as disagreement.
 
-For a clock-time scale \(K\), directional coherence is the unweighted arithmetic mean:
+For a clock-time scale $K$, directional coherence is the unweighted arithmetic mean:
 
-\[
+$$
 C_t(K)=\frac{1}{n_K}\sum_{j=0}^{n_K-1}d_{t-j},
-\]
+$$
 
-where \(n_K\) is the number of complete bars spanning \(K\). The primary representation uses the three scales \(K\in\{15,30,60\}\) minutes together:
+where $n_K$ is the number of complete bars spanning $K$. The primary representation uses the three scales $K\in\{15,30,60\}$ minutes together:
 
-\[
+$$
 \mathbf C_t = [C_t(15), C_t(30), C_t(60)].
-\]
+$$
 
-Each component remains continuous on \([-1,1]\). No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning is identical in the primary and robustness resolutions.
+Each component remains continuous on $[-1,1]$. No single window is selected by historical performance, and no coherence threshold is imposed at this stage. The windows are defined in clock time so that their meaning is identical in the primary and robustness resolutions.
 
 ### 3.2 Causal historical body scale
 
-For asset \(i\), resolution \(r\), and the DST-aware session slot \(s(t)\), define the reference set:
+For asset $i$, resolution $r$, and the DST-aware session slot $s(t)$, define the reference set:
 
-\[
+$$
 \mathcal H^{i,r}_t =
 \left\{
 b^{i,r}_{d,s(t)}:
 d \in \text{the previous 63 eligible analysis sessions}
 \right\}.
-\]
+$$
 
 The 63 sessions approximate one trading quarter and are fixed by protocol rather than selected by empirical performance. If a slot is missing in a prior session, the search extends backward until 63 valid same-slot observations are available.
 
 Let:
 
-\[
+$$
 \widetilde b^{i,r}_{t-1}
-= \operatorname{median}(\mathcal H^{i,r}_t).
-\]
+= \mathrm{median}(\mathcal H^{i,r}_t).
+$$
 
 The historical scale is:
 
-\[
+$$
 \widehat{\sigma}^{i,r}_{t-1}
 = 1.4826\,
-\operatorname{median}_{x\in\mathcal H^{i,r}_t}
+\mathrm{median}_{x\in\mathcal H^{i,r}_t}
 \left|x-\widetilde b^{i,r}_{t-1}\right|.
-\]
+$$
 
 The current body is divided by this scale without subtracting the historical median, preserving its observed direction. The scale is estimated separately for BTC and NQ and separately for the one- and five-minute resolutions.
 
@@ -125,51 +125,51 @@ An observation is ineligible if fewer than 63 valid reference bodies exist, the 
 
 For each asset, define absolute standardized body magnitude as:
 
-\[
+$$
 m_t^i = |z_t^i|.
-\]
+$$
 
 Joint intensity is:
 
-\[
+$$
 J_t = \sqrt{m_t^{BTC}m_t^{NQ}}.
-\]
+$$
 
 This symmetric coordinate is zero if either market has no body movement and becomes large only through the combined scale of both moves. It does not designate a leading market.
 
 Magnitude balance is:
 
-\[
+$$
 B_t = \frac{m_t^{BTC}-m_t^{NQ}}
 {m_t^{BTC}+m_t^{NQ}}.
-\]
+$$
 
-It lies on \([-1,1]\): positive values indicate relatively stronger BTC movement, negative values indicate relatively stronger NQ movement, and zero denotes equal standardized body magnitudes. If both magnitudes are zero, the balance is undefined and the observation is ineligible; no numerical epsilon is introduced.
+It lies on $[-1,1]$: positive values indicate relatively stronger BTC movement, negative values indicate relatively stronger NQ movement, and zero denotes equal standardized body magnitudes. If both magnitudes are zero, the balance is undefined and the observation is ineligible; no numerical epsilon is introduced.
 
 For an eligible observation with current directional agreement, common direction is retained separately:
 
-\[
-S_t = \operatorname{sign}(b_t^{BTC})
-= \operatorname{sign}(b_t^{NQ}) \in \{-1,+1\}.
-\]
+$$
+S_t = \mathrm{sgn}(b_t^{BTC})
+= \mathrm{sgn}(b_t^{NQ}) \in \{-1,+1\}.
+$$
 
-The pair \((J_t,B_t)\) separates common event scale from relative strength. The model also receives \(|B_t|\), allowing the degree of imbalance to matter independently of which market is relatively stronger.
+The pair $(J_t,B_t)$ separates common event scale from relative strength. The model also receives $|B_t|$, allowing the degree of imbalance to matter independently of which market is relatively stronger.
 
 ### 3.4 Baseline and magnitude-conditioned state models
 
-State-model observations require current agreement, \(d_t=+1\). The baseline state model is:
+State-model observations require current agreement, $d_t=+1$. The baseline state model is:
 
-\[
+$$
 M_0: P(d_{t+1}=+1 \mid \mathbf C_t,S_t).
-\]
+$$
 
 The magnitude-conditioned model is:
 
-\[
+$$
 M_1: P(d_{t+1}=+1 \mid \mathbf C_t,S_t,J_t,B_t,|B_t|).
-\]
+$$
 
-Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. \(M_1\) tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence and common direction; it does not assume catch-up, reversal, a coefficient sign, or a lead–lag direction.
+Both are discrete-time logistic models fitted only inside the appropriate training fold. Their continuous outputs are next-bar body-direction agreement probabilities conditional on current agreement. $M_1$ tests whether joint intensity and magnitude balance add state-persistence information beyond direction-only coherence and common direction; it does not assume catch-up, reversal, a coefficient sign, or a lead–lag direction.
 
 The primary comparison uses out-of-sample Brier score, log loss, and calibration. Trading P&L is prohibited as a model- or scale-selection criterion. Regularization is selected inside the training/validation process and recorded in the trial ledger.
 
@@ -210,20 +210,20 @@ The mandatory overnight negative control covers the CME equity-futures session f
 
 ### 3.7 Primary economic return horizon
 
-Let \(\tau_t\) be the boundary at which event bar \(t\) has fully closed and its signal becomes observable. Let \(O^{NQ}_{\tau_t}\) be the first tradable NQ open at that boundary. The unsigned open-to-open NQ response over \(h\) clock minutes is:
+Let $\tau_t$ be the boundary at which event bar $t$ has fully closed and its signal becomes observable. Let $O^{NQ}_{\tau_t}$ be the first tradable NQ open at that boundary. The unsigned open-to-open NQ response over $h$ clock minutes is:
 
-\[
+$$
 R^{NQ}_{t,h}=\log\left(\frac{O^{NQ}_{\tau_t+h}}{O^{NQ}_{\tau_t}}\right).
-\]
+$$
 
 This timing does not assume a fill at the already observed event-bar close. It represents measurement from the next tradable open after signal formation to the open at the end of the stated horizon.
 
-The primary economic horizon is fixed at \(h=5\) minutes for both data resolutions:
+The primary economic horizon is fixed at $h=5$ minutes for both data resolutions:
 
 | Specification | Event known | Primary measurement | Equivalent bars |
 |---|---|---|---:|
-| 5-minute primary | after the event bar closes at \(\tau_t\) | \(O_{\tau_t}\) to \(O_{\tau_t+5m}\) | 1 future 5-minute bar |
-| 1-minute robustness | after the event bar closes at \(\tau_t\) | \(O_{\tau_t}\) to \(O_{\tau_t+5m}\) | 5 future 1-minute bars |
+| 5-minute primary | after the event bar closes at $\tau_t$ | $O_{\tau_t}$ to $O_{\tau_t+5m}$ | 1 future 5-minute bar |
+| 1-minute robustness | after the event bar closes at $\tau_t$ | $O_{\tau_t}$ to $O_{\tau_t+5m}$ | 5 future 1-minute bars |
 
 In the one-minute robustness specification, cumulative responses at +1, +2, +3, +4, and +5 minutes are reported as secondary timing diagnostics. They may describe when a response appears or decays, but they cannot redefine the primary endpoint after inspection.
 
@@ -231,29 +231,29 @@ The 15-, 30-, and 60-minute open-to-open responses form a prespecified secondary
 
 This economic endpoint is distinct from the state-persistence target in Section 3.4. The state model predicts next-bar directional agreement, which spans five minutes in the primary specification and one minute in the robustness specification. By contrast, the primary economic return always spans five clock minutes, preserving the same economic question across resolutions.
 
-For an eligible observation with \(d_t=+1\), let \(T_t\) denote the number of consecutive future bars for which \(d_u=+1\), beginning at \(t+1\). This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
+For an eligible observation with $d_t=+1$, let $T_t$ denote the number of consecutive future bars for which $d_u=+1$, beginning at $t+1$. This defines agreement-run duration without introducing a coherence threshold. A primary state-dynamics estimand is:
 
-\[
+$$
 P(T_t \ge k \mid \mathbf C_t, J_t, B_t, d_t=+1).
-\]
+$$
 
-For economic interpretation, let \(S_t\) denote the common detected direction. The signed NQ outcome is:
+For economic interpretation, let $S_t$ denote the common detected direction. The signed NQ outcome is:
 
-\[
+$$
 Y_{t,h} = S_t R^{NQ}_{t,h},
 \qquad h\in\{5,15,30,60\}\text{ minutes}.
-\]
+$$
 
 A positive value denotes continuation in the jointly detected direction and a negative value denotes reversal. Five minutes is the primary horizon; 15, 30, and 60 minutes are secondary. Future observations appear here as outcomes needed to evaluate persistence and tradability; their use does not assert a BTC-to-NQ lead–lag mechanism.
 
 At the later return-prediction stage, the incremental out-of-sample value of the joint state over an NQ-only information set is:
 
-\[
+$$
 \Delta L_h = L(\widehat r^{NQ\text{-only}}_{t,t+h})
 - L(\widehat r^{NQ+BTC}_{t,t+h}),
-\]
+$$
 
-evaluated at the primary five-minute horizon and the prespecified secondary horizons. A positive \(\Delta L_h\) means the expanded information set reduces forecast loss.
+evaluated at the primary five-minute horizon and the prespecified secondary horizons. A positive $\Delta L_h$ means the expanded information set reduces forecast loss.
 
 ## 4. Hypotheses
 
@@ -283,7 +283,7 @@ The order is binding once the protocol is frozen:
 
 1. data-quality and synchronization audit;
 2. descriptive contemporaneous co-movement;
-3. out-of-sample comparison of the direction-only \(M_0\) and magnitude-conditioned \(M_1\) state models;
+3. out-of-sample comparison of the direction-only $M_0$ and magnitude-conditioned $M_1$ state models;
 4. event-time response curves across the complete return-horizon set;
 5. joint-intensity and magnitude-balance surfaces for regime persistence and within-regime returns;
 6. nested out-of-sample return-forecast comparison;
@@ -295,8 +295,8 @@ Trading P&L must not be used to select definitions or models during stages 1–7
 
 ## 6. Timing and leakage rules
 
-- A feature timestamped \(t\) may use information available through the close of bar \(t\), and nothing later.
-- The earliest simulated execution based on that feature is the open of bar \(t+1\), plus any separately specified latency.
+- A feature timestamped $t$ may use information available through the close of bar $t$, and nothing later.
+- The earliest simulated execution based on that feature is the open of bar $t+1$, plus any separately specified latency.
 - Volatility estimates, normalizers, quantiles, scalers, models, calibrators, and thresholds are fitted within the appropriate training fold.
 - Futures roll transitions, incomplete bars, session boundaries, and material data gaps are explicitly marked and excluded where necessary.
 - Fold boundaries are purged by at least the maximum label horizon. Any additional embargo must be specified before the final evaluation.
@@ -335,8 +335,8 @@ These restrictions are machine-readable in `configs/available_data_study.yaml`. 
 The completed study preserved identical sampling and labels for:
 
 1. unconditional next-bar agreement-rate benchmark;
-2. \(M_0\): discrete-time logistic state model using \(C(15),C(30),C(60)\);
-3. \(M_1\): the same state model expanded with joint intensity and magnitude balance;
+2. $M_0$: discrete-time logistic state model using $C(15),C(30),C(60)$;
+3. $M_1$: the same state model expanded with joint intensity and magnitude balance;
 4. linear NQ-only autoregressive/Ridge return model;
 5. the same return model expanded with BTC/coherence features;
 6. an optional constrained nonlinear return model, which was not run after the registered
@@ -349,8 +349,8 @@ Complexity is justified only by incremental out-of-sample performance, not in-sa
 Reported outputs include:
 
 - event-time response means with complete-session bootstrap intervals;
-- out-of-sample \(R^2\) and forecast-loss differences;
-- Brier score, log loss, and calibration for \(M_0\) and \(M_1\);
+- out-of-sample $R^2$ and forecast-loss differences;
+- Brier score, log loss, and calibration for $M_0$ and $M_1$;
 - day- or session-block bootstrap intervals;
 - coefficient or response stability across time, direction, session, and venue;
 - no gross or net strategy outcomes, because the strategy stage was not opened.

@@ -28,23 +28,23 @@ Features for the first cash-session bars may use up to 60 valid pre-open minutes
 
 ## Feature definitions
 
-For asset \(i\), the signed candle body is:
+For asset $i$, the signed candle body is:
 
-\[
+$$
 b_t^i=\log(C_t^i/O_t^i).
-\]
+$$
 
 Per-bar directional agreement is the product of the BTC and NQ body signs. Coherence is its unweighted rolling mean over 15, 30, and 60 clock minutes. Magnitude is not included in coherence.
 
 For each asset, resolution, and DST-aware New York session slot, the scale is `1.4826 × MAD` over the previous 63 valid eligible sessions. The current observation is appended only after its scale has been computed. A zero or non-finite MAD leaves the observation ineligible; no epsilon is introduced.
 
-Normalized magnitudes are \(m_t^i=|b_t^i/\widehat\sigma_{t-1}^i|\). The derived coordinates are:
+Normalized magnitudes are $m_t^i=|b_t^i/\widehat\sigma_{t-1}^i|$. The derived coordinates are:
 
-\[
+$$
 J_t=\sqrt{m_t^{BTC}m_t^{NQ}},
 \qquad
 B_t=\frac{m_t^{BTC}-m_t^{NQ}}{m_t^{BTC}+m_t^{NQ}}.
-\]
+$$
 
 The denominator-zero case is ineligible. `common_direction` is populated only when the current bodies agree and are non-doji.
 

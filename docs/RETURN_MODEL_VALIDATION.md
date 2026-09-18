@@ -35,7 +35,7 @@ The `cross-market` model adds:
 - joint intensity, signed magnitude balance, and absolute magnitude balance.
 
 No target clipping or winsorization is performed. Ridge
-\(\alpha\in\{0.01,0.1,1,10,100,1000\}\) is selected separately for each model and outer
+$\alpha\in\{0.01,0.1,1,10,100,1000\}$ is selected separately for each model and outer
 fold from three inner expanding validation blocks. Selection minimizes event-weighted
 inner OOF mean squared error.
 
@@ -49,7 +49,7 @@ paired complete-session bootstrap resamples.
 The OOF sample contains 11,364 events from 264 sessions spanning 2025-02-24 through
 2026-05-11. The target standard deviation is 11.61 bps.
 
-| Model | MSE (bps²) | RMSE (bps) | MAE (bps) | OOS \(R^2\) vs fold mean |
+| Model | MSE (bps²) | RMSE (bps) | MAE (bps) | OOS $R^2$ vs fold mean |
 |---|---:|---:|---:|---:|
 | Fold training-mean benchmark | **134.831** | **11.612** | **7.080** | 0.0000 |
 | NQ-only Ridge | 135.101 | 11.623 | 7.092 | -0.0020 |
@@ -74,7 +74,7 @@ prefers forecasts close to the training mean rather than large feature-driven va
 
 The one-minute representation contains 55,905 events over the same 264 sessions.
 
-| Model | MSE (bps²) | RMSE (bps) | MAE (bps) | OOS \(R^2\) vs fold mean |
+| Model | MSE (bps²) | RMSE (bps) | MAE (bps) | OOS $R^2$ vs fold mean |
 |---|---:|---:|---:|---:|
 | Fold training-mean benchmark | **141.002** | **11.874** | **7.141** | 0.0000 |
 | NQ-only Ridge | 141.030 | 11.876 | 7.157 | -0.0002 |
