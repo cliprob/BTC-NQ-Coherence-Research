@@ -2,5 +2,6 @@ reports/development/*.csv text eol=lf
 reports/development/*.json text eol=lf
 report/*.json text eol=lf
 report/*.py text eol=lf
+report/*.tex text eol=lf
 report/figures/*.png binary
 output/pdf/*.pdf binary

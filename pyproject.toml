@@ -25,7 +25,6 @@ dev = [
 report = [
   "matplotlib>=3.10,<4",
   "pypdf>=6.0,<7",
-  "reportlab>=4.4,<5",
 ]
 
 [tool.setuptools.packages.find]

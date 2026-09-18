@@ -1,19 +1,24 @@
 {
-  "builder_sha256": "eb101a70b76a670dd11dd024cf37c51bf336eec8e6c1875e9e871e771271701c",
+  "builder_sha256": "28ba1be88113089135ab8b5f1480390b75ec1466c9fcfa07bf430e6ed17ccd28",
   "figure_manifest_sha256": "e594d23857ff33f2a09b9f07ef25cb37a50d0d14b7bb5fe8ee3edf3634350a92",
   "figures": {
     "primary_results.png": "ad73310ee0616a1e0b0304c79c9732ebd0448d8e2df92796fbb2eb2041ac6edb",
     "response_curve.png": "532064385d477253fe101f18cc82edcb34e5a5a1e45718ea2d670e084a1fb8f6",
     "state_calibration.png": "bbc35b43dc708b197e393438e75d6264e02cfd0e2cfd5e2b12105a242c2f71a2"
   },
-  "page_count": 7,
+  "latex_source": {
+    "file_name": "manuscript.tex",
+    "sha256": "525f0bef91fef745558785c35a48e23f9f6a5bf81792843d0d45d37e374f3f0b"
+  },
+  "page_count": 8,
   "pdf": {
     "file_name": "btc_nq_coherence_research.pdf",
-    "sha256": "4fd65ee57622252567638a3cd01b452a3a504785e43973a4e117308b3e4feda3"
+    "sha256": "1b940034946c7256870d54543f5feef580cacba7c676549723c9842c5a44138c"
   },
   "protocol_sha256": "dddb2b201c152b04665edc1dc82caf3d893795dac85ad464fef6fd86888adc64",
-  "report_version": "1.0.0",
-  "schema_version": 1,
+  "report_version": "1.1.0",
+  "schema_version": 2,
   "source_policy": "committed_frozen_aggregates_only",
-  "status": "completed_development_report"
+  "status": "completed_development_manuscript",
+  "typesetting": "LaTeX journal-preprint"
 }

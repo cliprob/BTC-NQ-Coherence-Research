@@ -1,0 +1,491 @@
+\documentclass[11pt]{article}
+
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+
+\usepackage[a4paper,top=24mm,bottom=25mm,left=27mm,right=27mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[protrusion=true,expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Cross-Market Coherence between Bitcoin and Nasdaq Futures},
+  pdfauthor={Robert Mazurczak},
+  pdfsubject={Completed development study, protocol v1.0.0}
+}
+
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.15em}
+\linespread{1.03}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.14}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize BTC--NQ cross-market coherence}
+\fancyhead[R]{\footnotesize Completed development study}
+\fancyfoot[C]{\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\setlength{\headheight}{14pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{\footnotesize BTC--NQ cross-market coherence}
+  \fancyhead[R]{\footnotesize Completed development study}
+  \fancyfoot[C]{\footnotesize\thepage}
+  \renewcommand{\headrulewidth}{0.35pt}
+}
+
+\newcommand{\BTC}{\mathrm{BTC}}
+\newcommand{\NQ}{\mathrm{NQ}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Mzero}{M_{0}}
+\newcommand{\Mone}{M_{1}}
+\newcommand{\bps}{\mathrm{bps}}
+\newcommand{\statusline}[1]{\noindent\small #1}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\begin{document}
+
+\pagenumbering{Roman}
+\begin{titlepage}
+  \thispagestyle{empty}
+  \vspace*{1.2cm}
+  {\small\bfseries QUANTITATIVE FINANCE WORKING PAPER}\par
+  \vspace{0.45cm}
+  {\raggedright\Huge\bfseries
+    Cross-Market Coherence between Bitcoin and Nasdaq Futures\par}
+  \vspace{0.35cm}
+  {\raggedright\Large
+    Magnitude-conditioned state persistence without incremental return predictability\par}
+  \vspace{0.9cm}
+  {\large Robert Mazurczak}\par
+  \vspace{0.15cm}
+  \statusline{Independent research project \quad $\vert$ \quad 17 September 2026}
+  \vspace{0.8cm}
+  \hrule
+  \vspace{0.55cm}
+
+  \begin{abstract}
+  \noindent
+  This study asks whether contemporaneous Bitcoin and Nasdaq futures candle bodies
+  define persistent cross-market states and whether relative move magnitude adds
+  economically useful information. One-minute BTCUSDT and stitched NQ futures bars are
+  synchronized in UTC, filtered with DST-aware exchange sessions, and aggregated to a
+  five-minute primary representation. Directional coherence is measured over fixed
+  15-, 30-, and 60-minute clocks. Body magnitude is normalized by a causal same-slot
+  median absolute deviation estimated from 63 prior eligible sessions. A purged,
+  expanding walk-forward design compares a coherence-only logistic state model with a
+  magnitude-conditioned extension and separately compares NQ-only and cross-market
+  Ridge return forecasts. Magnitude reduces five-minute out-of-fold Brier loss by
+  $6.99\times10^{-4}$, with a complete-session bootstrap 95\% interval of
+  $[-1.120,-0.297]\times10^{-3}$. However, the cross-market return model increases mean
+  squared error by $0.1924\,\bps^2$ relative to NQ-only, with interval
+  $[0.0728,0.3222]$. The state result repeats overnight. The evidence therefore supports
+  a narrow conditional-state association, not incremental NQ return predictability or
+  tradable alpha.
+  \end{abstract}
+
+  \vspace{0.35cm}
+  \noindent\textbf{Keywords:} Bitcoin; Nasdaq futures; cross-market dependence;
+  directional coherence; walk-forward validation; calibration; data leakage.\par
+  \vspace{0.2cm}
+  \noindent\textbf{JEL classification:} C53; G14; G17.\par
+  \vfill
+  \noindent\small\textbf{Research status.} Completed development study, protocol
+  v1.0.0. The record was locked after results for reproducibility; it is not a
+  preregistration and no pristine final holdout was opened. All reported predictions are
+  out of fold. Raw proprietary NQ data are not distributed.
+\end{titlepage}
+\pagenumbering{arabic}
+
+\section{Introduction}
+
+Bitcoin and Nasdaq futures often print candle bodies in the same direction while their
+volatility-adjusted magnitudes differ. That observation is contemporaneous: it does not
+by itself imply that BTC leads NQ, that NQ leads BTC, or that the weaker market must catch
+up. The empirical question is instead whether synchronized direction defines a persistent
+state, whether the scale and imbalance of the joint move help predict that state's next
+transition, and whether any such information survives as an executable future NQ return.
+
+The distinction matters. A model can improve the probability forecast for the next
+same-direction state without improving a conditional-mean return forecast. Likewise, a
+statistically stable state transition can be too small or too indirect to support a
+trading rule. This paper therefore separates three estimands: a descriptive response
+curve, a binary state-persistence forecast, and an incremental NQ return forecast.
+
+The contribution is methodological rather than a claim of alpha. The analysis enforces
+next-open timing, causal normalization, fold-local preprocessing, nested regularization,
+complete-session purging, block-bootstrap inference, and a mandatory overnight negative
+control. Trial ledgers and compact aggregate outputs are retained so that unfavorable
+comparisons cannot be silently discarded. This follows the broader concern that repeated
+selection can make backtest performance materially overstate evidence
+\cite{bailey2014deflated,bailey2017pbo,lopezdeprado2018}.
+
+\section{Research questions and estimands}
+
+Let $O^i_t$ and $C^i_t$ denote the open and close of asset $i\in\{\BTC,\NQ\}$ during bar
+$t$. The signed candle-body return is
+\begin{equation}
+  b^i_t = \log\!\left(\frac{C^i_t}{O^i_t}\right).
+  \label{eq:body}
+\end{equation}
+Wicks and high--low ranges are excluded from the primary definition. Per-bar directional
+agreement is
+\begin{equation}
+  d_t = \operatorname{sign}(b^{\BTC}_t)\operatorname{sign}(b^{\NQ}_t)
+  \in\{-1,0,+1\}.
+  \label{eq:agreement}
+\end{equation}
+The study addresses two primary questions. First, conditional on $d_t=+1$, do magnitude
+features improve the forecast of $d_{t+1}=+1$ beyond recent directional coherence?
+Second, do BTC and coherence variables improve the forecast of the executable next
+five-minute signed NQ return beyond an otherwise comparable NQ-only information set?
+Longer horizons and the one-minute representation are prespecified secondary analyses.
+
+\section{Data and sample construction}
+
+The available sample combines Binance BTCUSDT perpetual one-minute OHLCV with a local
+stitched NQ front-month series. The common verified range is 7 March 2024 through
+12 May 2026. Timestamps are stored in UTC and mapped to \texttt{America/New\_York} for
+session logic. The cash-session sample follows the official 09:30--16:00 New York equity
+session, including early closes. The overnight control covers 18:00 on the prior evening
+through 09:30, excluding the CME maintenance interval, weekends, holidays, gaps, and
+contract-transition sessions.
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Data provenance and eligibility constraints}
+  \label{tab:data}
+  \small
+  \begin{tabular}{L{0.20\textwidth}L{0.28\textwidth}L{0.39\textwidth}}
+    \toprule
+    Input & Available coverage & Principal constraint \\
+    \midrule
+    BTCUSDT perpetual & 2024-03-07 to 2026-05-12 & Public Binance archive; post-ETP sample only \\
+    NQ stitched front month & Common range through 2026-05-12 & Partial contract provenance; historical roll rule cannot be reconstructed \\
+    Cash sessions & 458 complete sessions before warm-up & Entire incomplete or transition sessions excluded \\
+    Overnight sessions & 551 complete sessions before warm-up & Separate negative control; cannot replace cash primary \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{2pt}
+  \parbox{0.90\textwidth}{\footnotesize\textit{Notes:} Prices are never forward-filled.
+  Five-minute bars require all constituent one-minute observations. A 63-session causal
+  warm-up is applied after eligibility.}
+\end{table}
+
+The data begin after US spot Bitcoin ETP trading and were inspected in earlier project
+iterations. Consequently, the motivating post-ETP integration narrative is not tested as
+a causal before/after design, and this sample cannot provide a pristine final holdout.
+These restrictions are part of the inferential result rather than implementation details.
+
+\section{Feature construction}
+
+\subsection{Directional coherence}
+
+For clock-time window $K\in\{15,30,60\}$ minutes, coherence is the unweighted average of
+complete agreement observations,
+\begin{equation}
+  \mathcal{C}_t(K)=\frac{1}{n_K}\sum_{j=0}^{n_K-1}d_{t-j},
+  \qquad
+  \mathbf{C}_t=\bigl[\mathcal{C}_t(15),\mathcal{C}_t(30),\mathcal{C}_t(60)\bigr].
+  \label{eq:coherence}
+\end{equation}
+The windows remain continuous on $[-1,1]$ and are used jointly. No historically best
+window or coherence threshold is selected. The same clocks correspond to 3/6/12 bars in
+the five-minute representation and 15/30/60 bars in the one-minute robustness analysis.
+
+\subsection{Causal body scale and magnitude coordinates}
+
+Let $\mathcal{H}^{i,r}_t$ contain the previous 63 eligible body returns for asset $i$,
+resolution $r$, and the same DST-aware session slot as $t$. The current session is
+excluded. Define
+\begin{align}
+  \widetilde b^{i,r}_{t-1}
+    &= \operatorname{median}_{x\in\mathcal{H}^{i,r}_t} x, \\
+  \widehat\sigma^{i,r}_{t-1}
+    &= 1.4826\operatorname{median}_{x\in\mathcal{H}^{i,r}_t}
+       \left|x-\widetilde b^{i,r}_{t-1}\right|, \\
+  m^i_t &= \frac{|b^i_t|}{\widehat\sigma^{i,r}_{t-1}}.
+  \label{eq:scale}
+\end{align}
+An observation is ineligible when fewer than 63 valid references exist or the scale is
+zero or non-finite. There is no epsilon floor or future-data fallback.
+
+Joint intensity and relative magnitude balance are
+\begin{equation}
+  J_t=\sqrt{m^{\BTC}_t m^{\NQ}_t},
+  \qquad
+  B_t=\frac{m^{\BTC}_t-m^{\NQ}_t}{m^{\BTC}_t+m^{\NQ}_t}.
+  \label{eq:magnitude}
+\end{equation}
+$J_t$ is symmetric and becomes large only when both markets move strongly relative to
+their own histories. $B_t\in[-1,1]$ separates relative strength from common event scale;
+positive values indicate a relatively larger BTC body.
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Frozen parameter provenance}
+  \label{tab:parameters}
+  \small
+  \begin{tabular}{L{0.27\textwidth}L{0.18\textwidth}L{0.44\textwidth}}
+    \toprule
+    Parameter & Value & Role and status \\
+    \midrule
+    Primary bars & 5 minutes & Tractable primary representation; not claimed optimal \\
+    Robustness bars & 1 minute & Mandatory timing check with the same economic endpoint \\
+    Coherence clocks & 15/30/60 minutes & Multiscale state vector; no outcome-based best-window selection \\
+    Historical scale & 63 sessions & Causal same-slot MAD; current session excluded \\
+    Economic horizon & 5 minutes & Next-open to horizon-open at both resolutions \\
+    Purge & 1 complete session & Exceeds the target horizon and separates adjacent folds \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Prediction design and inference}
+
+\subsection{Causal timing and outcomes}
+
+Features use information through the event-bar close $\tau_t$. Economic measurement
+begins at the first tradable open after signal formation and ends at a future open:
+\begin{equation}
+  R^{\NQ}_{t,h}=\log\!\left(\frac{O^{\NQ}_{\tau_t+h}}{O^{\NQ}_{\tau_t}}\right),
+  \qquad
+  Y_{t,h}=S_t R^{\NQ}_{t,h},
+  \label{eq:return}
+\end{equation}
+where $S_t$ is the common detected direction and $h=5$ minutes is primary. Thus positive
+$Y_{t,h}$ denotes continuation and negative values denote reversal. Horizons 15, 30, and
+60 minutes form a secondary response curve; none can replace the five-minute endpoint.
+
+\subsection{Nested model comparisons}
+
+Conditional on $d_t=+1$, the state models are logistic regressions,
+\begin{align}
+  \Mzero &: \Pr(d_{t+1}=+1\mid\mathbf{C}_t,S_t), \\
+  \Mone &: \Pr(d_{t+1}=+1\mid\mathbf{C}_t,S_t,J_t,B_t,|B_t|).
+  \label{eq:state-models}
+\end{align}
+The primary state score is Brier loss; log loss and fixed-width reliability bins are
+secondary. The return comparison uses matched Ridge models. The NQ-only information set
+contains current NQ direction and magnitude, NQ momentum at 5/15/30/60 minutes, intraday
+Fourier terms, and weekday controls. The cross-market model adds BTC momentum and
+magnitude, the coherence vector, $J_t$, $B_t$, and $|B_t|$.
+
+Both comparisons use expanding outer folds with 130 initial feature-ready sessions,
+one complete purged session, and 12 consecutive validation blocks of 22 sessions. All
+preprocessing and regularization selection occur within folds. Logistic
+$C\in\{0.01,0.1,1,10\}$ and Ridge
+$\alpha\in\{0.01,0.1,1,10,100,1000\}$ are selected from three purged inner expanding
+blocks. Every scored prediction is out of fold.
+
+Paired uncertainty resamples complete validation sessions 5,000 times. For model loss
+$L$, the reported incremental comparison is
+\begin{equation}
+  \Delta L = L_{\mathrm{cross}}-L_{\mathrm{baseline}}.
+  \label{eq:loss-difference}
+\end{equation}
+Negative values favor the expanded model. This convention is used for both the Brier and
+return-loss comparisons.
+
+\section{Empirical results}
+
+\subsection{Descriptive response}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{report/figures/response_curve.png}
+  \caption{Signed NQ open-to-open response conditional on current BTC--NQ body-direction
+  agreement. Intervals are 95\% complete-session bootstrap intervals. The five-minute
+  cash-session endpoint is primary; longer horizons and overnight estimates are
+  secondary.}
+  \label{fig:response}
+\end{figure}
+
+The cash-session five-minute descriptive estimate is $0.012\,\bps$ across 19,955 events,
+with an interval containing zero. The positive longer-horizon point estimates are much
+less precise and do not alter the registered primary conclusion. The unconditional
+response therefore supplies no trading premise before model comparison.
+
+\subsection{State persistence}
+
+The five-minute state sample contains 13,724 out-of-fold events from 264 validation
+sessions. The observed next-bar agreement rate is 68.25\%. Table~\ref{tab:state-results}
+shows that adding magnitude reduces both Brier and log loss.
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Five-minute out-of-fold state-prediction results}
+  \label{tab:state-results}
+  \small
+  \begin{tabular}{lrrr}
+    \toprule
+    Model & Brier loss & Log loss & ECE \\
+    \midrule
+    Fold training-rate benchmark & 0.217250 & 0.626229 & 0.009849 \\
+    $\Mzero$: coherence & 0.216736 & 0.625038 & 0.010755 \\
+    $\Mone$: coherence + magnitude & \textbf{0.216037} & \textbf{0.623370} & \textbf{0.009218} \\
+    \midrule
+    $\Mone-\Mzero$ & $-0.000699$ & $-0.001668$ & $-0.001537$ \\
+    95\% block interval & $[-0.001120,-0.000297]$ & $[-0.002668,-0.000703]$ & --- \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{2pt}
+  \parbox{0.88\textwidth}{\footnotesize\textit{Notes:} ECE denotes expected calibration
+  error. Lower values are better. The Brier reduction is approximately 0.32\% relative
+  to $\Mzero$.}
+\end{table}
+
+$\Mone$ improves Brier loss in 10 of 12 outer folds. Standardized coefficient signs are
+stable: mean coefficients are approximately $+0.10$ for joint intensity, $-0.06$ for
+signed balance, and $+0.03$ for absolute imbalance. These are conditional predictive
+associations, not structural or causal effects.
+
+\subsection{Incremental return value}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.94\textwidth]{report/figures/primary_results.png}
+  \caption{Primary five-minute paired loss differences. Points are out-of-fold means;
+  horizontal bars are 95\% complete-session bootstrap intervals. Negative values favor
+  the expanded cross-market model. The panels use different loss units.}
+  \label{fig:primary}
+\end{figure}
+
+The return sample contains 11,364 events from the same 264 validation sessions. Neither
+Ridge model beats the fold training-mean benchmark, and the expanded information set is
+worse than NQ-only under both registered losses.
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Five-minute signed NQ return forecast}
+  \label{tab:return-results}
+  \small
+  \begin{tabular}{lrrrr}
+    \toprule
+    Model & MSE ($\bps^2$) & RMSE ($\bps$) & MAE ($\bps$) & OOS $R^2$ \\
+    \midrule
+    Fold training mean & \textbf{134.831} & \textbf{11.612} & \textbf{7.080} & 0.0000 \\
+    NQ-only Ridge & 135.101 & 11.623 & 7.092 & -0.0020 \\
+    Cross-market Ridge & 135.294 & 11.632 & 7.099 & -0.0034 \\
+    \midrule
+    Cross-market $-$ NQ-only & $+0.1924$ & --- & $+0.0073$ & --- \\
+    95\% block interval & $[+0.0728,+0.3222]$ & --- & $[+0.0010,+0.0135]$ & --- \\
+    \bottomrule
+  \end{tabular}
+  \par\vspace{2pt}
+  \parbox{0.88\textwidth}{\footnotesize\textit{Notes:} Lower forecast loss is better.
+  The positive paired differences favor NQ-only. OOS $R^2$ is relative to the fold-local
+  training-mean forecast.}
+\end{table}
+
+The registered incremental-return criterion is therefore not met. Strong shrinkage is
+itself informative: $\alpha=1000$ is selected in 9 of 12 NQ-only folds and 8 of 12
+cross-market folds. The nested process generally prefers predictions close to the local
+mean instead of large feature-driven variation.
+
+\section{Robustness and negative control}
+
+At one-minute resolution, $\Mone-\Mzero$ Brier loss is $-0.000297$ with 95\% interval
+$[-0.000418,\allowbreak -0.000173]$ across 67,483 events. The five-minute economic endpoint remains
+fixed, however, and the cross-market minus NQ-only return MSE difference is
+$+0.0031\,\bps^2$ with interval $[-0.1065,\allowbreak +0.0962]$. The finer representation therefore
+supports the narrow state result but does not rescue the return hypothesis.
+
+The overnight state sample contains 36,230 observations. Its $\Mone-\Mzero$ Brier
+difference is $-0.000259$ with interval $[-0.000440,-0.000081]$. Cash-session specificity
+is therefore not supported. The overnight return comparison remains economically
+unhelpful: cross-market minus NQ-only MSE is $+0.0106\,\bps^2$ with interval
+$[-0.0283,+0.0502]$, while MAE worsens and both Ridge models trail the fold mean.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\textwidth]{report/figures/state_calibration.png}
+  \caption{Reliability diagrams for the five-minute cash-session state model and the
+  overnight negative control. Empty probability bins are omitted from the lines but
+  retained in the committed calibration tables.}
+  \label{fig:calibration}
+\end{figure}
+
+\section{Limitations and interpretation}
+
+The evidence is deliberately narrower than a typical trading-strategy claim.
+\begin{itemize}
+  \item The sample has no pre-ETP history, so the motivating market-integration narrative
+  is neither identified nor tested causally.
+  \item No pristine holdout exists. Intervals condition on the fitted out-of-fold
+  predictions and do not quantify uncertainty from repeating the entire research process
+  on an independent history.
+  \item NQ is a partial stitched series. The complete historical roll-selection rule and
+  contract-level lineage cannot be reconstructed.
+  \item Missing sessions are systematic; notably few Thursdays survive. External
+  validity cannot assume missingness at random.
+  \item NQ price behavior is not MNQ execution evidence. No transaction-cost, liquidity,
+  slippage, position-sizing, or deployment claim is made.
+\end{itemize}
+
+The state result is statistically stable within the development sample but practically
+small. Its repetition overnight weakens a cash-session-specific interpretation. Most
+importantly, the return test demonstrates that improved state classification need not
+translate into improved conditional-mean return prediction. Opening an entry/exit search
+after that result would increase researcher degrees of freedom without an economic basis.
+
+\section{Conclusion}
+
+Volatility-adjusted joint magnitude adds a small, repeatable amount of information about
+whether synchronized BTC and NQ candle-body directions persist into the next bar. It does
+not improve the registered five-minute NQ return forecast over an NQ-only baseline. The
+appropriate conclusion is conditional state dependence without demonstrated alpha.
+
+This negative economic result is useful: it rejects the simplest tradability route while
+preserving a precisely defined state variable for future work. A confirmatory extension
+would require complete contract-level data, a genuinely untouched period, and a new
+protocol fixed before any nonlinear model, event filter, or coherence-decay policy is
+evaluated.
+
+\clearpage
+\section*{Reproducibility and credit}
+\thispagestyle{fancy}
+
+Code, configurations, trial ledgers, aggregate results, figures, and SHA-256 manifests
+are versioned in the public repository. Raw proprietary NQ rows remain local. The
+research question originated in earlier collaborative coursework with Alex Samuseva;
+the present repository is a clean redesign and does not treat legacy notebook results as
+evidence. No license has been selected pending a joint authorship decision.
+
+\begin{thebibliography}{9}
+\thispagestyle{fancy}
+
+\bibitem{bailey2014deflated}
+Bailey, D. H., and L{\'o}pez de Prado, M. (2014).
+The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and
+Non-Normality. \emph{Journal of Portfolio Management}, 40(5), 94--107.
+
+\bibitem{bailey2017pbo}
+Bailey, D. H., Borwein, J. M., L{\'o}pez de Prado, M., and Zhu, Q. J. (2017).
+The Probability of Backtest Overfitting. \emph{Journal of Computational Finance},
+20(4), 39--69.
+
+\bibitem{brier1950}
+Brier, G. W. (1950).
+Verification of Forecasts Expressed in Terms of Probability.
+\emph{Monthly Weather Review}, 78(1), 1--3.
+
+\bibitem{efron1993}
+Efron, B., and Tibshirani, R. J. (1993).
+\emph{An Introduction to the Bootstrap}. Chapman \& Hall/CRC.
+
+\bibitem{lopezdeprado2018}
+L{\'o}pez de Prado, M. (2018).
+\emph{Advances in Financial Machine Learning}. Wiley.
+
+\end{thebibliography}
+
+\end{document}
