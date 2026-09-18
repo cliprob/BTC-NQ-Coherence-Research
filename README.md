@@ -50,7 +50,12 @@ The analysis separates three questions that are often conflated:
 3. **Economic value:** do BTC/coherence features improve the executable future NQ return
    forecast over an NQ-only information set?
 
-![Causal timing from past-only normalization to outcome measurement](report/figures/research_design.svg)
+```text
+past-only scale and coherence    event bar closes    forecast formed    outcome measured
+              t-1                      t                   t              t+1 ... t+h
+               |---------------------->|------------------>|------------------->
+                                                        first tradable open
+```
 
 Features are available only through the event-bar close. Return measurement begins at
 the next tradable open; no fill occurs at an already observed close.

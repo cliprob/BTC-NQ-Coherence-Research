@@ -10,7 +10,6 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.patches import Rectangle
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORTS = ROOT / "reports" / "development"
@@ -65,187 +64,8 @@ def _style() -> None:
             "figure.facecolor": "white",
             "axes.facecolor": "white",
             "savefig.facecolor": "white",
-            "svg.fonttype": "none",
-            "svg.hashsalt": "btc-nq-coherence-research",
         }
     )
-
-
-def build_research_design() -> Path:
-    """Build the causal-timing diagram used by the public README."""
-    fig, ax = plt.subplots(figsize=(10.8, 2.65))
-    ax.set_xlim(0, 10.8)
-    ax.set_ylim(0, 2.8)
-    ax.axis("off")
-
-    history_start = 0.75
-    event_close = 4.45
-    tradable_open = 6.55
-    outcome_open = 9.75
-    line_y = 1.18
-
-    ax.add_patch(
-        Rectangle(
-            (history_start, line_y - 0.11),
-            event_close - history_start,
-            0.22,
-            facecolor="#E8E8E8",
-            edgecolor="none",
-            zorder=1,
-        )
-    )
-    ax.add_patch(
-        Rectangle(
-            (tradable_open, line_y - 0.11),
-            outcome_open - tradable_open,
-            0.22,
-            facecolor="#CFCFCF",
-            edgecolor="none",
-            zorder=1,
-        )
-    )
-    ax.annotate(
-        "",
-        xy=(10.25, line_y),
-        xytext=(0.55, line_y),
-        arrowprops={"arrowstyle": "-|>", "color": "#5A5A5A", "lw": 0.9},
-    )
-    ax.axvline(
-        event_close,
-        ymin=0.16,
-        ymax=0.90,
-        color=BLACK,
-        linewidth=0.7,
-        linestyle=(0, (2.5, 2.5)),
-        zorder=0,
-    )
-
-    ax.text(
-        (history_start + event_close) / 2,
-        line_y,
-        "historical feature construction",
-        ha="center",
-        va="center",
-        fontsize=7.1,
-        color=BLACK,
-    )
-    ax.text(
-        (tradable_open + outcome_open) / 2,
-        line_y,
-        "return measurement window",
-        ha="center",
-        va="center",
-        fontsize=7.1,
-        color=BLACK,
-    )
-    ax.text(
-        (event_close + tradable_open) / 2,
-        line_y + 0.20,
-        "no close-price fill",
-        ha="center",
-        va="bottom",
-        fontsize=6.8,
-        color=GRAY,
-    )
-
-    markers = [history_start, event_close, tradable_open, outcome_open]
-    ax.scatter(
-        markers,
-        [line_y] * len(markers),
-        s=20,
-        facecolor="white",
-        edgecolor=BLACK,
-        linewidth=0.8,
-        zorder=3,
-    )
-
-    annotations = [
-        (
-            history_start,
-            2.20,
-            "Prior eligible sessions",
-            "same-slot scale; causal lookbacks",
-            "history < t",
-        ),
-        (
-            event_close,
-            2.20,
-            "Event bar closes",
-            "features locked; forecast formed",
-            "close t",
-        ),
-        (
-            tradable_open,
-            0.63,
-            "First tradable open",
-            "return measurement begins",
-            "open t+1",
-        ),
-        (
-            outcome_open,
-            2.20,
-            "Outcome measured",
-            "5 min primary; 15/30/60 min secondary",
-            "open t+h",
-        ),
-    ]
-    for x, title_y, title, detail, time in annotations:
-        above_axis = title_y > line_y
-        end_y = title_y - 0.18 if above_axis else title_y + 0.18
-        ax.plot(
-            [x, x],
-            [line_y + (0.11 if above_axis else -0.11), end_y],
-            color="#777777",
-            linewidth=0.55,
-            zorder=0,
-        )
-        ax.text(
-            x,
-            title_y,
-            title,
-            ha="center",
-            va="center",
-            fontsize=8.0,
-            color=BLACK,
-            fontweight="bold",
-        )
-        ax.text(
-            x,
-            title_y - 0.28,
-            detail,
-            ha="center",
-            va="center",
-            fontsize=6.8,
-            color=GRAY,
-        )
-        ax.text(
-            x,
-            title_y + 0.27 if above_axis else title_y - 0.55,
-            time,
-            ha="center",
-            va="center",
-            fontsize=6.8,
-            color=BLACK,
-        )
-
-    ax.text(
-        event_close,
-        0.30,
-        "information cutoff",
-        ha="center",
-        va="center",
-        fontsize=6.4,
-        color=BLACK,
-        fontstyle="italic",
-    )
-    svg_output = FIGURES / "research_design.svg"
-    fig.savefig(svg_output, format="svg", bbox_inches="tight", metadata={"Date": None})
-    plt.close(fig)
-    normalized_svg = "\n".join(
-        line.rstrip() for line in svg_output.read_text(encoding="utf-8").splitlines()
-    )
-    svg_output.write_text(normalized_svg + "\n", encoding="utf-8", newline="\n")
-    return svg_output
 
 
 def _errorbar_panel(
@@ -441,7 +261,6 @@ def build_all() -> dict[str, Any]:
     returns = _load_json(inputs["return_model_summary.json"])
     overnight = _load_json(inputs["overnight_control_summary.json"])
     outputs = [
-        build_research_design(),
         build_primary_results(state, returns, overnight),
         build_response_curve(),
         build_calibration(),
